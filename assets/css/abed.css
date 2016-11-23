@@ -1,0 +1,242 @@
+body {
+   padding-top: 70px;
+   padding-bottom: 30px;
+   position: relative
+}
+.jumbotron h1 {
+   font-size: 2.5em;
+   font-weight: 300;
+}
+.jumbotron big {
+   font-size: 1.5em;
+   font-weight: 600;
+}
+ul {
+   padding-left: 2.2em;
+}
+.theme-dropdown .dropdown-menu {
+   position: static;
+   display: block;
+   margin-bottom: 20px;
+}
+ul.spaced > li {
+   margin: 0.6em 0;
+}
+p,
+li {
+   text-align: justify;
+}
+.theme-showcase > p > .btn {
+   margin: 5px 0;
+}
+.theme-showcase .navbar .container {
+   width: auto;
+}
+
+/* The following is a trick to make anchors work fine.
+ It avoids sections be hidden behind the navbar when using anchors */
+
+.section {
+   padding-top: 40px;
+   margin-top: -40px;
+}
+.subsection {
+   padding-top: 40px;
+   margin-top: -50px;
+}
+.section h1 {
+   padding: 10px 8px;
+   background-color: #eee;
+   border-radius: 4px;
+   margin: 20px -15px -10px -15px;
+   /* top right bottom left */
+   border: 0px solid #000;
+   border-left-width: 10px;
+}
+.subsection h2 {
+   font-size: 2rem;
+   font-style: italic;
+   color: gray;
+}
+
+/*
+parameter {
+   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+   padding: 2px 4px;
+   font-size: 90%;
+   color: green;
+   background-color: #f9f2f4;
+   border-radius: 4px;
+}
+*/
+
+parameter {
+   color: cadetblue;
+   font-weight: bold
+}
+
+/*
+value {
+   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+   padding: 2px 4px;
+   font-size: 90%;
+   color: saddlebrown;
+   background-color: #f9f2f4;
+   border-radius: 4px;
+}
+*/
+
+value {
+   color: saddlebrown;
+}
+button {
+   margin: 1px;
+   border-color: black;
+   border-radius: 4px;
+   background: #ccf;
+   border-style: solid;
+   border-width: 2px 2px 2px 2px;
+}
+button.monitor {
+   margin: 1px;
+   border-color: black;
+   border-radius: 4px;
+   background: #dda;
+   border-style: solid;
+   border-width: 2px 2px 2px 2px;
+}
+
+/*
+button {
+   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+   padding: 2px 4px;
+   font-size: 90%;
+   color: blue;
+   background-color: #f9f2f4;
+   border-radius: 4px;
+}
+*/
+
+i.button {
+   font-family: arial;
+   color: blue;
+   font-weight: bold
+}
+i.value {
+   font-family: arial;
+   color: saddlebrown;
+   font-weight: bold
+}
+i.slider {
+   font-family: arial;
+   color: green;
+   font-weight: bold
+}
+.img-center {
+   margin: 0 auto;
+}
+.vcenter {
+   display: inline-block;
+   vertical-align: middle;
+   float: none;
+}
+.vertical-align {
+   display: flex;
+   align-items: center;
+}
+
+/* With the line below we put the navbar behind the jumbotron when collpased */
+
+.sidebar-nav {
+   position: fixed;
+}
+
+/* make sidebar nav vertical */
+
+@media (min-width: 768px) {
+   .sidebar-nav {
+      position: fixed;
+   }
+   .sidebar-nav .navbar .navbar-collapse {
+      padding: 0;
+      max-height: none;
+   }
+   .sidebar-nav .navbar ul {
+      float: none;
+   }
+   .sidebar-nav .navbar ul:not {
+      display: block;
+   }
+   .sidebar-nav .navbar li {
+      float: none;
+      display: block;
+      font-size: 1.5rem;
+      text-align: left;
+   }
+   .sidebar-nav .navbar li a {
+      padding-top: 6px;
+      padding-bottom: 6px;
+   }
+}
+
+/* http://bootsnipp.com/snippets/featured/multi-level-navbar-menu */
+
+.dropdown-submenu {
+   position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+   top: 0;
+   left: 100%;
+   margin-top: -6px;
+   margin-left: -1px;
+   -webkit-border-radius: 0 6px 6px 6px;
+   -moz-border-radius: 0 6px 6px;
+   border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+   display: block;
+}
+.dropdown-submenu>a:after {
+   display: block;
+   content: " ";
+   float: right;
+   width: 0;
+   height: 0;
+   border-color: transparent;
+   border-style: solid;
+   border-width: 5px 0 5px 5px;
+   border-left-color: #ccc;
+   margin-top: 5px;
+   margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+   border-left-color: #fff;
+}
+.dropdown-submenu.pull-left {
+   float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+   left: -100%;
+   margin-left: 10px;
+   -webkit-border-radius: 6px 0 6px 6px;
+   -moz-border-radius: 6px 0 6px 6px;
+   border-radius: 6px 0 6px 6px;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover {
+   background-color: #fff;
+   color: #444;
+}
+#tab-panel .tab-content {
+   background-color: #fff;
+   padding: 10px 15px;
+   border-left: 1px solid #ddd;
+   border-right: 1px solid #ddd;
+   border-bottom: 1px solid #ddd;
+}
+
+/* For the navigation menu in mobile platforms */
+
+.dropdown-backdrop {
+   position: static;
+}
