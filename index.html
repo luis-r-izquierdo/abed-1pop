@@ -936,17 +936,18 @@
    <!--    <script>
       window.jQuery || document.write('<script src="./assets/js/jquery.min.js"><\/script>')
    </script>-->
-   <script src="./assets/js/bootstrap.min.js" defer></script>
-   <script src="./assets/js/docs.min.js" defer></script>
+   <script src="./assets/js/bootstrap.min.js"></script>
+   <script src="./assets/js/docs.min.js"></script>
    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-   <script src="./assets/js/ie10-viewport-bug-workaround.js" defer></script>
-   <script src="./assets/js/abed.js" defer></script>
+   <script src="./assets/js/ie10-viewport-bug-workaround.js"></script>
+   <script src="./assets/js/abed.js"></script>
    <script>
-      jQuery(function () {
-         $('body').scrollspy({
-            target: "sidebar"
-         })
-      });
+      $(document).ready(
+         jQuery(function () {
+            $('body').scrollspy({
+               target: "#sidebar"
+            })
+         }));
    </script>
 </body>
 

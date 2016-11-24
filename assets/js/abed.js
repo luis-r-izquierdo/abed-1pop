@@ -48,7 +48,7 @@ $('.dropdown-toggle').click(function (e) {
    });
 
    $('body').scrollspy({
-      target: "sidebar"
+      target: "#sidebar"
    })
 
 });
