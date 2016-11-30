@@ -956,12 +956,11 @@
             $('body').scrollspy({
                target: "#sidebar"
             })
-         });
-
-         $('[data-spy="scroll"]').each(function() {
-            $(this).scrollspy('refresh');
-         });
+         })
       );
+      $('[data-spy="scroll"]').each(function() {
+         $(this).scrollspy('refresh');
+      });
 
    </script>
 </body>
