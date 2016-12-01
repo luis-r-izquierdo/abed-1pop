@@ -49,6 +49,8 @@ $('.dropdown-toggle').click(function (e) {
 
    $('body').scrollspy({
       target: "#sidebar"
-   })
+   });
+
+   $('body').scrollspy('refresh')
 
 });
