@@ -540,9 +540,14 @@ to proportional
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
   have-payoff-ready
   let rd-candidate run-result rd-candidate-with-updated-payoff
-  if random-float 1 < ([payoff] of rd-candidate - payoff) / rate-scaling [
-    set next-strategy [strategy] of rd-candidate
+  if [payoff] of rd-candidate > payoff [
+    if random-float 1 < ([payoff] of rd-candidate - payoff) / rate-scaling [
+      set next-strategy [strategy] of rd-candidate
+    ]
   ]
+  ;; The first if is not strictly necessary, but we include it for two reasons:
+  ;; 1. to avoid drawing a random number when it's not necessary (not a huge reason, admittedly)
+  ;; 2. to avoid dividing by zero if whole payoff matrix is 0s (and therefore rate-scaling is zero).
 end
 
 to logit
@@ -1369,7 +1374,7 @@ CHOOSER
 decision-method
 decision-method
 "best" "logit" "proportional"
-0
+2
 
 TEXTBOX
 50
