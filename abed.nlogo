@@ -497,9 +497,38 @@ to-report rd-potential-imitatee-with-updated-payoff
   report rd-candidate
 end
 
+
 to-report rd-other-strategy-with-updated-payoff
   let rd-other-strategy one-of strategy-agents with [strategy != [strategy] of myself]
-  update-payoffs-of-strategy-agents rd-other-strategy
+
+  ;; update payoffs
+
+  ;; We don't use the procedure update-payoffs-of-strategy-agents because it
+  ;; does 'run update-counterparts', which we don't want if single-sample?.
+  ;; Having said that, the following is almost a copy of update-payoffs-of-strategy-agents
+
+  if not complete-matching? [
+    ask rd-other-strategy [
+      set counterparts runresult reported-counterparts
+        ;; reported-counterparts can be fixed-counterparts (if single-sample?)
+        ;; or variable-counterparts (if not single-sample?)
+    ]
+  ]
+
+  let ag-strategy strategy
+  ask rd-other-strategy [
+    let st-strategy strategy
+    ;; ask the agent to adopt this strategy, so payoffs are computed
+    ;; under the hypothesis that the agent has switched (clever payoff evaluation).
+    ;; This is also relevant if the agent himself is part of the set of counterparts.
+    ask myself [set strategy st-strategy]
+    if complete-matching? [update-strategies-payoffs]
+    ;; we have to compute the strategies-payoffs again since strategy-counts
+    ;; is different in the new state
+    run update-payoff
+  ]
+  set strategy ag-strategy
+  if complete-matching? [update-strategies-payoffs]
   report rd-other-strategy
 end
 
