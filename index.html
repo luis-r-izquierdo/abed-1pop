@@ -217,7 +217,7 @@
                   <p>Agents are occasionally given the opportunity to revise their strategy. The specific protocol used by revising agents is determined by two parameters: </p>
                   <ul>
                      <li>
-                        <parameter>selection-of-candidate-strategies</parameter>, which indicates whether the protocol is
+                        <parameter>candidate-selection</parameter>, which indicates whether the protocol is
                         <value>imitative</value> or
                         <value>direct</value> (PGED, p. 9), and
                      </li>
@@ -534,7 +534,7 @@
                      <parameter>complete-matching?</parameter> is
                      <value>Off</value>. Parameter
                      <parameter>single-sample?</parameter> is only relevant in direct protocols (i.e. if
-                     <parameter>selection-of-candidate-strategies</parameter> is
+                     <parameter>candidate-selection</parameter> is
                      <value>direct</value>).</p>
                </div>
                <div class="col-md-12">
@@ -567,11 +567,11 @@
                      <parameter>prob-mutation</parameter>) the agent will compile:
                      <ul class="spaced">
                         <li>a set of candidate agents (if parameter
-                           <parameter>selection-of-candidate-strategies</parameter> =
+                           <parameter>candidate-selection</parameter> =
                            <value>imitative</value>), or
                         </li>
                         <li>a set of candidate strategies (if parameter
-                           <parameter>selection-of-candidate-strategies</parameter> =
+                           <parameter>candidate-selection</parameter> =
                            <value>direct</value>),
                         </li>
                      </ul>and then he will use a
@@ -589,7 +589,7 @@
             <div class="row well">
                <p>
                   Parameter
-                  <parameter>selection-of-candidate-strategies</parameter> indicates whether the protocol is
+                  <parameter>candidate-selection</parameter> indicates whether the protocol is
                   <value>imitative</value> or
                   <value>direct</value> (PGED, p. 9). Choosing one or another determines whether the set of candidates is made up of agents (in
                   <value>imitative</value> protocols) or strategies (in
@@ -726,7 +726,7 @@
                         <value>proportional</value>:
                         <ul>
                            <li>If
-                              <parameter>selection-of-candidate-strategies</parameter> =
+                              <parameter>candidate-selection</parameter> =
                               <value>imitative</value>, the revising agent will select one agent at random from the population (including himself if
                               <parameter>consider-imitating-self?</parameter> is
                               <value>On</value>, and excluding himself if
@@ -736,7 +736,7 @@
                            </li>
                            <li>
                               If
-                              <parameter>selection-of-candidate-strategies</parameter> =
+                              <parameter>candidate-selection</parameter> =
                               <value>direct</value>, the revising agent will select one strategy different from his own, at random.</li>
                         </ul>
 

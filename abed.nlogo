@@ -185,7 +185,7 @@ end
 to setup-dynamics
 
   ;; SELECT YOUR NEXT STRATEGY DIRECTLY, OR VIA IMITATION
-  ifelse (selection-of-candidate-strategies = "direct")
+  ifelse (candidate-selection = "direct")
     [ ;; direct
       set update-candidates-and-payoffs [ [] -> update-candidate-strategies-and-payoffs ]
       set rd-candidate-with-updated-payoff [ [] -> rd-other-strategy-with-updated-payoff ]
@@ -1359,22 +1359,22 @@ for random-walk tie-breaking
 CHOOSER
 273
 376
-467
+425
 421
-selection-of-candidate-strategies
-selection-of-candidate-strategies
+candidate-selection
+candidate-selection
 "imitative" "direct"
 1
 
 CHOOSER
 274
-437
-415
-482
+432
+425
+477
 decision-method
 decision-method
 "best" "logit" "proportional"
-2
+0
 
 TEXTBOX
 50
