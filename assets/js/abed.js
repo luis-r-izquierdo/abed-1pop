@@ -67,11 +67,11 @@ $('.dropdown-toggle').click(function (e) {
       }, 'slow');
    });
 
-   /* // mobile nav toggle
- $('#nav-toggle').on('click', function (event) {
-    event.preventDefault();
-    $('#navbar').toggleClass("open");
- });*/
+   // mobile nav toggle
+   $('#nav-toggle').on('click', function (event) {
+      event.preventDefault();
+      $('#navbar').toggleClass("open");
+   });
 
 });
 
