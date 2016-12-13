@@ -90,10 +90,10 @@ players-own [
                ;; either agents-list (if self-matching?) or other-agents-list (if not self-matching?)
 
   candidates   ;; list (or agentset) containing the group of entities you are going to select from.
-               ;; Entities are agents if selection-of-candidate-strategies = imitative, and
+               ;; Entities are agents if candidate-selection = imitative, and
                ;; in that case candidates is a list of agents (so we can deal with replacement,
                ;; since lists can contain duplicates, but agentsets cannot.)
-               ;; Entities are strategies if selection-of-candidate-strategies = direct, and
+               ;; Entities are strategies if candidate-selection = direct, and
                ;; in that case candidates is an agentset of strategy-agents.
                ;;
   population-to-imitate-to
@@ -483,8 +483,8 @@ end
 to best
   run update-candidates-and-payoffs
   let best-candidates items-with-max-payoff-in sort candidates
-   ;; candidates here may be a list of agents (if selection-of-candidate-strategies = imitative), or
-   ;; an agentset of strategy-agents (if selection-of-candidate-strategies = direct).
+   ;; candidates here may be a list of agents (if candidate-selection = imitative), or
+   ;; an agentset of strategy-agents (if candidate-selection = direct).
    ;; We cannot write ((turtle-set candidates) with-max [payoff]) because agentsets cannot contain duplicates,
    ;; and this is a problem if imitatees-with-replacement? is on.
   set next-strategy (runresult tie-winner-in map [ [c] -> [strategy] of c] best-candidates)
@@ -554,8 +554,8 @@ to logit
   run update-candidates-and-payoffs
   carefully [
     let candidate-to-imitate rnd:weighted-one-of-list (sort candidates) [ [c] -> exp (([payoff] of c) / eta)]
-    ;; candidates here may be a list of agents (if selection-of-candidate-strategies = imitative), or
-    ;; an agentset of strategy-agents (if selection-of-candidate-strategies = direct).
+    ;; candidates here may be a list of agents (if candidate-selection = imitative), or
+    ;; an agentset of strategy-agents (if candidate-selection = direct).
     set next-strategy [strategy] of candidate-to-imitate
   ]
   [
@@ -791,7 +791,7 @@ to setup-list-of-parameters
     "number-of-agents"
     "random-initial-condition?"
     "initial-condition"
-    "selection-of-candidate-strategies"
+    "candidate-selection"
     "decision-method"
     "complete-matching?"
     "number-of-trials"
@@ -953,7 +953,7 @@ INPUTBOX
 230
 498
 payoff-matrix
-[[ 0 0  0  0  0]\n [ 0  0 0  0  0]\n [ 0  0  0 0  0]\n [ 0  0  0  0 0]\n [0  0  0  0  0]]
+[[ 1 1 1]\n [ 1 1 1]\n [ -1 1 2]]
 1
 1
 String (reporter)
@@ -967,7 +967,7 @@ number-of-agents
 number-of-agents
 1
 5000
-1000.0
+26.0
 1
 1
 NIL
@@ -1142,7 +1142,7 @@ INPUTBOX
 232
 643
 initial-condition
-[200 200 200 200 200]
+[6 10 10]
 1
 0
 String (reporter)
@@ -1167,7 +1167,7 @@ plot-every-?-secs
 plot-every-?-secs
 0.01
 5
-0.01
+0.4
 0.01
 1
 NIL
@@ -1219,7 +1219,7 @@ number-of-trials
 number-of-trials
 1
 10
-1000.0
+26.0
 1
 1
 NIL
@@ -1232,7 +1232,7 @@ SWITCH
 422
 test-all-strategies?
 test-all-strategies?
-1
+0
 1
 -1000
 
@@ -1245,7 +1245,7 @@ size-of-test-set
 size-of-test-set
 2
 max-size-of-test-set
-2.0
+3.0
 1
 1
 NIL
@@ -1882,7 +1882,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0-BETA1
+NetLogo 6.0-BETA2
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
