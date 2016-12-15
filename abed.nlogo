@@ -1252,10 +1252,10 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-660
-466
-715
-484
+683
+477
+738
+495
 for logit:
 11
 0.0
@@ -1263,9 +1263,9 @@ for logit:
 
 SLIDER
 658
-484
+493
 750
-517
+526
 eta
 eta
 0.001
@@ -1288,10 +1288,10 @@ tie-breaker
 
 TEXTBOX
 510
-466
-646
-485
-for switch-to-best:
+465
+683
+493
+for decision-method best:
 11
 0.0
 1
@@ -1312,11 +1312,11 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-508
-600
-733
-628
-for imitative & (switch-to-best or logit)
+510
+602
+735
+630
+for imitative & (best or logit):
 11
 0.0
 1
@@ -1332,10 +1332,10 @@ for direct & (switch-to-best or logit):
 1
 
 SLIDER
-508
-550
-670
-583
+507
+556
+669
+589
 random-walk-speed
 random-walk-speed
 0
@@ -1347,11 +1347,11 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-510
-533
-723
-551
-for random-walk tie-breaking
+509
+539
+722
+557
+for random-walk tie-breaking:
 11
 0.0
 1
