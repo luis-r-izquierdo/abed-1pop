@@ -143,7 +143,7 @@ end
 to setup-agents
   ifelse random-initial-condition?
   [
-    create-players number-of-agents [
+    create-players n-of-agents [
       set payoff 0
       set strategy 1 + random n-of-strategies
       set next-strategy strategy ;; to make sure that if you do not change next-strategy, you keep the same strategy
@@ -164,12 +164,12 @@ to setup-agents
       ]
       set i (i + 1)
     ]
-     set number-of-agents count players
+     set n-of-agents count players
   ]
 
   ask players [set other-agents-list sort other players]
   set agents-list sort players
-  set num-revisions-per-tick min (list num-revisions-per-tick number-of-agents)
+  set n-of-revisions-per-tick min (list n-of-revisions-per-tick n-of-agents)
 end
 
 to setup-strategy-agents
@@ -196,14 +196,12 @@ to setup-dynamics
     ]
 
   ;; NUMBER OF STRATEGIES YOU WILL TEST (ONLY RELEVANT IN DIRECT PROTOCOLS)
-  ifelse test-all-strategies?
-    [ set size-of-test-set n-of-strategies ]
-    [ set size-of-test-set min list size-of-test-set n-of-strategies ]
+  set n-in-test-set min list n-in-test-set n-of-strategies
   set max-size-of-test-set min list 10 n-of-strategies
 
   ;; NUMBER OF AGENTS YOU WILL CONSIDER FOR IMITATION (ONLY RELEVANT IN IMITATIVE PROTOCOLS)
-  set number-to-consider-imitating min list number-to-consider-imitating (number-of-agents - 1)
-  set max-number-to-consider-imitating min list 10 (number-of-agents - 1)
+  set n-to-consider-imitating min list n-to-consider-imitating (n-of-agents - 1)
+  set max-number-to-consider-imitating min list 10 (n-of-agents - 1)
 
   ;; RULE USED TO SELECT AMONG DIFFERENT CANDIDATES
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
@@ -217,14 +215,14 @@ to setup-dynamics
     [ ask players [ set population-to-play-with other-agents-list ] ]
 
   if not trials-with-replacement? [
-    set number-of-trials min list number-of-trials (number-of-agents - ifelse-value self-matching? [0][1])
+    set n-of-trials min list n-of-trials (n-of-agents - ifelse-value self-matching? [0][1])
   ]
 
   ;; DO YOU PLAY EVERYONE?
   ifelse complete-matching?
     [
       set update-payoff [ [] -> update-payoff-full-matching ]
-      set number-of-trials ifelse-value self-matching? [count players] [count players - 1]
+      set n-of-trials ifelse-value self-matching? [count players] [count players - 1]
       set trials-with-replacement? false
       set single-sample? true
     ]
@@ -271,7 +269,7 @@ to go
   ask players [set played? false]
   ifelse use-prob-revision?
     [ask players with [random-float 1 < prob-revision] [update-strategy]]
-    [ask n-of num-revisions-per-tick players [update-strategy]]
+    [ask n-of n-of-revisions-per-tick players [update-strategy]]
 
   tick
   ask players [set strategy next-strategy]
@@ -279,7 +277,7 @@ to go
   if (ticks mod (ceiling plotting-period) = 0) [update-graphs]
 
   update-num-agents
-  if tie-breaker = "random-walk" [repeat (floor (number-of-agents * random-walk-speed)) [advance-random-walk] ]
+  if tie-breaker = "random-walk" [repeat (floor (n-of-agents * random-walk-speed)) [advance-random-walk] ]
 
 end
 
@@ -287,25 +285,25 @@ to update-ticks-per-second
   ;; it is assumed that, on average, all agents revise once per second
   set ticks-per-second ifelse-value use-prob-revision?
     [ 1 / prob-revision]
-    [ number-of-agents / num-revisions-per-tick]
+    [ n-of-agents / n-of-revisions-per-tick]
 
   if plot-every-?-secs < 1 / ticks-per-second [set plot-every-?-secs 1 / ticks-per-second]
   set plotting-period (ticks-per-second * plot-every-?-secs)
 end
 
 to update-num-agents
-  let diff (number-of-agents - count players)
+  let diff (n-of-agents - count players)
 
   if diff != 0 [
     ifelse diff > 0
     [ repeat diff [ ask one-of players [hatch-players 1] ] ]
     [
       ask n-of (- diff) players [die]
-      set number-of-trials min list number-of-trials (number-of-agents - ifelse-value self-matching? [0][1])
+      set n-of-trials min list n-of-trials (n-of-agents - ifelse-value self-matching? [0][1])
     ]
     ask players [set other-agents-list sort other players]
     set agents-list sort players
-    set num-revisions-per-tick min (list num-revisions-per-tick number-of-agents)
+    set n-of-revisions-per-tick min (list n-of-revisions-per-tick n-of-agents)
     setup-random-walk ;; since the number of agents has changed
   ]
 end
@@ -357,7 +355,7 @@ to update-strategies-payoffs
   let strategy-counts map [ [s] -> count players with [strategy = s]] strategy-numbers
     ;; if nobody is playing a strategy, there's no problem in this model
   let current-agg-payoffs map [ [s] -> sum (map * strategy-counts (item (s - 1) payoffs)) - (ifelse-value self-matching? [0] [item (s - 1) item (s - 1) payoffs]) ] strategy-numbers
-  set strategies-payoffs map [ [p] -> p / (number-of-agents - (ifelse-value self-matching? [0][1]))] current-agg-payoffs
+  set strategies-payoffs map [ [p] -> p / (n-of-agents - (ifelse-value self-matching? [0][1]))] current-agg-payoffs
     ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 11.4.1, pp. 418-419)
 end
 
@@ -369,11 +367,11 @@ to have-payoff-ready
 end
 
 to update-counterparts-with-replacement
-  set counterparts n-values number-of-trials [one-of population-to-play-with]
+  set counterparts n-values n-of-trials [one-of population-to-play-with]
 end
 
 to update-counterparts-without-replacement
-  set counterparts n-of number-of-trials population-to-play-with
+  set counterparts n-of n-of-trials population-to-play-with
 end
 
 to update-payoff-full-matching
@@ -384,7 +382,7 @@ to update-payoff-not-full-matching
   run update-counterparts
   let my-payoffs item (strategy - 1) payoffs
   let total-payoff sum (map * my-payoffs (strategy-freq counterparts))
-  set payoff total-payoff / number-of-trials
+  set payoff total-payoff / n-of-trials
 end
 
 to-report strategy-freq [list-of-agents]
@@ -415,18 +413,18 @@ to update-candidate-agents-and-payoffs
 end
 
 to update-candidate-agents-with-replacement
-  set candidates (fput self (n-values number-to-consider-imitating [one-of population-to-imitate-to]))
+  set candidates (fput self (n-values n-to-consider-imitating [one-of population-to-imitate-to]))
 end
 
 to update-candidate-agents-without-replacement
-  set candidates (fput self (n-of number-to-consider-imitating population-to-imitate-to))
+  set candidates (fput self (n-of n-to-consider-imitating population-to-imitate-to))
 end
 
 to update-candidate-strategies-and-payoffs
   let my-strategy-agent one-of (strategy-agents with [strategy = [strategy] of myself])
   set candidates (turtle-set
     my-strategy-agent
-    n-of (size-of-test-set - 1) (strategy-agents with [strategy != [strategy] of myself])
+    n-of (n-in-test-set - 1) (strategy-agents with [strategy != [strategy] of myself])
   )
   ;; here candidates is an agentset (which contains strategy-agents)
 
@@ -586,7 +584,7 @@ to-report random-walk [st-list]
 end
 
 to setup-random-walk
-  set rw-st-freq-non-committed-agents tally-strategies n-values number-of-agents [1 + random n-of-strategies]
+  set rw-st-freq-non-committed-agents tally-strategies n-values n-of-agents [1 + random n-of-strategies]
     ;; this list is n-of-strategies long and, initially, it is a random distribution
 end
 
@@ -639,7 +637,7 @@ end
 
 to update-graphs
   let strategy-counts map [ [s] -> count players with [strategy = s]] strategy-numbers
-  let strategy-frequencies map [ [n] -> n / number-of-agents] strategy-counts
+  let strategy-frequencies map [ [n] -> n / n-of-agents] strategy-counts
   let strategies-expected-payoff map [ [s] -> sum (map * strategy-frequencies (item (s - 1) payoffs)) ] strategy-numbers
 
   if show-recent-history? [
@@ -796,7 +794,6 @@ to setup-list-of-parameters
     "complete-matching?"
     "number-of-trials"
     "single-sample?"
-    "test-all-strategies?"
     "size-of-test-set"
     "tie-breaker"
     "eta"
@@ -921,10 +918,10 @@ end
 ;; examples and speed comparisons in file random-sampling-weights.nlogo
 @#$#@#$#@
 GRAPHICS-WINDOW
-525
-68
-726
-270
+524
+78
+725
+280
 -1
 -1
 64.33333333333334
@@ -960,11 +957,11 @@ String (reporter)
 
 SLIDER
 25
-511
+508
 203
-544
-number-of-agents
-number-of-agents
+541
+n-of-agents
+n-of-agents
 1
 5000
 26.0
@@ -974,10 +971,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-746
-398
-934
-431
+276
+422
+464
+455
 prob-revision
 prob-revision
 0.001
@@ -989,10 +986,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-762
-479
-934
-512
+751
+606
+923
+639
 prob-mutation
 prob-mutation
 0
@@ -1004,10 +1001,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-362
-11
-467
-44
+26
+10
+110
+43
 setup
 startup
 NIL
@@ -1021,10 +1018,10 @@ NIL
 1
 
 BUTTON
-593
-11
-673
-44
+222
+10
+302
+43
 go once
 go
 NIL
@@ -1038,10 +1035,10 @@ NIL
 1
 
 BUTTON
-476
-11
-576
-44
+121
+10
+210
+43
 NIL
 go
 T
@@ -1055,10 +1052,10 @@ NIL
 1
 
 MONITOR
-814
-551
-934
-596
+811
+10
+931
+55
 NIL
 ticks
 17
@@ -1066,10 +1063,10 @@ ticks
 11
 
 PLOT
-26
-50
-467
-294
+25
+60
+466
+304
 Strategy distributions (recent history)
 milliseconds
 NIL
@@ -1083,10 +1080,10 @@ true
 PENS
 
 PLOT
-476
-50
-932
-294
+475
+60
+931
+304
 Strategy distributions (complete history)
 seconds
 NIL
@@ -1100,10 +1097,10 @@ true
 PENS
 
 SLIDER
-254
-298
-467
-331
+253
+308
+466
+341
 duration-of-recent
 duration-of-recent
 1
@@ -1115,10 +1112,10 @@ sec.
 HORIZONTAL
 
 SWITCH
-477
-298
-680
-331
+476
+308
+679
+341
 show-recent-history?
 show-recent-history?
 0
@@ -1126,10 +1123,10 @@ show-recent-history?
 -1000
 
 SWITCH
-705
-298
-932
-331
+704
+308
+931
+341
 show-complete-history?
 show-complete-history?
 0
@@ -1138,9 +1135,9 @@ show-complete-history?
 
 INPUTBOX
 26
-583
+587
 232
-643
+647
 initial-condition
 [6 10 10]
 1
@@ -1148,10 +1145,10 @@ initial-condition
 String (reporter)
 
 SWITCH
-746
-361
-934
-394
+276
+385
+464
+418
 use-prob-revision?
 use-prob-revision?
 1
@@ -1159,10 +1156,10 @@ use-prob-revision?
 -1000
 
 SLIDER
-26
-298
-230
-331
+25
+308
+229
+341
 plot-every-?-secs
 plot-every-?-secs
 0.01
@@ -1174,14 +1171,14 @@ NIL
 HORIZONTAL
 
 SLIDER
-747
-435
-934
-468
-num-revisions-per-tick
-num-revisions-per-tick
+277
+459
+464
+492
+n-of-revisions-per-tick
+n-of-revisions-per-tick
 1
-number-of-agents
+n-of-agents
 10.0
 1
 1
@@ -1189,10 +1186,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-813
-602
-934
-647
+681
+10
+802
+55
 NIL
 ticks-per-second
 3
@@ -1200,10 +1197,10 @@ ticks-per-second
 11
 
 SWITCH
-275
-500
-468
-533
+278
+531
+448
+564
 complete-matching?
 complete-matching?
 0
@@ -1211,12 +1208,12 @@ complete-matching?
 -1000
 
 SLIDER
-275
-540
-447
-573
-number-of-trials
-number-of-trials
+277
+589
+449
+622
+n-of-trials
+n-of-trials
 1
 10
 26.0
@@ -1225,24 +1222,13 @@ number-of-trials
 NIL
 HORIZONTAL
 
-SWITCH
-509
-389
-683
-422
-test-all-strategies?
-test-all-strategies?
-0
-1
--1000
-
 SLIDER
-509
-425
-684
-458
-size-of-test-set
-size-of-test-set
+507
+447
+682
+480
+n-in-test-set
+n-in-test-set
 2
 max-size-of-test-set
 3.0
@@ -1252,20 +1238,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-683
-477
-738
-495
+732
+500
+787
+518
 for logit:
 11
 0.0
 1
 
 SLIDER
-658
-493
-750
-526
+731
+517
+823
+550
 eta
 eta
 0.001
@@ -1277,32 +1263,32 @@ NIL
 HORIZONTAL
 
 CHOOSER
-508
-482
-650
-527
+730
+448
+872
+493
 tie-breaker
 tie-breaker
 "stick-uniform" "stick-min" "uniform" "min" "random-walk"
 4
 
 TEXTBOX
-510
-465
-683
-493
-for decision-method best:
+732
+431
+905
+459
+for best:
 11
 0.0
 1
 
 SLIDER
-508
-619
-716
-652
-number-to-consider-imitating
-number-to-consider-imitating
+507
+581
+681
+614
+n-to-consider-imitating
+n-to-consider-imitating
 1
 max-number-to-consider-imitating
 1.0
@@ -1312,65 +1298,65 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-510
-602
-735
-630
+509
+564
+734
+592
 for imitative & (best or logit):
 11
 0.0
 1
 
 TEXTBOX
-510
-369
-718
-397
-for direct & (switch-to-best or logit):
+508
+428
+716
+456
+for direct & (best or logit):
 11
 0.0
 1
 
 SLIDER
-507
-556
-669
-589
+23
+855
+185
+888
 random-walk-speed
 random-walk-speed
 0
 1
-0.15
+1.0
 0.01
 1
 NIL
 HORIZONTAL
 
 TEXTBOX
-509
-539
-722
-557
-for random-walk tie-breaking:
+25
+838
+238
+856
+for best & random-walk tie-breaker:
 11
 0.0
 1
 
 CHOOSER
-273
-376
-425
-421
+546
+377
+698
+422
 candidate-selection
 candidate-selection
 "imitative" "direct"
 1
 
 CHOOSER
-274
-432
-425
-477
+709
+377
+860
+422
 decision-method
 decision-method
 "best" "logit" "proportional"
@@ -1398,20 +1384,20 @@ random-initial-condition?
 -1000
 
 TEXTBOX
-275
-585
-457
-614
-for direct selection & not complete-matching\n
+509
+497
+718
+527
+for direct & complete-matching=off:
 11
 0.0
 1
 
 SWITCH
-274
-618
-420
-651
+508
+516
+654
+549
 single-sample?
 single-sample?
 0
@@ -1420,9 +1406,9 @@ single-sample?
 
 SWITCH
 24
-678
+664
 217
-711
+697
 trials-with-replacement?
 trials-with-replacement?
 1
@@ -1430,10 +1416,10 @@ trials-with-replacement?
 -1000
 
 SWITCH
-26
-782
-242
-815
+23
+759
+239
+792
 imitatees-with-replacement?
 imitatees-with-replacement?
 0
@@ -1442,9 +1428,9 @@ imitatees-with-replacement?
 
 SWITCH
 24
-714
+700
 166
-747
+733
 self-matching?
 self-matching?
 0
@@ -1452,10 +1438,10 @@ self-matching?
 -1000
 
 SWITCH
-26
-822
-243
-855
+23
+799
+240
+832
 consider-imitating-self?
 consider-imitating-self?
 0
@@ -1466,7 +1452,7 @@ PLOT
 275
 663
 593
-859
+883
 Strategies' expected payoff (recent history)
 milliseconds
 NIL
@@ -1483,7 +1469,7 @@ PLOT
 598
 663
 935
-859
+882
 Strategies' expected payoff (complete history)
 seconds
 NIL
@@ -1497,9 +1483,9 @@ true
 PENS
 
 BUTTON
-26
+330
 10
-216
+490
 43
 load parameters from file
 load-parameter-file
@@ -1514,10 +1500,10 @@ NIL
 1
 
 BUTTON
-761
-12
-932
-45
+500
+10
+647
+43
 save parameters to file
 save-parameter-file
 NIL
@@ -1531,13 +1517,63 @@ NIL
 1
 
 TEXTBOX
-28
-764
-219
-782
+25
+741
+216
+759
 for imitative selection
 11
 0.0
+1
+
+TEXTBOX
+279
+571
+446
+599
+for complete-matching=off:
+11
+0.0
+1
+
+TEXTBOX
+277
+358
+490
+390
+Assigning revision opportunities:
+13
+13.0
+1
+
+TEXTBOX
+278
+509
+428
+527
+Matching:
+13
+13.0
+1
+
+TEXTBOX
+653
+355
+803
+373
+Revision protocol:
+13
+13.0
+1
+
+TEXTBOX
+811
+584
+898
+602
+Mutations:\n
+13
+13.0
 1
 
 @#$#@#$#@
