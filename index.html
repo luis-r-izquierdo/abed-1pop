@@ -139,7 +139,7 @@
                </div>
                <div class="col-xs-12 col-sm-8 col-sm-pull-4">
                   <p><strong>Abed</strong> is a modeling framework designed to simulate the evolution of a population of
-                     <parameter>number-of-agents</parameter> agents who recurrently play a symmetric 2-player game defined by a
+                     <parameter>n-of-agents</parameter> agents who recurrently play a symmetric 2-player game defined by a
                      <parameter>payoff-matrix</parameter>. Agents use pure strategies only, and they occasionally revise their strategy.</p>
                   <p>The simulation runs in discrete time-steps called ticks. Within each tick:</p>
 
@@ -164,7 +164,7 @@
                         <parameter>prob-revision</parameter>, which is the probability that each individual agent revises his strategy in every tick.
                      </li>
                      <li>By setting parameter
-                        <parameter>num-revisions-per-tick</parameter>, which is the number of randomly selected agents that will revise their strategy in every tick.</li>
+                        <parameter>n-of-revisions-per-tick</parameter>, which is the number of randomly selected agents that will revise their strategy in every tick.</li>
                   </ul>
                </div>
 
@@ -243,7 +243,7 @@
                   <p>
                      Under
                      <value>imitative</value> protocols, agents observe what other agents are doing and their payoff, and then consider imitating one of them. How many agents the revising agent observes is determined by parameter
-                     <parameter>number-to-consider-imitating</parameter>. The specific selection of potential imitatees is conducted randomly, so popular strategies in the population are more likely to be observed than less popular ones. After having observed some agents, the revising agent will use one of various possible
+                     <parameter>n-to-consider-imitating</parameter>. The specific selection of potential imitatees is conducted randomly, so popular strategies in the population are more likely to be observed than less popular ones. After having observed some agents, the revising agent will use one of various possible
                      <parameter>decision-method</parameter>s (see below) to decide whether to keep on using his strategy or, alternatively, to imitate one of the agents in the set of potential imitatees.</p>
                </div>
 
@@ -256,7 +256,7 @@
                         <p>There are parameters to specify:
                            <ul>
                               <li>the number of agents that revising agents will consider imitating (
-                                 <parameter>number-to-consider-imitating</parameter> ) ,</li>
+                                 <parameter>n-to-consider-imitating</parameter> ) ,</li>
                               <li>whether these are selected with or without replacement (
                                  <parameter>imitatees-with-replacement?</parameter> ), and</li>
                               <li>whether agents may imitate themselves or not (
@@ -278,7 +278,7 @@
                   </div>
                   In contrast, under
                   <value>direct</value> protocols, revising agents choose candidate strategies directly, so a strategy's popularity does not directly influence the probability with which it is considered. Specifically, the revising agent considers a set of
-                  <parameter>size-of-test-set</parameter> strategies (including his own), tests them, and selects one of them according to one of various possible
+                  <parameter>n-in-test-set</parameter> strategies (including his own), tests them, and selects one of them according to one of various possible
                   <parameter>decision-method</parameter>s (see below).
 
 
@@ -294,7 +294,7 @@
                         <p>There are parameters to specify:
                            <ul>
                               <li>the number of strategies that revising agents consider, including their current strategy (
-                                 <parameter>size-of-test-set</parameter> ), </li>
+                                 <parameter>n-in-test-set</parameter> ), </li>
                               <li>whether the strategies in the test-set are compared according to a payoff computed using one single sample of agents (i.e. the same set of agents for every strategy), or whether the payoff of each strategy in the test-set is computed using a freshly drawn random sample of agents (
                                  <parameter>single-sample?</parameter> ).</li>
                            </ul>
@@ -319,7 +319,7 @@
                      </p>
                      <p>The selection is based on the payoff obtained by each of the candidates (agents or strategies) in the input set. In
                         <value>imitative</value> protocols the set of candidates is formed by the set of
-                        <parameter>number-to-consider-imitating</parameter> potential imitatees previously compiled plus the revising agent himself. In
+                        <parameter>n-to-consider-imitating</parameter> potential imitatees previously compiled plus the revising agent himself. In
                         <value>direct</value> protocols the set of candidates is the set of
                         <parameter>size-of-test-set</parameter> strategies previously compiled, which always includes the revising agent's strategy. <i>Abed</i> implements three different
                         <parameter>decision-method</parameter>s:</p>
@@ -367,23 +367,23 @@
                      <li>If
                         <parameter>random-initial-condition?</parameter> is
                         <value>On</value>, the population will consist of
-                        <parameter>number-of-agents</parameter> agents, each of them with a random initial strategy.
+                        <parameter>n-of-agents</parameter> agents, each of them with a random initial strategy.
                      </li>
 
                      <li>If
                         <parameter>random-initial-condition?</parameter> is
                         <value>Off</value>, the population will be created from the list given as
                         <parameter>initial-condition</parameter>. Let this list be [x1 x2 ... xn]; then the initial population will consist of x1 agents playing strategy 1, x2 agents playing strategy 2, ... , and xn agents playing strategy n. The value of
-                        <parameter>number-of-agents</parameter> is then set to the total number of agents in the population.
+                        <parameter>n-of-agents</parameter> is then set to the total number of agents in the population.
                      </li>
                   </ul>
                </div>
                <div class="col-md-12">
                   <blockquote class="blockquote ">
                      <footer class="blockquote-footer">The value of
-                        <parameter>number-of-agents</parameter> can be changed at runtime with immediate effect over the model. If
-                        <parameter>number-of-agents</parameter> is reduced, the necessary number of (randomly selected) agents are killed. If
-                        <parameter>number-of-agents</parameter> is increased, the necessary number of (randomly selected) agents are cloned.</footer>
+                        <parameter>n-of-agents</parameter> can be changed at runtime with immediate effect over the model. If
+                        <parameter>n-of-agents</parameter> is reduced, the necessary number of (randomly selected) agents are killed. If
+                        <parameter>n-of-agents</parameter> is increased, the necessary number of (randomly selected) agents are cloned.</footer>
                   </blockquote>
                </div>
 
@@ -412,7 +412,7 @@
                      <li>If
                         <parameter>use-prob-revision?</parameter> is
                         <value>Off</value>, then
-                        <parameter>num-revisions-per-tick</parameter> agents are randomly selected to revise their strategy in every tick.
+                        <parameter>n-of-revisions-per-tick</parameter> agents are randomly selected to revise their strategy in every tick.
                      </li>
                   </ul>
                   <p>The value of these three parameters can be changed at runtime with immediate effect on the model.</p>
@@ -577,9 +577,12 @@
 
             <div class="row well">
                <div class="col-xs-12">
-                  <p>The following flowchart is a summary of all the parameters that determine how agents revise their strategy. The idea is to start at the top of the flowchart, give a value to every parameter you encounter on your way and, at the decision nodes (i.e. the red diamonds), select the exit arrow whose <b>[label]</b> indicates the value of the parameter you have just chosen. Each of the parameters is explained below.</p>
+                  <p>With probability
+                     <parameter>prob-mutation</parameter> the revising agent will select a random strategy. With probability (1 -
+                     <parameter>prob-mutation</parameter>) he will revise his strategy following an algorithm which is mainly determined by the parameters shown in the flowchart below.</p>
+                  <p>The idea is to start at the top of the flowchart, give a value to every parameter you encounter on your way and, at the decision nodes (i.e. the red diamonds), select the exit arrow whose <b>[label]</b> indicates the value of the parameter you have just chosen. Every parameter is explained below.</p>
                </div>
-               <div class="col-xs-12 col-lg-offset-1 col-lg-10">
+               <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
 
                   <img src="./assets/img/revision-flowchart.png" alt="revision-flowchart" class="img-center img-responsive">
                   <br>
@@ -587,30 +590,7 @@
             </div>
 
 
-            <div class="row well">
-               <div class="col-xs-12">
-                  <p>With probability
-                     <parameter>prob-mutation</parameter> the revising agent will select a random strategy. With probability (1 -
-                     <parameter>prob-mutation</parameter>) the agent will compile:
-                     <ul class="spaced">
-                        <li>a set of candidate agents (if parameter
-                           <parameter>candidate-selection</parameter> =
-                           <value>imitative</value>), or
-                        </li>
-                        <li>a set of candidate strategies (if parameter
-                           <parameter>candidate-selection</parameter> =
-                           <value>direct</value>),
-                        </li>
-                     </ul>and then he will use a
-                     <parameter>decision-method</parameter>
-                     to decide which strategy to adopt.</p>
-               </div>
-               <div class="col-xs-12">
 
-                  <img src="./assets/img/how-to-revise.png" alt="how-to-revise" class="img-center img-responsive">
-                  <br>
-               </div>
-            </div>
 
 
             <div class="row well">
@@ -618,8 +598,8 @@
                   Parameter
                   <parameter>candidate-selection</parameter> indicates whether the protocol is
                   <value>imitative</value> or
-                  <value>direct</value> (PGED, p. 9). Choosing one or another determines whether the set of candidates is made up of agents (in
-                  <value>imitative</value> protocols) or strategies (in
+                  <value>direct</value> (PGED, p. 9). Revising agents compile a set of candidate agents to imitate to (in
+                  <value>imitative</value> protocols) or a set of candidate strategies they will consider adopting (in
                   <value>direct</value> protocols). </p>
                <p>The following describes how the set of candidates is formed for
                   <parameter>decision-method</parameter>s
@@ -647,7 +627,7 @@
                      <div class="tab-pane active" id="imitative">
                         <p>The set of candidate agents always contains the revising agent. The following diagram shows the different parameters that determine how the set of candidate agents is compiled. We use <b>Sample(<i>n</i>, <i>p</i>, R)</b> to denote a sample of
                            <i>n</i> =
-                           <parameter>number-to-consider-imitating</parameter> elements from population <i>p</i> with replacement. Similarly, <b>Sample(<i>n</i>, <i>p</i>, NR)</b> denotes the same sampling procedure, but without replacement. Finally, let P denote the whole population of agents.</p>
+                           <parameter>n-to-consider-imitating</parameter> elements from population <i>p</i> with replacement. Similarly, <b>Sample(<i>n</i>, <i>p</i>, NR)</b> denotes the same sampling procedure, but without replacement. Finally, let P denote the whole population of agents.</p>
                         <p>The white boxes in the figure below show the sets of candidates for each parameter setting</p>
 
 
@@ -656,19 +636,8 @@
 
                      </div>
                      <div class="tab-pane" id="direct">
-                        <p>The set of candidate strategies always contains the revising agent's strategy.
-                           <ul>
-                              <li>If
-                                 <parameter>test-all-strategies?</parameter> is
-                                 <value>On</value>, the set of candidate strategies contains all strategies.
-                              </li>
-                              <li>If
-                                 <parameter>test-all-strategies?</parameter> is
-                                 <value>Off</value>, the set of candidate strategies contains
-                                 <parameter>size-of-test-set</parameter> strategies. One of them is the revising agent's strategy and the other (
-                                 <parameter>size-of-test-set</parameter> - 1 ) strategies are chosen at random.
-                              </li>
-                           </ul>
+                        <p>The set of candidate strategies contains the revising agent's own strategy plus (
+                           <parameter>n-in-test-set</parameter> - 1 ) other strategies, selected at random.
                         </p>
                      </div>
                   </div>
