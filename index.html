@@ -690,7 +690,7 @@
                            <li>
                               <value>uniform</value>: A random choice is made using the uniform distribution.</li>
                            <li>
-                              <value>stick-min</value>: The strategy with the minimum number is selected.</li>
+                              <value>min</value>: The strategy with the minimum number is selected.</li>
                            <li>
                               <p>
                                  <value>random-walk</value>: This tie-breaker makes use of an auxiliary random walk that is running in the background. Let <i>N</i> be the number of agents in <i>Abed</i> and let <i>n</i> be the number of strategies. In the auxiliary random walk, there are <i>N</i> rw-agents, plus a set of <i>n</i> so-called committed rw-agents, one for each of the <i>n</i> strategies in <i>Abed</i>. The committed rw-agents never change strategy. In each iteration of this random walk, one uncommitted rw-agent is selected at random to imitate another (commmitted or uncommitted) rw-agent, also chosen at random. We run floor(<i>N</i> &times;
