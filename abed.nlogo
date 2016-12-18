@@ -946,9 +946,9 @@ ticks
 
 INPUTBOX
 25
-351
+341
 230
-498
+488
 payoff-matrix
 [[ 1 1 1]\n [ 1 1 1]\n [ -1 1 2]]
 1
@@ -956,10 +956,10 @@ payoff-matrix
 String (reporter)
 
 SLIDER
-25
-508
-203
-541
+26
+502
+230
+535
 n-of-agents
 n-of-agents
 1
@@ -971,10 +971,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-276
-422
-464
-455
+275
+378
+463
+411
 prob-revision
 prob-revision
 0.001
@@ -986,10 +986,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-751
-606
-923
-639
+554
+595
+703
+628
 prob-mutation
 prob-mutation
 0
@@ -1052,9 +1052,9 @@ NIL
 1
 
 MONITOR
-811
+678
 10
-931
+798
 55
 NIL
 ticks
@@ -1097,10 +1097,10 @@ true
 PENS
 
 SLIDER
-253
-308
-466
-341
+280
+528
+463
+561
 duration-of-recent
 duration-of-recent
 1
@@ -1112,10 +1112,10 @@ sec.
 HORIZONTAL
 
 SWITCH
-476
-308
-679
-341
+281
+567
+464
+600
 show-recent-history?
 show-recent-history?
 0
@@ -1123,10 +1123,10 @@ show-recent-history?
 -1000
 
 SWITCH
-704
-308
-931
-341
+282
+607
+464
+640
 show-complete-history?
 show-complete-history?
 0
@@ -1134,10 +1134,10 @@ show-complete-history?
 -1000
 
 INPUTBOX
-26
-587
+27
+581
 232
-647
+641
 initial-condition
 [6 10 10]
 1
@@ -1145,10 +1145,10 @@ initial-condition
 String (reporter)
 
 SWITCH
-276
-385
-464
-418
+275
+341
+463
+374
 use-prob-revision?
 use-prob-revision?
 1
@@ -1156,10 +1156,10 @@ use-prob-revision?
 -1000
 
 SLIDER
-25
-308
-229
-341
+280
+488
+462
+521
 plot-every-?-secs
 plot-every-?-secs
 0.01
@@ -1171,10 +1171,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-277
-459
-464
-492
+276
+415
+463
+448
 n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
@@ -1186,9 +1186,9 @@ NIL
 HORIZONTAL
 
 MONITOR
-681
+809
 10
-802
+930
 55
 NIL
 ticks-per-second
@@ -1197,10 +1197,10 @@ ticks-per-second
 11
 
 SWITCH
-278
-531
-448
-564
+713
+343
+874
+376
 complete-matching?
 complete-matching?
 0
@@ -1208,25 +1208,25 @@ complete-matching?
 -1000
 
 SLIDER
-277
-589
-449
-622
+711
+396
+877
+429
 n-of-trials
 n-of-trials
 1
 10
-26.0
+25.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-507
-447
-682
-480
+520
+407
+687
+440
 n-in-test-set
 n-in-test-set
 2
@@ -1238,20 +1238,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-732
-500
-787
-518
+717
+592
+772
+610
 for logit:
 11
 0.0
 1
 
 SLIDER
-731
-517
-823
-550
+717
+608
+868
+641
 eta
 eta
 0.001
@@ -1263,30 +1263,30 @@ NIL
 HORIZONTAL
 
 CHOOSER
-730
-448
-872
-493
+715
+545
+867
+590
 tie-breaker
 tie-breaker
 "stick-uniform" "stick-min" "uniform" "min" "random-walk"
 4
 
 TEXTBOX
-732
-431
-905
-459
+717
+528
+890
+548
 for best:
 11
 0.0
 1
 
 SLIDER
-507
-581
-681
-614
+522
+461
+687
+494
 n-to-consider-imitating
 n-to-consider-imitating
 1
@@ -1298,20 +1298,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-509
-564
-734
-592
+521
+444
+683
+462
 for imitative & (best or logit):
 11
 0.0
 1
 
 TEXTBOX
-508
-428
-716
-456
+522
+390
+673
+418
 for direct & (best or logit):
 11
 0.0
@@ -1319,9 +1319,9 @@ for direct & (best or logit):
 
 SLIDER
 23
-855
+857
 185
-888
+890
 random-walk-speed
 random-walk-speed
 0
@@ -1333,30 +1333,30 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-25
-838
-238
-856
+24
+842
+223
+860
 for best & random-walk tie-breaker:
 11
 0.0
 1
 
 CHOOSER
-546
-377
-698
-422
+520
+340
+687
+385
 candidate-selection
 candidate-selection
 "imitative" "direct"
 1
 
 CHOOSER
-709
-377
-860
-422
+552
+531
+703
+576
 decision-method
 decision-method
 "best" "logit" "proportional"
@@ -1373,10 +1373,10 @@ NIL
 1
 
 SWITCH
-26
-547
+27
+541
 230
-580
+574
 random-initial-condition?
 random-initial-condition?
 1
@@ -1384,20 +1384,20 @@ random-initial-condition?
 -1000
 
 TEXTBOX
-509
-497
-718
-527
-for direct & complete-matching=off:
+713
+433
+922
+451
+for complete-matching=off & direct:
 11
 0.0
 1
 
 SWITCH
-508
-516
-654
-549
+712
+450
+877
+483
 single-sample?
 single-sample?
 0
@@ -1405,10 +1405,10 @@ single-sample?
 -1000
 
 SWITCH
-24
-664
-217
-697
+22
+715
+205
+748
 trials-with-replacement?
 trials-with-replacement?
 1
@@ -1417,9 +1417,9 @@ trials-with-replacement?
 
 SWITCH
 23
-759
+767
 239
-792
+800
 imitatees-with-replacement?
 imitatees-with-replacement?
 0
@@ -1427,21 +1427,21 @@ imitatees-with-replacement?
 -1000
 
 SWITCH
-24
-700
-166
-733
+22
+663
+205
+696
 self-matching?
 self-matching?
-0
+1
 1
 -1000
 
 SWITCH
 23
-799
+805
 240
-832
+838
 consider-imitating-self?
 consider-imitating-self?
 0
@@ -1517,63 +1517,103 @@ NIL
 1
 
 TEXTBOX
-25
-741
-216
-759
-for imitative selection
+23
+752
+214
+770
+for imitative:\n
 11
 0.0
 1
 
 TEXTBOX
-279
-571
-446
-599
+713
+380
+880
+408
 for complete-matching=off:
 11
 0.0
 1
 
 TEXTBOX
-277
-358
-490
-390
-Assigning revision opportunities:
+268
+319
+481
+351
+Assigning revision opportunities
 13
 13.0
 1
 
 TEXTBOX
-278
-509
-428
-527
-Matching:
+758
+320
+831
+338
+Matching
 13
 13.0
 1
 
 TEXTBOX
-653
-355
-803
-373
-Revision protocol:
+541
+319
+691
+337
+Candidate selection
 13
 13.0
 1
 
 TEXTBOX
-811
-584
-898
-602
-Mutations:\n
+554
+579
+704
+597
+mutations:
+11
+0.0
+1
+
+TEXTBOX
+649
+507
+779
+525
+Decision method
 13
 13.0
+1
+
+TEXTBOX
+62
+318
+212
+336
+Game and population
+13
+13.0
+1
+
+TEXTBOX
+320
+468
+438
+498
+Plotting of output
+12
+0.0
+1
+
+TEXTBOX
+23
+701
+200
+729
+for complete-matching=off:
+11
+0.0
 1
 
 @#$#@#$#@
