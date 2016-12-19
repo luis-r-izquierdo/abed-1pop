@@ -277,7 +277,9 @@ to go
   if (ticks mod (ceiling plotting-period) = 0) [update-graphs]
 
   update-num-agents
-  if tie-breaker = "random-walk" [repeat (floor (n-of-agents * random-walk-speed)) [advance-random-walk] ]
+  if (decision-method = "best" and tie-breaker = "random-walk") [
+    repeat (floor (n-of-agents * random-walk-speed)) [advance-random-walk]
+  ]
 
 end
 
@@ -434,40 +436,56 @@ to update-candidate-strategies-and-payoffs
 end
 
 to update-payoffs-of-strategy-agents [strategy-set]
-  ;; update payoffs
-  if not complete-matching? [
+  ;; We assume clever payoff evaluation, i.e. to compute the payoff of a strategy
+  ;; that the revising agent is not using, we imagine that the agent switches to this new strategy,
+  ;; and then we compute the payoff of this new strategy in this new state.
+  ;; Useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 11.4.2, pp. 419-421)
+
+  let ag-strategy strategy
+
+  ifelse complete-matching?
+
+  [
+    ask strategy-set [
+      let st-strategy strategy
+      ;; ask the agent to adopt this strategy, so payoffs are computed
+      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
+      ask myself [set strategy st-strategy]
+
+      update-strategies-payoffs
+      ;; we have to compute the strategies-payoffs again since strategy-counts
+      ;; is different in the new state
+      set payoff item (strategy - 1) strategies-payoffs
+    ]
+  ]
+
+  [
     run update-counterparts
     ask strategy-set [
       set counterparts runresult reported-counterparts
         ;; reported-counterparts can be fixed-counterparts (if single-sample?)
         ;; or variable-counterparts (if not single-sample?)
+
+      let st-strategy strategy
+      ;; ask the agent to adopt this strategy, so payoffs are computed
+      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
+      ;; This is also relevant if the agent himself is part of the set of counterparts.
+      ask myself [set strategy st-strategy]
+
+      let my-payoffs item (strategy - 1) payoffs
+      let total-payoff sum (map * my-payoffs (strategy-freq counterparts))
+      ;; Note that the revising agent could be part of counterparts (if self-matching? is on).
+      ;; This, together with clever payoff evaluation (see above), implies that even when using
+      ;; single-sample? each strategy may be evaluated against a different set of sample strategies,
+      ;; since the agent is switching strategy before evaluating payoffs.
+      set payoff total-payoff / n-of-trials
     ]
   ]
 
-  ;; Note that the revising agent could be part of counterparts (if self-matching? is on).
-  ;; This, together with clever payoff evaluation (see below), implies that even when using
-  ;; single-sample? each strategy may be evaluated against a different set of sample strategies,
-  ;; since the agent is switching strategy before evaluating payoffs.
-
-  ;; We assume clever payoff evaluation, i.e. to compute the payoff of a strategy
-  ;; that the revising agent is not using, we imagine that the agent switches to this new strategy,
-  ;; and then we compute the payoff of this new strategy in this new state.
-  ;; Useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 11.4.2, pp. 419-421)
-  let ag-strategy strategy
-  ask strategy-set [
-    let st-strategy strategy
-    ;; ask the agent to adopt this strategy, so payoffs are computed
-    ;; under the hypothesis that the agent has switched (clever payoff evaluation).
-    ;; This is also relevant if the agent himself is part of the set of counterparts.
-    ask myself [set strategy st-strategy]
-    if complete-matching? [update-strategies-payoffs]
-    ;; we have to compute the strategies-payoffs again since strategy-counts
-    ;; is different in the new state
-    run update-payoff
-  ]
   set strategy ag-strategy
   if complete-matching? [update-strategies-payoffs]
 end
+
 
 to-report fixed-counterparts
   report [counterparts] of myself
@@ -499,36 +517,55 @@ end
 to-report rd-other-strategy-with-updated-payoff
   let rd-other-strategy one-of strategy-agents with [strategy != [strategy] of myself]
 
-  ;; update payoffs
-
   ;; We don't use the procedure update-payoffs-of-strategy-agents because it
   ;; does 'run update-counterparts', which we don't want if single-sample?.
   ;; Having said that, the following is almost a copy of update-payoffs-of-strategy-agents
 
-  if not complete-matching? [
-    ask rd-other-strategy [
-      set counterparts runresult reported-counterparts
-        ;; reported-counterparts can be fixed-counterparts (if single-sample?)
-        ;; or variable-counterparts (if not single-sample?)
+  let ag-strategy strategy
+
+  ask rd-other-strategy [
+
+    ifelse complete-matching?
+
+    [
+      let st-strategy strategy
+      ;; ask the agent to adopt this strategy, so payoffs are computed
+      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
+      ask myself [set strategy st-strategy]
+
+      update-strategies-payoffs
+      ;; we have to compute the strategies-payoffs again since strategy-counts
+      ;; is different in the new state
+      set payoff item (strategy - 1) strategies-payoffs
     ]
+
+    [
+      set counterparts runresult reported-counterparts
+      ;; reported-counterparts can be fixed-counterparts (if single-sample?)
+      ;; or variable-counterparts (if not single-sample?)
+
+      let st-strategy strategy
+      ;; ask the agent to adopt this strategy, so payoffs are computed
+      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
+      ;; This is also relevant if the agent himself is part of the set of counterparts.
+      ask myself [set strategy st-strategy]
+
+      let my-payoffs item (strategy - 1) payoffs
+      let total-payoff sum (map * my-payoffs (strategy-freq counterparts))
+      ;; Note that the revising agent could be part of counterparts (if self-matching? is on).
+      ;; This, together with clever payoff evaluation (see above), implies that even when using
+      ;; single-sample? each strategy may be evaluated against a different set of sample strategies,
+      ;; since the agent is switching strategy before evaluating payoffs.
+      set payoff total-payoff / n-of-trials
+    ]
+
   ]
 
-  let ag-strategy strategy
-  ask rd-other-strategy [
-    let st-strategy strategy
-    ;; ask the agent to adopt this strategy, so payoffs are computed
-    ;; under the hypothesis that the agent has switched (clever payoff evaluation).
-    ;; This is also relevant if the agent himself is part of the set of counterparts.
-    ask myself [set strategy st-strategy]
-    if complete-matching? [update-strategies-payoffs]
-    ;; we have to compute the strategies-payoffs again since strategy-counts
-    ;; is different in the new state
-    run update-payoff
-  ]
   set strategy ag-strategy
   if complete-matching? [update-strategies-payoffs]
   report rd-other-strategy
 end
+
 
 ;; rd-candidate-with-updated-payoff is:
 ;; - rd-potential-imitatee-with-updated-payoff, if protocol is imitative
@@ -873,7 +910,7 @@ to save-parameter-file
 
   if ( file != false )
   [
-    carefully [file-delete file][ print error-message]
+    carefully [file-delete file] [] ;; overwrite the file if it exists
     file-open file
 
     foreach list-of-parameters [ [p] -> file-print (word p "," (fix-string runresult p)) ]
@@ -950,7 +987,7 @@ INPUTBOX
 230
 488
 payoff-matrix
-[[ 1 1 1]\n [ 1 1 1]\n [ -1 1 2]]
+[[ 6 0 0 ]\n [ 5 7 5 ]\n [ 0 5 8 ]]
 1
 1
 String (reporter)
@@ -964,7 +1001,7 @@ n-of-agents
 n-of-agents
 1
 5000
-26.0
+300.0
 1
 1
 NIL
@@ -986,10 +1023,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-554
-595
-703
-628
+552
+607
+701
+640
 prob-mutation
 prob-mutation
 0
@@ -1139,7 +1176,7 @@ INPUTBOX
 232
 641
 initial-condition
-[6 10 10]
+[100 100 100]
 1
 0
 String (reporter)
@@ -1164,7 +1201,7 @@ plot-every-?-secs
 plot-every-?-secs
 0.01
 5
-0.4
+0.05
 0.01
 1
 NIL
@@ -1203,7 +1240,7 @@ SWITCH
 376
 complete-matching?
 complete-matching?
-0
+1
 1
 -1000
 
@@ -1216,7 +1253,7 @@ n-of-trials
 n-of-trials
 1
 10
-25.0
+2.0
 1
 1
 NIL
@@ -1239,9 +1276,9 @@ HORIZONTAL
 
 TEXTBOX
 717
-592
+600
 772
-610
+618
 for logit:
 11
 0.0
@@ -1249,9 +1286,9 @@ for logit:
 
 SLIDER
 717
-608
+616
 868
-641
+649
 eta
 eta
 0.001
@@ -1264,9 +1301,9 @@ HORIZONTAL
 
 CHOOSER
 715
-545
+553
 867
-590
+598
 tie-breaker
 tie-breaker
 "stick-uniform" "stick-min" "uniform" "min" "random-walk"
@@ -1274,9 +1311,9 @@ tie-breaker
 
 TEXTBOX
 717
-528
+536
 890
-548
+554
 for best:
 11
 0.0
@@ -1291,7 +1328,7 @@ n-to-consider-imitating
 n-to-consider-imitating
 1
 max-number-to-consider-imitating
-1.0
+2.0
 1
 1
 NIL
@@ -1311,7 +1348,7 @@ TEXTBOX
 522
 390
 673
-418
+408
 for direct & (best or logit):
 11
 0.0
@@ -1354,23 +1391,13 @@ candidate-selection
 
 CHOOSER
 552
-531
+539
 703
-576
+584
 decision-method
 decision-method
 "best" "logit" "proportional"
 0
-
-TEXTBOX
-50
-649
-200
-667
-NIL
-11
-0.0
-1
 
 SWITCH
 27
@@ -1386,7 +1413,7 @@ random-initial-condition?
 TEXTBOX
 713
 433
-922
+923
 451
 for complete-matching=off & direct:
 11
@@ -1433,7 +1460,7 @@ SWITCH
 696
 self-matching?
 self-matching?
-1
+0
 1
 -1000
 
@@ -1530,7 +1557,7 @@ TEXTBOX
 713
 380
 880
-408
+398
 for complete-matching=off:
 11
 0.0
@@ -1540,7 +1567,7 @@ TEXTBOX
 268
 319
 481
-351
+337
 Assigning revision opportunities
 13
 13.0
@@ -1567,10 +1594,10 @@ Candidate selection
 1
 
 TEXTBOX
-554
-579
-704
-597
+552
+591
+702
+609
 mutations:
 11
 0.0
@@ -1578,9 +1605,9 @@ mutations:
 
 TEXTBOX
 649
-507
+515
 779
-525
+533
 Decision method
 13
 13.0
@@ -1600,7 +1627,7 @@ TEXTBOX
 320
 468
 438
-498
+486
 Plotting of output
 12
 0.0
@@ -1610,8 +1637,18 @@ TEXTBOX
 23
 701
 200
-729
+719
 for complete-matching=off:
+11
+0.0
+1
+
+TEXTBOX
+23
+646
+261
+664
+---------------------------------------\n
 11
 0.0
 1
