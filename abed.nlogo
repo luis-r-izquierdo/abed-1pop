@@ -508,6 +508,7 @@ end
 
 
 to-report rd-potential-imitatee-with-updated-payoff
+  have-payoff-ready
   let rd-candidate one-of population-to-imitate-to
   ask rd-candidate [have-payoff-ready]
   report rd-candidate
@@ -515,54 +516,11 @@ end
 
 
 to-report rd-other-strategy-with-updated-payoff
+  let my-strategy one-of strategy-agents with [strategy = [strategy] of myself]
   let rd-other-strategy one-of strategy-agents with [strategy != [strategy] of myself]
 
-  ;; We don't use the procedure update-payoffs-of-strategy-agents because it
-  ;; does 'run update-counterparts', which we don't want if single-sample?.
-  ;; Having said that, the following is almost a copy of update-payoffs-of-strategy-agents
-
-  let ag-strategy strategy
-
-  ask rd-other-strategy [
-
-    ifelse complete-matching?
-
-    [
-      let st-strategy strategy
-      ;; ask the agent to adopt this strategy, so payoffs are computed
-      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
-      ask myself [set strategy st-strategy]
-
-      update-strategies-payoffs
-      ;; we have to compute the strategies-payoffs again since strategy-counts
-      ;; is different in the new state
-      set payoff item (strategy - 1) strategies-payoffs
-    ]
-
-    [
-      set counterparts runresult reported-counterparts
-      ;; reported-counterparts can be fixed-counterparts (if single-sample?)
-      ;; or variable-counterparts (if not single-sample?)
-
-      let st-strategy strategy
-      ;; ask the agent to adopt this strategy, so payoffs are computed
-      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
-      ;; This is also relevant if the agent himself is part of the set of counterparts.
-      ask myself [set strategy st-strategy]
-
-      let my-payoffs item (strategy - 1) payoffs
-      let total-payoff sum (map * my-payoffs (strategy-freq counterparts))
-      ;; Note that the revising agent could be part of counterparts (if self-matching? is on).
-      ;; This, together with clever payoff evaluation (see above), implies that even when using
-      ;; single-sample? each strategy may be evaluated against a different set of sample strategies,
-      ;; since the agent is switching strategy before evaluating payoffs.
-      set payoff total-payoff / n-of-trials
-    ]
-
-  ]
-
-  set strategy ag-strategy
-  if complete-matching? [update-strategies-payoffs]
+  update-payoffs-of-strategy-agents (turtle-set my-strategy rd-other-strategy)
+  set payoff [payoff] of my-strategy
   report rd-other-strategy
 end
 
@@ -573,7 +531,7 @@ end
 
 to proportional
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
-  have-payoff-ready
+  ;; rd-candidate-with-updated-payoff will also update my payoff
   let rd-candidate run-result rd-candidate-with-updated-payoff
   if [payoff] of rd-candidate > payoff [
     if random-float 1 < ([payoff] of rd-candidate - payoff) / rate-scaling [
@@ -1234,13 +1192,13 @@ ticks-per-second
 11
 
 SWITCH
-713
+712
 343
-874
+878
 376
 complete-matching?
 complete-matching?
-1
+0
 1
 -1000
 
@@ -1253,7 +1211,7 @@ n-of-trials
 n-of-trials
 1
 10
-2.0
+300.0
 1
 1
 NIL
@@ -1387,7 +1345,7 @@ CHOOSER
 candidate-selection
 candidate-selection
 "imitative" "direct"
-1
+0
 
 CHOOSER
 552
@@ -1397,7 +1355,7 @@ CHOOSER
 decision-method
 decision-method
 "best" "logit" "proportional"
-0
+2
 
 SWITCH
 27
