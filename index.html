@@ -577,14 +577,7 @@
                   <value>imitative</value> or
                   <value>direct</value> (PGED, p. 9). Revising agents compile a set of candidate agents to imitate to (in
                   <value>imitative</value> protocols) or a set of candidate strategies they will consider adopting (in
-                  <value>direct</value> protocols). </p>
-               <p>The following describes how the set of candidates is formed for
-                  <parameter>decision-method</parameter>s
-                  <value>best</value> and
-                  <value>logit</value>. For
-                  <parameter>decision-method</parameter>
-                  <value>proportional</value> it is best to go directly to this method's explanation below.
-               </p>
+                  <value>direct</value> protocols). The following describes how the set of candidates is formed. </p>
 
                <div id="tab-panel">
                   <ul class="nav nav-tabs" role="tablist">
@@ -630,10 +623,7 @@
                   <p>Parameter
                      <parameter>single-sample?</parameter> is only relevant in direct protocols (i.e. if
                      <parameter>candidate-selection</parameter> is
-                     <value>direct</value>) and
-                     <parameter>decision-method</parameter>
-                     <value>logit</value> or
-                     <value>best</value>. It indicates whether strategies being compared are tested against one single sample of agents (i.e. the same set of agents for every strategy), or whether the payoff of each strategy in the test-set is computed using a freshly drawn random sample of agents.</p>
+                     <value>direct</value>). It indicates whether strategies being compared are tested against one single sample of agents (i.e. the same set of agents for every strategy), or whether the payoff of each strategy in the test-set is computed using a freshly drawn random sample of agents.</p>
 
                </div>
                <div class="col-md-12">
@@ -652,11 +642,11 @@
                <p>
                   Parameter
                   <parameter>decision-method</parameter> determines which strategy the revising agent will adopt. </p>
-               <p>The procedures for
-                  <value>best</value> and
-                  <value>logit</value> select one particular instance from the set of candidates previously compiled, based on the payoff obtained by each of the candidates. The revising agent will then adopt the strategy of the selected candidate.</p>
-               <p>The procedure for
-                  <value>proportional</value> works a bit differently, as explained below.</p>
+               <p>Specifically, the chosen
+                  <parameter>decision-method</parameter> (i.e.
+                  <value>best</value>,
+                  <value>logit</value> or
+                  <value>proportional</value>) selects one particular instance from the set of candidates previously compiled, based on the payoff obtained by each of the candidates. The revising agent will then adopt the strategy of the selected candidate.</p>
 
                <div id="tab-panel">
                   <ul class="nav nav-tabs" role="tablist">
@@ -693,7 +683,7 @@
                               <value>min</value>: The strategy with the minimum number is selected.</li>
                            <li>
                               <p>
-                                 <value>random-walk</value>: This tie-breaker makes use of an auxiliary random walk that is running in the background. Let <i>N</i> be the number of agents in <i>Abed</i> and let <i>n</i> be the number of strategies. In the auxiliary random walk, there are <i>N</i> rw-agents, plus a set of <i>n</i> so-called committed rw-agents, one for each of the <i>n</i> strategies in <i>Abed</i>. The committed rw-agents never change strategy. In each iteration of this random walk, one uncommitted rw-agent is selected at random to imitate another (commmitted or uncommitted) rw-agent, also chosen at random. We run floor(<i>N</i> &times;
+                                 <value>random-walk</value>: This tie-breaker makes use of an auxiliary random walk that is running in the background. Let <i>N</i> be the number of agents in <i>Abed</i> and let <i>n</i> be the number of strategies. In the auxiliary random walk, there are <i>N</i> rw-agents, plus a set of <i>n</i> so-called committed rw-agents, one for each of the <i>n</i> strategies in <i>Abed</i>. The committed rw-agents never change strategy. In each iteration of this random walk, one uncommitted rw-agent is selected at random to imitate another (committed or uncommitted) rw-agent, also chosen at random. We run floor(<i>N</i> &times;
                                  <parameter>random-walk-speed</parameter>) iterations of this process per tick. When there is a tie in <i>Abed</i>, the relative frequency of each strategy in the auxiliary random walk is used as a weight to make a random weighted selection among the tied candidates. </p>
 
                            </li>
@@ -717,30 +707,23 @@
                         </blockquote>
                      </div>
                      <div class="tab-pane" id="proportional">
-                        <p>To understand how
-                           <parameter>decision-method</parameter>
-                           <value>proportional</value> works, it is best to ignore the set of candidates as it is formed for
-                           <value>best</value> and
-                           <value>logit</value>.
-                        </p>In
-                        <value>proportional</value>:
+                        <p>In
+                           <value>proportional</value>, the agent always considers exactly two candidates (one corresponding to his own strategy or to himself, and another one), i.e.:
+                        </p>
                         <ul>
                            <li>If
                               <parameter>candidate-selection</parameter> =
-                              <value>imitative</value>, the revising agent will select one agent at random from the population (including himself if
-                              <parameter>consider-imitating-self?</parameter> is
-                              <value>On</value>, and excluding himself if
-                              <parameter>consider-imitating-self?</parameter> is
-                              <value>Off</value>).
-
+                              <value>imitative</value>, the value of
+                              <parameter>n-to-consider-imitating</parameter> is automatically set to 1.
                            </li>
                            <li>
                               If
                               <parameter>candidate-selection</parameter> =
-                              <value>direct</value>, the revising agent will select one strategy different from his own, at random.</li>
+                              <value>direct</value>, the value of
+                              <parameter>n-in-test-set</parameter> is automatically set to 2.</li>
                         </ul>
 
-                        <p>Let <i>candidate</i> denote the selected agent or strategy. Then, the revising agent will consider adopting the selected candidate's strategy only if the candidate's payoff is higher than his own, and he will actually adopt it with probability proportional to the payoff difference. In order to turn the difference in payoffs into a meaningful probability, we divide the payoff difference by the maximum possible payoff difference that could occur in the game.</p>
+                        <p>Let <i>candidate</i> denote the other agent or strategy. Then, the revising agent will consider adopting the <i>candidate</i>'s strategy only if the <i>candidate</i>'s payoff is higher than his own, and he will actually adopt it with probability proportional to the payoff difference. In order to turn the difference in payoffs into a meaningful probability, we divide the payoff difference by the maximum possible payoff difference that could occur in the game.</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">If
