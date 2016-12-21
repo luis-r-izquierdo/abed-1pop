@@ -54,7 +54,6 @@ globals [
   update-counterparts
   reported-counterparts
   tie-winner-in
-  rd-candidate-with-updated-payoff
 
   ;; for proportional
   rate-scaling
@@ -186,14 +185,8 @@ to setup-dynamics
 
   ;; SELECT YOUR NEXT STRATEGY DIRECTLY, OR VIA IMITATION
   ifelse (candidate-selection = "direct")
-    [ ;; direct
-      set update-candidates-and-payoffs [ [] -> update-candidate-strategies-and-payoffs ]
-      set rd-candidate-with-updated-payoff [ [] -> rd-other-strategy-with-updated-payoff ]
-    ]
-    [ ;; imitative
-      set update-candidates-and-payoffs [ [] -> update-candidate-agents-and-payoffs ]
-      set rd-candidate-with-updated-payoff [ [] -> rd-potential-imitatee-with-updated-payoff ]
-    ]
+    [ set update-candidates-and-payoffs [ [] -> update-candidate-strategies-and-payoffs ] ]
+    [ set update-candidates-and-payoffs [ [] -> update-candidate-agents-and-payoffs ] ]
 
   ;; NUMBER OF STRATEGIES YOU WILL TEST (ONLY RELEVANT IN DIRECT PROTOCOLS)
   set n-in-test-set min list n-in-test-set n-of-strategies
@@ -486,6 +479,7 @@ to update-payoffs-of-strategy-agents [strategy-set]
   if complete-matching? [update-strategies-payoffs]
 end
 
+;; POSSIBLE VALUES OF reported-counterparts
 
 to-report fixed-counterparts
   report [counterparts] of myself
@@ -495,6 +489,8 @@ to-report variable-counterparts
   ask myself [run update-counterparts]
   report [counterparts] of myself
 end
+
+;; DECISION-METHODS
 
 to best
   run update-candidates-and-payoffs
@@ -506,41 +502,27 @@ to best
   set next-strategy (runresult tie-winner-in map [ [c] -> [strategy] of c] best-candidates)
 end
 
-
-to-report rd-potential-imitatee-with-updated-payoff
-  have-payoff-ready
-  let rd-candidate one-of population-to-imitate-to
-  ask rd-candidate [have-payoff-ready]
-  report rd-candidate
-end
-
-
-to-report rd-other-strategy-with-updated-payoff
-  let my-strategy one-of strategy-agents with [strategy = [strategy] of myself]
-  let rd-other-strategy one-of strategy-agents with [strategy != [strategy] of myself]
-
-  update-payoffs-of-strategy-agents (turtle-set my-strategy rd-other-strategy)
-  set payoff [payoff] of my-strategy
-  report rd-other-strategy
-end
-
-
-;; rd-candidate-with-updated-payoff is:
-;; - rd-potential-imitatee-with-updated-payoff, if protocol is imitative
-;; - rd-other-strategy-with-updated-payoff, if protocol is direct
-
 to proportional
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
-  ;; rd-candidate-with-updated-payoff will also update my payoff
-  let rd-candidate run-result rd-candidate-with-updated-payoff
-  if [payoff] of rd-candidate > payoff [
-    if random-float 1 < ([payoff] of rd-candidate - payoff) / rate-scaling [
-      set next-strategy [strategy] of rd-candidate
+
+  if rate-scaling != 0 [
+    ;; rate-scaling is zero only if the whole payoff matrix is 0s.
+    ;; In that case there is nothing to do here.
+
+    ifelse candidate-selection = "direct" [set n-in-test-set 2] [set n-to-consider-imitating 1]
+    run update-candidates-and-payoffs
+
+    let sorted-candidates sort-on [payoff] (turtle-set candidates)
+    let worse first sorted-candidates
+    let better last sorted-candidates
+    let payoff-diff ([payoff] of better - [payoff] of worse)
+
+    if random-float 1 < (payoff-diff / rate-scaling) [
+      set next-strategy [strategy] of better
     ]
+    ;; If your strategy is the better, you are going to stick to it
+    ;; if it's not, you switch with probability (payoff-diff / rate-scaling)
   ]
-  ;; The first if is not strictly necessary, but we include it for two reasons:
-  ;; 1. to avoid drawing a random number when it's not necessary (not a huge reason, admittedly)
-  ;; 2. to avoid dividing by zero if whole payoff matrix is 0s (and therefore rate-scaling is zero).
 end
 
 to logit
@@ -974,16 +956,16 @@ prob-revision
 prob-revision
 0.001
 1
-0.001
+0.1
 0.001
 1
 NIL
 HORIZONTAL
 
 SLIDER
-552
+557
 607
-701
+706
 640
 prob-mutation
 prob-mutation
@@ -1094,7 +1076,7 @@ PENS
 SLIDER
 280
 528
-463
+475
 561
 duration-of-recent
 duration-of-recent
@@ -1109,7 +1091,7 @@ HORIZONTAL
 SWITCH
 281
 567
-464
+475
 600
 show-recent-history?
 show-recent-history?
@@ -1120,7 +1102,7 @@ show-recent-history?
 SWITCH
 282
 607
-464
+475
 640
 show-complete-history?
 show-complete-history?
@@ -1134,7 +1116,7 @@ INPUTBOX
 232
 641
 initial-condition
-[100 100 100]
+[260 20 20]
 1
 0
 String (reporter)
@@ -1153,13 +1135,13 @@ use-prob-revision?
 SLIDER
 280
 488
-462
+475
 521
 plot-every-?-secs
 plot-every-?-secs
 0.01
 5
-0.05
+0.1
 0.01
 1
 NIL
@@ -1174,7 +1156,7 @@ n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
 n-of-agents
-10.0
+30.0
 1
 1
 NIL
@@ -1192,35 +1174,35 @@ ticks-per-second
 11
 
 SWITCH
-712
-343
-878
-376
+742
+341
+924
+374
 complete-matching?
 complete-matching?
-0
+1
 1
 -1000
 
 SLIDER
-711
-396
-877
-429
+741
+394
+924
+427
 n-of-trials
 n-of-trials
 1
 10
-300.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-520
+521
 407
-687
+688
 440
 n-in-test-set
 n-in-test-set
@@ -1233,9 +1215,9 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-717
+722
 600
-772
+777
 618
 for logit:
 11
@@ -1243,9 +1225,9 @@ for logit:
 1
 
 SLIDER
-717
+722
 616
-868
+873
 649
 eta
 eta
@@ -1258,19 +1240,19 @@ NIL
 HORIZONTAL
 
 CHOOSER
-715
+720
 553
-867
+872
 598
 tie-breaker
 tie-breaker
 "stick-uniform" "stick-min" "uniform" "min" "random-walk"
-4
+2
 
 TEXTBOX
-717
+722
 536
-890
+895
 554
 for best:
 11
@@ -1293,20 +1275,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-521
+523
 444
-683
-462
+704
+463
 for imitative & (best or logit):
 11
 0.0
 1
 
 TEXTBOX
-522
-390
-673
-408
+523
+391
+674
+409
 for direct & (best or logit):
 11
 0.0
@@ -1315,7 +1297,7 @@ for direct & (best or logit):
 SLIDER
 23
 857
-185
+231
 890
 random-walk-speed
 random-walk-speed
@@ -1330,8 +1312,8 @@ HORIZONTAL
 TEXTBOX
 24
 842
-223
-860
+284
+861
 for best & random-walk tie-breaker:
 11
 0.0
@@ -1345,17 +1327,17 @@ CHOOSER
 candidate-selection
 candidate-selection
 "imitative" "direct"
-0
+1
 
 CHOOSER
-552
+557
 539
-703
+708
 584
 decision-method
 decision-method
 "best" "logit" "proportional"
-2
+0
 
 SWITCH
 27
@@ -1369,20 +1351,20 @@ random-initial-condition?
 -1000
 
 TEXTBOX
-713
-433
-923
-451
-for complete-matching=off & direct:
+743
+431
+953
+461
+for complete-matching=off \n     & direct:
 11
 0.0
 1
 
 SWITCH
-712
-450
-877
-483
+743
+461
+924
+494
 single-sample?
 single-sample?
 0
@@ -1392,7 +1374,7 @@ single-sample?
 SWITCH
 22
 715
-205
+228
 748
 trials-with-replacement?
 trials-with-replacement?
@@ -1437,7 +1419,7 @@ PLOT
 275
 663
 593
-883
+890
 Strategies' expected payoff (recent history)
 milliseconds
 NIL
@@ -1454,7 +1436,7 @@ PLOT
 598
 663
 935
-882
+890
 Strategies' expected payoff (complete history)
 seconds
 NIL
@@ -1512,10 +1494,10 @@ for imitative:\n
 1
 
 TEXTBOX
-713
-380
-880
-398
+743
+378
+910
+396
 for complete-matching=off:
 11
 0.0
@@ -1532,9 +1514,9 @@ Assigning revision opportunities
 1
 
 TEXTBOX
-758
+804
 320
-831
+877
 338
 Matching
 13
@@ -1552,9 +1534,9 @@ Candidate selection
 1
 
 TEXTBOX
-552
+557
 591
-702
+707
 609
 mutations:
 11
@@ -1562,9 +1544,9 @@ mutations:
 1
 
 TEXTBOX
-649
+654
 515
-779
+784
 533
 Decision method
 13
@@ -1592,10 +1574,10 @@ Plotting of output
 1
 
 TEXTBOX
-23
-701
-200
-719
+24
+700
+205
+718
 for complete-matching=off:
 11
 0.0
