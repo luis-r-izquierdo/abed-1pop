@@ -332,10 +332,8 @@
                            <value>logit</value>: A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>.
                         </li>
                         <li>
-                           <value>proportional</value>: This method is somewhat different to the others, since it ignores the set of candidates as defined above. Here the revising agent randomly selects one agent (if
-                           <value>imitative</value>) or one strategy (if
-                           <value>direct</value>). Then, the revising agent adopts the selected candidate's strategy only if the candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
-
+                           <value>proportional</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
+                           <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy only if the other candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
                         </li>
                      </ul>
 
