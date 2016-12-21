@@ -1,21 +1,21 @@
-payoff-matrix,"[[ 6 0 0 ] [ 5 7 5 ] [ 0 5 8 ]]"
+payoff-matrix,"[[ 0 -1  1 ] [ 1  0 -1 ] [-1  1  0 ]]"
 n-of-agents,300
 random-initial-condition?,false
-initial-condition,"[260 20 20]"
-candidate-selection,"direct"
-decision-method,"best"
+initial-condition,"[200 50 50]"
+candidate-selection,"imitative"
+decision-method,"proportional"
 complete-matching?,false
 n-of-trials,2
 single-sample?,true
 n-in-test-set,3
 tie-breaker,"uniform"
-eta,0.001
+eta,0.08
 random-walk-speed,1
 n-to-consider-imitating,2
 use-prob-revision?,false
 prob-revision,0.1
 n-of-revisions-per-tick,30
-prob-mutation,0
+prob-mutation,0.001
 trials-with-replacement?,false
 self-matching?,true
 imitatees-with-replacement?,true
