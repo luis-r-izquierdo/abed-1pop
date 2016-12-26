@@ -253,8 +253,10 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 to go
-  setup-dynamics
 
+  ;; the following two lines can be commented out if parameter values are not
+  ;; going to change over the course of the simulation
+  setup-dynamics
   update-ticks-per-second
 
   update-strategies-payoffs
@@ -270,6 +272,7 @@ to go
   if (ticks mod (ceiling plotting-period) = 0) [update-graphs]
 
   update-num-agents
+
   if (decision-method = "best" and tie-breaker = "random-walk") [
     repeat (floor (n-of-agents * random-walk-speed)) [advance-random-walk]
   ]
@@ -326,7 +329,7 @@ to setup-payoffs
         )
     ]
 
-    set strategy-numbers (n-values n-of-strategies [ [x] -> x + 1])
+    set strategy-numbers (range 1 (n-of-strategies + 1))
     set rate-scaling max-column-difference payoffs
 
     let initial-distribution read-from-string initial-condition
@@ -520,8 +523,8 @@ to proportional
     if random-float 1 < (payoff-diff / rate-scaling) [
       set next-strategy [strategy] of better
     ]
-    ;; If your strategy is the better, you are going to stick to it
-    ;; if it's not, you switch with probability (payoff-diff / rate-scaling)
+    ;; If your strategy is the better, you are going to stick with it
+    ;; If it's not, you switch with probability (payoff-diff / rate-scaling)
   ]
 end
 
@@ -707,7 +710,7 @@ end
 
 to-report max-positions [numbers]
   let biggest max numbers
-  report filter [ [n] -> item n numbers = biggest] n-values (length numbers) [[x] -> x]
+  report filter [ [n] -> item n numbers = biggest] (range (length numbers))
 end
 
 to-report items-with-max-payoff-in [l]
@@ -1504,11 +1507,11 @@ for complete-matching=off:
 1
 
 TEXTBOX
-268
+254
 319
-481
-337
-Assigning revision opportunities
+496
+351
+Assignment of revision opportunities
 13
 13.0
 1
@@ -1935,7 +1938,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0-BETA2
+NetLogo 6.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
