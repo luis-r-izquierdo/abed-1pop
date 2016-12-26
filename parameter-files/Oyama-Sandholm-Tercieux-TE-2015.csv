@@ -1,7 +1,7 @@
 payoff-matrix,"[[ 6 0 0 ] [ 5 7 5 ] [ 0 5 8 ]]"
 n-of-agents,300
 random-initial-condition?,false
-initial-condition,"[260 20 20]"
+initial-condition,"[240 30 30]"
 candidate-selection,"direct"
 decision-method,"best"
 complete-matching?,false
