@@ -759,9 +759,9 @@ end
 
 
 
-;;;;;;;;;;;;;;;;;;
-;; Output files ;;
-;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;; Parameter files ;;
+;;;;;;;;;;;;;;;;;;;;;
 
 to setup-list-of-parameters
   set list-of-parameters (list
@@ -930,7 +930,7 @@ INPUTBOX
 230
 488
 payoff-matrix
-[[ 6 0 0 ]\n [ 5 7 5 ]\n [ 0 5 8 ]]
+[[ 0 0 0 0 1 ]\n [ 1 0 0 0 0 ]\n [ 0 1 0 0 0 ]\n [ 0 0 1 0 0 ]\n [ 0 0 0 1 0 ]]
 1
 1
 String (reporter)
@@ -944,7 +944,7 @@ n-of-agents
 n-of-agents
 1
 5000
-300.0
+1000.0
 1
 1
 NIL
@@ -959,22 +959,22 @@ prob-revision
 prob-revision
 0.001
 1
-0.1
+0.001
 0.001
 1
 NIL
 HORIZONTAL
 
 SLIDER
-557
-607
-706
-640
+560
+616
+711
+649
 prob-mutation
 prob-mutation
 0
 1
-0.0
+0.01
 0.001
 1
 NIL
@@ -1119,7 +1119,7 @@ INPUTBOX
 232
 641
 initial-condition
-[260 20 20]
+[200 200 200 200 200]
 1
 0
 String (reporter)
@@ -1144,7 +1144,7 @@ plot-every-?-secs
 plot-every-?-secs
 0.01
 5
-0.1
+0.01
 0.01
 1
 NIL
@@ -1159,7 +1159,7 @@ n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
 n-of-agents
-30.0
+10.0
 1
 1
 NIL
@@ -1183,7 +1183,7 @@ SWITCH
 374
 complete-matching?
 complete-matching?
-1
+0
 1
 -1000
 
@@ -1196,7 +1196,7 @@ n-of-trials
 n-of-trials
 1
 10
-2.0
+999.0
 1
 1
 NIL
@@ -1211,7 +1211,7 @@ n-in-test-set
 n-in-test-set
 2
 max-size-of-test-set
-3.0
+2.0
 1
 1
 NIL
@@ -1271,7 +1271,7 @@ n-to-consider-imitating
 n-to-consider-imitating
 1
 max-number-to-consider-imitating
-2.0
+1.0
 1
 1
 NIL
@@ -1298,10 +1298,10 @@ for direct & (best or logit):
 1
 
 SLIDER
-23
-857
-231
-890
+27
+871
+235
+904
 random-walk-speed
 random-walk-speed
 0
@@ -1313,10 +1313,10 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-24
-842
-284
-861
+28
+856
+288
+875
 for best & random-walk tie-breaker:
 11
 0.0
@@ -1330,17 +1330,17 @@ CHOOSER
 candidate-selection
 candidate-selection
 "imitative" "direct"
-1
+0
 
 CHOOSER
-557
-539
-708
-584
+560
+543
+711
+588
 decision-method
 decision-method
 "best" "logit" "proportional"
-0
+2
 
 SWITCH
 27
@@ -1375,10 +1375,10 @@ single-sample?
 -1000
 
 SWITCH
-22
-715
-228
-748
+26
+729
+232
+762
 trials-with-replacement?
 trials-with-replacement?
 1
@@ -1386,10 +1386,10 @@ trials-with-replacement?
 -1000
 
 SWITCH
-23
-767
-239
-800
+27
+781
+243
+814
 imitatees-with-replacement?
 imitatees-with-replacement?
 0
@@ -1397,21 +1397,21 @@ imitatees-with-replacement?
 -1000
 
 SWITCH
-22
-663
-205
-696
+26
+677
+209
+710
 self-matching?
 self-matching?
-0
+1
 1
 -1000
 
 SWITCH
-23
-805
-240
-838
+27
+819
+244
+852
 consider-imitating-self?
 consider-imitating-self?
 0
@@ -1419,10 +1419,10 @@ consider-imitating-self?
 -1000
 
 PLOT
-275
-663
-593
-890
+279
+677
+597
+904
 Strategies' expected payoff (recent history)
 milliseconds
 NIL
@@ -1436,10 +1436,10 @@ true
 PENS
 
 PLOT
-598
-663
-935
-890
+602
+677
+927
+904
 Strategies' expected payoff (complete history)
 seconds
 NIL
@@ -1487,10 +1487,10 @@ NIL
 1
 
 TEXTBOX
-23
-752
-214
-770
+27
+766
+218
+784
 for imitative:\n
 11
 0.0
@@ -1537,10 +1537,10 @@ Candidate selection
 1
 
 TEXTBOX
-557
-591
-707
-609
+560
+600
+710
+618
 mutations:
 11
 0.0
@@ -1577,20 +1577,20 @@ Plotting of output
 1
 
 TEXTBOX
-24
-700
-205
-718
+28
+714
+209
+732
 for complete-matching=off:
 11
 0.0
 1
 
 TEXTBOX
-23
-646
-261
-664
+27
+660
+266
+678
 ---------------------------------------\n
 11
 0.0
