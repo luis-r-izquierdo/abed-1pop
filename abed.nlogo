@@ -193,8 +193,10 @@ to setup-dynamics
   set max-size-of-test-set min list 10 n-of-strategies
 
   ;; NUMBER OF AGENTS YOU WILL CONSIDER FOR IMITATION (ONLY RELEVANT IN IMITATIVE PROTOCOLS)
-  set n-to-consider-imitating min list n-to-consider-imitating (n-of-agents - 1)
-  set max-number-to-consider-imitating min list 10 (n-of-agents - 1)
+  let max-value ifelse-value (consider-imitating-self? and imitatees-with-replacement?)
+                              [n-of-agents] [n-of-agents - 1]
+  set n-to-consider-imitating min list n-to-consider-imitating max-value
+  set max-number-to-consider-imitating min list 10 max-value
 
   ;; RULE USED TO SELECT AMONG DIFFERENT CANDIDATES
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
@@ -1271,7 +1273,7 @@ n-to-consider-imitating
 n-to-consider-imitating
 1
 max-number-to-consider-imitating
-1.0
+10.0
 1
 1
 NIL
@@ -1340,7 +1342,7 @@ CHOOSER
 decision-method
 decision-method
 "best" "logit" "proportional"
-2
+0
 
 SWITCH
 27
@@ -1938,7 +1940,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0
+NetLogo 6.0.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
