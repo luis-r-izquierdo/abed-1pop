@@ -58,8 +58,8 @@ globals [
   ;; for proportional
   rate-scaling
 
-  max-size-of-test-set ;; for direct protocols
-  max-number-to-consider-imitating ;; for imitative protocols
+  max-n-in-test-set ;; for direct protocols
+  max-n-to-consider-imitating ;; for imitative protocols
 
   strategy-numbers ;; for efficiency
   agents-list ;; for efficiency
@@ -190,13 +190,13 @@ to setup-dynamics
 
   ;; NUMBER OF STRATEGIES YOU WILL TEST (ONLY RELEVANT IN DIRECT PROTOCOLS)
   set n-in-test-set min list n-in-test-set n-of-strategies
-  set max-size-of-test-set min list 10 n-of-strategies
+  set max-n-in-test-set min list 10 n-of-strategies
 
   ;; NUMBER OF AGENTS YOU WILL CONSIDER FOR IMITATION (ONLY RELEVANT IN IMITATIVE PROTOCOLS)
   let max-value ifelse-value (consider-imitating-self? and imitatees-with-replacement?)
                               [n-of-agents] [n-of-agents - 1]
   set n-to-consider-imitating min list n-to-consider-imitating max-value
-  set max-number-to-consider-imitating min list 10 max-value
+  set max-n-to-consider-imitating min list 10 max-value
 
   ;; RULE USED TO SELECT AMONG DIFFERENT CANDIDATES
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
@@ -618,8 +618,7 @@ to setup-miliseconds-graph [s mode]
 end
 
 to update-graphs
-  let strategy-counts map [ [s] -> count players with [strategy = s]] strategy-numbers
-  let strategy-frequencies map [ [n] -> n / n-of-agents] strategy-counts
+  let strategy-frequencies map [ [s] -> count players with [strategy = s] / n-of-agents] strategy-numbers
   let strategies-expected-payoff map [ [s] -> sum (map * strategy-frequencies (item (s - 1) payoffs)) ] strategy-numbers
 
   if show-recent-history? [
@@ -1205,14 +1204,14 @@ NIL
 HORIZONTAL
 
 SLIDER
-521
+522
 407
-688
+702
 440
 n-in-test-set
 n-in-test-set
 2
-max-size-of-test-set
+max-n-in-test-set
 2.0
 1
 1
@@ -1267,12 +1266,12 @@ for best:
 SLIDER
 522
 461
-687
+702
 494
 n-to-consider-imitating
 n-to-consider-imitating
 1
-max-number-to-consider-imitating
+max-n-to-consider-imitating
 10.0
 1
 1
@@ -1327,7 +1326,7 @@ for best & random-walk tie-breaker:
 CHOOSER
 520
 340
-687
+701
 385
 candidate-selection
 candidate-selection
