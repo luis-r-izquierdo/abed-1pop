@@ -4,14 +4,14 @@ random-initial-condition?,false
 initial-condition,"[200 50 50]"
 candidate-selection,"imitative"
 decision-method,"proportional"
-complete-matching?,false
-n-of-trials,2
+complete-matching?,true
+n-of-trials,300
 single-sample?,true
-n-in-test-set,3
+n-in-test-set,2
 tie-breaker,"uniform"
-eta,0.08
+eta,0.001
 random-walk-speed,1
-n-to-consider-imitating,2
+n-to-consider-imitating,1
 use-prob-revision?,false
 prob-revision,0.1
 n-of-revisions-per-tick,30
