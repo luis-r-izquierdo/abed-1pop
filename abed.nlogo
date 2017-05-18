@@ -442,20 +442,34 @@ to update-payoffs-of-strategy-agents [strategy-set]
   let ag-strategy strategy
 
   ifelse complete-matching?
-
   [
-    ask strategy-set [
-      let st-strategy strategy
-      ;; ask the agent to adopt this strategy, so payoffs are computed
-      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
-      ask myself [set strategy st-strategy]
+    ;; Efficient implementation
+    set strategy -1 ;; at the end of the procedure, we do "set strategy ag-strategy"
+    let strategy-counts-without-ag map [ [s] -> count players with [strategy = s]] strategy-numbers
 
-      update-strategies-payoffs
-      ;; we have to compute the strategies-payoffs again since strategy-counts
-      ;; is different in the new state
-      set payoff item (strategy - 1) strategies-payoffs
+    ask strategy-set [
+      let strategy-counts ifelse-value self-matching?
+        [replace-item (strategy - 1) strategy-counts-without-ag (1 + item (strategy - 1) strategy-counts-without-ag)]
+         ;; We add 1 above, so payoffs are computed under the hypothesis
+         ;; that the agent has switched to the considered strategy (clever payoff evaluation).
+        [strategy-counts-without-ag]
+      set payoff (sum (map * strategy-counts (item (strategy - 1) payoffs))) / (n-of-agents - (ifelse-value self-matching? [0][1]))
     ]
   ]
+;  [
+;    ;; Easier to understand, but less efficient implementation
+;    ask strategy-set [
+;      let st-strategy strategy
+;      ;; ask the agent to adopt this strategy, so payoffs are computed
+;      ;; under the hypothesis that the agent has switched (clever payoff evaluation).
+;      ask myself [set strategy st-strategy] ;; at the end of the procedure, we do "set strategy ag-strategy"
+;
+;      update-strategies-payoffs
+;      ;; we have to compute the strategies-payoffs again since strategy-counts
+;      ;; is different in the new state
+;      set payoff item (strategy - 1) strategies-payoffs
+;    ]
+;  ]
 
   [
     run update-counterparts
@@ -931,7 +945,7 @@ INPUTBOX
 230
 488
 payoff-matrix
-[[ 0 0 0 0 1 ]\n [ 1 0 0 0 0 ]\n [ 0 1 0 0 0 ]\n [ 0 0 1 0 0 ]\n [ 0 0 0 1 0 ]]
+[[ 0 -1  1 ]\n [ 1  0 -1 ]\n [-1  1  0 ]]
 1
 1
 String (reporter)
@@ -945,7 +959,7 @@ n-of-agents
 n-of-agents
 1
 5000
-1000.0
+300.0
 1
 1
 NIL
@@ -960,7 +974,7 @@ prob-revision
 prob-revision
 0.001
 1
-0.001
+0.1
 0.001
 1
 NIL
@@ -975,7 +989,7 @@ prob-mutation
 prob-mutation
 0
 1
-0.01
+0.001
 0.001
 1
 NIL
@@ -1120,7 +1134,7 @@ INPUTBOX
 232
 641
 initial-condition
-[200 200 200 200 200]
+[200 50 50]
 1
 0
 String (reporter)
@@ -1145,7 +1159,7 @@ plot-every-?-secs
 plot-every-?-secs
 0.01
 5
-0.01
+0.1
 0.01
 1
 NIL
@@ -1160,7 +1174,7 @@ n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
 n-of-agents
-10.0
+30.0
 1
 1
 NIL
@@ -1197,7 +1211,7 @@ n-of-trials
 n-of-trials
 1
 10
-999.0
+299.0
 1
 1
 NIL
@@ -1212,7 +1226,7 @@ n-in-test-set
 n-in-test-set
 2
 max-n-in-test-set
-2.0
+3.0
 1
 1
 NIL
@@ -1272,7 +1286,7 @@ n-to-consider-imitating
 n-to-consider-imitating
 1
 max-n-to-consider-imitating
-10.0
+1.0
 1
 1
 NIL
@@ -1331,7 +1345,7 @@ CHOOSER
 candidate-selection
 candidate-selection
 "imitative" "direct"
-0
+1
 
 CHOOSER
 560
