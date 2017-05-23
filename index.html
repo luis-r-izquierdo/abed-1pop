@@ -194,16 +194,16 @@
                         <h3 class="panel-title">Specifying how payoffs are computed</h3>
                      </div>
                      <div class="panel-body">
-                        <p>There are parameters to specify:
-                           <ul>
-                              <li>the
-                                 <parameter>n-of-trials</parameter> agents make,</li>
-                              <li>whether these are conducted with or without replacement (
-                                 <parameter>trials-with-replacement?</parameter> ), and</li>
-                              <li>whether agents may play with themselves or not (
-                                 <parameter>self-matching?</parameter> ).</li>
-                           </ul>
-                        </p>
+                        <p>There are parameters to specify:</p>
+                        <ul>
+                           <li>the
+                              <parameter>n-of-trials</parameter> agents make,</li>
+                           <li>whether these are conducted with or without replacement (
+                              <parameter>trials-with-replacement?</parameter> ), and</li>
+                           <li>whether agents may play with themselves or not (
+                              <parameter>self-matching?</parameter> ).</li>
+                        </ul>
+
                      </div>
                   </div>
 
@@ -256,16 +256,16 @@
                         <h3 class="panel-title">Imitative protocols: Specifying how to compile the set of potential imitatees </h3>
                      </div>
                      <div class="panel-body">
-                        <p>There are parameters to specify:
-                           <ul>
-                              <li>the number of agents that revising agents will consider imitating (
-                                 <parameter>n-to-consider-imitating</parameter> ) ,</li>
-                              <li>whether these are selected with or without replacement (
-                                 <parameter>imitatees-with-replacement?</parameter> ), and</li>
-                              <li>whether agents may imitate themselves or not (
-                                 <parameter>consider-imitating-self?</parameter> ).</li>
-                           </ul>
-                        </p>
+                        <p>There are parameters to specify:</p>
+                        <ul>
+                           <li>the number of agents that revising agents will consider imitating (
+                              <parameter>n-to-consider-imitating</parameter> ) ,</li>
+                           <li>whether these are selected with or without replacement (
+                              <parameter>imitatees-with-replacement?</parameter> ), and</li>
+                           <li>whether agents may imitate themselves or not (
+                              <parameter>consider-imitating-self?</parameter> ).</li>
+                        </ul>
+
                      </div>
                   </div>
                </div>
@@ -279,10 +279,10 @@
                   <div class="subsection">
                      <h2 style="text-align:right">Direct Protocols</h2>
                   </div>
-                  In contrast, under
-                  <value>direct</value> protocols, revising agents choose candidate strategies directly, so a strategy's popularity does not directly influence the probability with which it is considered. Specifically, the revising agent considers a set of
-                  <parameter>n-in-test-set</parameter> strategies (including his own), tests them, and selects one of them according to one of various possible
-                  <parameter>decision-method</parameter>s (see below).
+                  <p>In contrast, under
+                     <value>direct</value> protocols, revising agents choose candidate strategies directly, so a strategy's popularity does not directly influence the probability with which it is considered. Specifically, the revising agent considers a set of
+                     <parameter>n-in-test-set</parameter> strategies (including his own), tests them, and selects one of them according to one of various possible
+                     <parameter>decision-method</parameter>s (see below).
 
 
                   </p>
@@ -294,14 +294,14 @@
                         <h3 class="panel-title">Direct protocols: Specifying how to test strategies</h3>
                      </div>
                      <div class="panel-body">
-                        <p>There are parameters to specify:
-                           <ul>
-                              <li>the number of strategies that revising agents consider, including their current strategy (
-                                 <parameter>n-in-test-set</parameter> ), </li>
-                              <li>whether the strategies in the test-set are compared according to a payoff computed using one single sample of agents (i.e. the same set of agents for every strategy), or whether the payoff of each strategy in the test-set is computed using a freshly drawn random sample of agents (
-                                 <parameter>single-sample?</parameter> ).</li>
-                           </ul>
-                        </p>
+                        <p>There are parameters to specify:</p>
+                        <ul>
+                           <li>the number of strategies that revising agents consider, including their current strategy (
+                              <parameter>n-in-test-set</parameter> ), </li>
+                           <li>whether the strategies in the test-set are compared according to a payoff computed using one single sample of agents (i.e. the same set of agents for every strategy), or whether the payoff of each strategy in the test-set is computed using a freshly drawn random sample of agents (
+                              <parameter>single-sample?</parameter> ).</li>
+                        </ul>
+
                      </div>
                   </div>
                </div>
@@ -310,39 +310,36 @@
                   <div class="subsection">
                      <h2>Decision methods</h2>
                   </div>
-                  <p>
-                     <p>A
-                        <parameter>decision-method</parameter> is a procedure that singles out:
-                        <ul>
-                           <li>one particular agent out of a set of candidates, whose strategy will be adopted by the revising agent (in
-                              <value>imitative</value> protocols), or</li>
-                           <li>one particular strategy out of a set of candidate strategies, which will be adopted by the revising agent (in
-                              <value>direct</value> protocols).</li>
-                        </ul>
-                     </p>
-                     <p>The selection is based on the payoff obtained by each of the candidates (agents or strategies) in the input set. In
-                        <value>imitative</value> protocols the set of candidates is formed by the set of
-                        <parameter>n-to-consider-imitating</parameter> potential imitatees previously compiled plus the revising agent himself. In
-                        <value>direct</value> protocols the set of candidates is the set of
-                        <parameter>n-in-test-set</parameter> strategies previously compiled, which always includes the revising agent's strategy. <i>Abed-1-pop</i> implements three different
-                        <parameter>decision-method</parameter>s:</p>
-                     <ul>
-                        <li>
-                           <value>best</value>: The candidate with the highest payoff is selected. Ties are resolved according to the procedure indicated with parameter
-                           <parameter>tie-breaker</parameter>.
-                        </li>
-                        <li>
-                           <value>logit</value>: A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>.
-                        </li>
-                        <li>
-                           <value>proportional</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
-                           <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy only if the other candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
-                        </li>
-                     </ul>
 
+                  <p>A
+                     <parameter>decision-method</parameter> is a procedure that singles out:</p>
+                  <ul>
+                     <li>one particular agent out of a set of candidates, whose strategy will be adopted by the revising agent (in
+                        <value>imitative</value> protocols), or</li>
+                     <li>one particular strategy out of a set of candidate strategies, which will be adopted by the revising agent (in
+                        <value>direct</value> protocols).</li>
+                  </ul>
 
+                  <p>The selection is based on the payoff obtained by each of the candidates (agents or strategies) in the input set. In
+                     <value>imitative</value> protocols the set of candidates is formed by the set of
+                     <parameter>n-to-consider-imitating</parameter> potential imitatees previously compiled plus the revising agent himself. In
+                     <value>direct</value> protocols the set of candidates is the set of
+                     <parameter>n-in-test-set</parameter> strategies previously compiled, which always includes the revising agent's strategy. <i>Abed-1-pop</i> implements three different
+                     <parameter>decision-method</parameter>s:</p>
+                  <ul>
+                     <li>
+                        <value>best</value>: The candidate with the highest payoff is selected. Ties are resolved according to the procedure indicated with parameter
+                        <parameter>tie-breaker</parameter>.
+                     </li>
+                     <li>
+                        <value>logit</value>: A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>.
+                     </li>
+                     <li>
+                        <value>proportional</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
+                        <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy only if the other candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
+                     </li>
+                  </ul>
 
-                  </p>
                </div>
 
             </div>
@@ -458,17 +455,14 @@
                   <br>
                </div>
                <div class="col-md-pull-4 col-md-8">
-
-                  <p>
-                     <ul>
-                        <li>If
-                           <parameter>self-matching?</parameter> is
-                           <value>On</value>, agents can be matched with themselves. </li>
-                        <li>If
-                           <parameter>self-matching?</parameter> is
-                           <value>Off</value>, agents cannot be matched with themselves. </li>
-                     </ul>
-                  </p>
+                  <ul>
+                     <li>If
+                        <parameter>self-matching?</parameter> is
+                        <value>On</value>, agents can be matched with themselves. </li>
+                     <li>If
+                        <parameter>self-matching?</parameter> is
+                        <value>Off</value>, agents cannot be matched with themselves. </li>
+                  </ul>
                </div>
 
             </div>
@@ -481,18 +475,18 @@
                <div class="col-md-pull-4 col-md-8">
                   <p>If
                      <parameter>complete-matching?</parameter> is
-                     <value>On</value>, payoffs are calculated assuming that everyone plays with:
-                     <ul>
-                        <li>Everyone, including themselves, if
-                           <parameter>self-matching?</parameter> is
-                           <value>On</value>.
-                        </li>
-                        <li>Everyone else, if
-                           <parameter>self-matching?</parameter> is
-                           <value>Off</value>.
-                        </li>
-                     </ul>
-                  </p>
+                     <value>On</value>, payoffs are calculated assuming that everyone plays with: </p>
+                  <ul>
+                     <li>Everyone, including themselves, if
+                        <parameter>self-matching?</parameter> is
+                        <value>On</value>.
+                     </li>
+                     <li>Everyone else, if
+                        <parameter>self-matching?</parameter> is
+                        <value>Off</value>.
+                     </li>
+                  </ul>
+
 
                   <p>If
                      <parameter>complete-matching?</parameter> is
@@ -904,6 +898,7 @@
                      </ul>
                   </div>
                   <!--/.nav-collapse -->
+               </nav>
             </div>
          </div>
 
