@@ -1,0 +1,26 @@
+payoff-matrix,"[[ 3 0 ] [ 0 2 ]]"
+n-of-agents,20
+random-initial-condition?,true
+initial-condition,"[5 5]"
+candidate-selection,"direct"
+decision-method,"best"
+complete-matching?,false
+n-of-trials,2
+single-sample?,true
+n-in-test-set,2
+tie-breaker,"uniform"
+eta,0.001
+random-walk-speed,1
+n-to-consider-imitating,1
+use-prob-revision?,false
+prob-revision,0.1
+n-of-revisions-per-tick,1
+prob-mutation,0.1
+trials-with-replacement?,false
+self-matching?,true
+imitatees-with-replacement?,true
+consider-imitating-self?,true
+plot-every-?-secs,0.05
+duration-of-recent,40
+show-recent-history?,false
+show-complete-history?,true

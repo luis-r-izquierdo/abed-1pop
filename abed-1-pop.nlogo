@@ -945,7 +945,7 @@ INPUTBOX
 230
 488
 payoff-matrix
-[[ 0 -1  1 ]\n [ 1  0 -1 ]\n [-1  1  0 ]]
+[[ 2 0 ]\n [ 0 1 ]]
 1
 1
 String (reporter)
@@ -959,7 +959,7 @@ n-of-agents
 n-of-agents
 1
 5000
-300.0
+10.0
 1
 1
 NIL
@@ -989,7 +989,7 @@ prob-mutation
 prob-mutation
 0
 1
-0.001
+0.05
 0.001
 1
 NIL
@@ -1100,7 +1100,7 @@ duration-of-recent
 duration-of-recent
 1
 100
-10.0
+40.0
 1
 1
 sec.
@@ -1113,7 +1113,7 @@ SWITCH
 600
 show-recent-history?
 show-recent-history?
-0
+1
 1
 -1000
 
@@ -1134,7 +1134,7 @@ INPUTBOX
 232
 641
 initial-condition
-[200 50 50]
+[5 5]
 1
 0
 String (reporter)
@@ -1174,7 +1174,7 @@ n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
 n-of-agents
-30.0
+1.0
 1
 1
 NIL
@@ -1198,7 +1198,7 @@ SWITCH
 374
 complete-matching?
 complete-matching?
-0
+1
 1
 -1000
 
@@ -1211,7 +1211,7 @@ n-of-trials
 n-of-trials
 1
 10
-299.0
+2.0
 1
 1
 NIL
@@ -1226,7 +1226,7 @@ n-in-test-set
 n-in-test-set
 2
 max-n-in-test-set
-3.0
+2.0
 1
 1
 NIL
@@ -1364,7 +1364,7 @@ SWITCH
 574
 random-initial-condition?
 random-initial-condition?
-1
+0
 1
 -1000
 
@@ -1418,7 +1418,7 @@ SWITCH
 710
 self-matching?
 self-matching?
-1
+0
 1
 -1000
 
