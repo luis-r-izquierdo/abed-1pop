@@ -2,11 +2,11 @@
 ;;; GNU GENERAL PUBLIC LICENSE ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; ABED
-;; ABED (Agent-Based Evolutionary Dynamics) is a modeling framework designed
-;; to simulate the evolution of a population of agents who play a
-;; symmetric 2-player game and, from time to time, are given the
-;; opportunity to revise their strategy.
+;; ABED-1-pop
+;; ABED-1-pop (Agent-Based Evolutionary Dynamics with 1 population)
+;; is a modeling framework designed to simulate the evolution of
+;; a population of agents who play a symmetric 2-player game and,
+;; from time to time, are given the opportunity to revise their strategy.
 ;; Copyright (C) 2016 Luis R. Izquierdo, Segismundo S. Izquierdo & Bill Sandholm
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -945,7 +945,7 @@ INPUTBOX
 230
 488
 payoff-matrix
-[[ 2 0 ]\n [ 0 1 ]]
+[[ 0 0 0 0 1 ]\n [ 1 0 0 0 0 ]\n [ 0 1 0 0 0 ]\n [ 0 0 1 0 0 ]\n [ 0 0 0 1 0 ]]
 1
 1
 String (reporter)
@@ -959,7 +959,7 @@ n-of-agents
 n-of-agents
 1
 5000
-10.0
+1000.0
 1
 1
 NIL
@@ -974,7 +974,7 @@ prob-revision
 prob-revision
 0.001
 1
-0.1
+0.001
 0.001
 1
 NIL
@@ -989,7 +989,7 @@ prob-mutation
 prob-mutation
 0
 1
-0.05
+0.001
 0.001
 1
 NIL
@@ -1100,7 +1100,7 @@ duration-of-recent
 duration-of-recent
 1
 100
-40.0
+10.0
 1
 1
 sec.
@@ -1113,7 +1113,7 @@ SWITCH
 600
 show-recent-history?
 show-recent-history?
-1
+0
 1
 -1000
 
@@ -1134,7 +1134,7 @@ INPUTBOX
 232
 641
 initial-condition
-[5 5]
+[200 200 200 200 200]
 1
 0
 String (reporter)
@@ -1159,7 +1159,7 @@ plot-every-?-secs
 plot-every-?-secs
 0.01
 5
-0.1
+0.01
 0.01
 1
 NIL
@@ -1174,7 +1174,7 @@ n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
 n-of-agents
-1.0
+10.0
 1
 1
 NIL
@@ -1198,7 +1198,7 @@ SWITCH
 374
 complete-matching?
 complete-matching?
-1
+0
 1
 -1000
 
@@ -1211,7 +1211,7 @@ n-of-trials
 n-of-trials
 1
 10
-2.0
+999.0
 1
 1
 NIL
@@ -1345,7 +1345,7 @@ CHOOSER
 candidate-selection
 candidate-selection
 "imitative" "direct"
-1
+0
 
 CHOOSER
 560
@@ -1355,7 +1355,7 @@ CHOOSER
 decision-method
 decision-method
 "best" "logit" "proportional"
-0
+2
 
 SWITCH
 27
@@ -1364,7 +1364,7 @@ SWITCH
 574
 random-initial-condition?
 random-initial-condition?
-0
+1
 1
 -1000
 
@@ -1418,7 +1418,7 @@ SWITCH
 710
 self-matching?
 self-matching?
-0
+1
 1
 -1000
 
