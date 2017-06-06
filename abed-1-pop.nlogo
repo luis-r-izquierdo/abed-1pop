@@ -408,7 +408,6 @@ to update-candidate-agents-and-payoffs
   run update-candidate-agents
    ;; note that candidates is a list to select from, and you are always added to it.
    ;; candidates could have duplicates if imitatees-with-replacement? is on.
-  have-payoff-ready
   ask (turtle-set candidates) [have-payoff-ready]
 end
 
