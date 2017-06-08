@@ -57,6 +57,8 @@ globals [
 
   ;; for proportional
   rate-scaling
+  max-column-difference-payoffs   ;; for efficiency
+  max-min-payoffs                 ;; for efficiency
 
   max-n-in-test-set ;; for direct protocols
   max-n-to-consider-imitating ;; for imitative protocols
@@ -201,6 +203,9 @@ to setup-dynamics
   ;; RULE USED TO SELECT AMONG DIFFERENT CANDIDATES
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
 
+  ;; UPDATE RATE-SCALING
+  update-rate-scaling
+
   ;; TIE-BREAKER
   set tie-winner-in runresult (word "[ [x] -> " tie-breaker " x ]")
 
@@ -247,6 +252,12 @@ to setup-dynamics
     [ask players [ set population-to-imitate-to agents-list] ]
     [ask players [ set population-to-imitate-to other-agents-list] ]
 
+end
+
+to update-rate-scaling
+  set rate-scaling ifelse-value (complete-matching? or (single-sample? and candidate-selection = "direct"))
+    [max-column-difference-payoffs]
+    [max-min-payoffs]
 end
 
 
@@ -332,7 +343,9 @@ to setup-payoffs
     ]
 
     set strategy-numbers (range 1 (n-of-strategies + 1))
-    set rate-scaling max-column-difference payoffs
+    set max-column-difference-payoffs max-column-difference payoffs ;; for efficiency
+    set max-min-payoffs max-min-of-matrix payoffs                   ;; for efficiency
+    update-rate-scaling
 
     let initial-distribution read-from-string initial-condition
     if length initial-distribution != n-of-strategies [
@@ -694,6 +707,11 @@ end
 
 to-report max-row-difference [m]
   report max n-values (length m) [ [n] -> max (item n m) - min (item n m)]
+end
+
+to-report max-min-of-matrix [m]
+  let all-elements reduce sentence m
+  report (max all-elements - min all-elements)
 end
 
 to-report transpose-of [m]
