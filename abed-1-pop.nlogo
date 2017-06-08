@@ -204,7 +204,7 @@ to setup-dynamics
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
 
   ;; UPDATE RATE-SCALING
-  update-rate-scaling
+  if decision-method = "proportional" [update-rate-scaling]
 
   ;; TIE-BREAKER
   set tie-winner-in runresult (word "[ [x] -> " tie-breaker " x ]")
