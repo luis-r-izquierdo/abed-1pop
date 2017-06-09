@@ -2,8 +2,8 @@
 ;;; GNU GENERAL PUBLIC LICENSE ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; ABED-1-pop
-;; ABED-1-pop (Agent-Based Evolutionary Dynamics with 1 population)
+;; ABED-1pop
+;; ABED-1pop (Agent-Based Evolutionary Dynamics with 1 population)
 ;; is a modeling framework designed to simulate the evolution of
 ;; a population of agents who play a symmetric 2-player game and,
 ;; from time to time, are given the opportunity to revise their strategy.
