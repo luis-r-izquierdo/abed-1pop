@@ -974,7 +974,7 @@ SLIDER
 535
 n-of-agents
 n-of-agents
-1
+2
 5000
 1000.0
 1
