@@ -7,7 +7,7 @@
 ;; is a modeling framework designed to simulate the evolution of
 ;; a population of agents who play a symmetric 2-player game and,
 ;; from time to time, are given the opportunity to revise their strategy.
-;; Copyright (C) 2016 Luis R. Izquierdo, Segismundo S. Izquierdo & Bill Sandholm
+;; Copyright (C) 2017 Luis R. Izquierdo, Segismundo S. Izquierdo & Bill Sandholm
 ;;
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
