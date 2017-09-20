@@ -1,11 +1,11 @@
 payoff-matrix,"[[ 0 -1  1 ] [ 1  0 -1 ] [-1  1  0 ]]"
-n-of-agents,300
+n-of-agents,1000
 random-initial-condition?,false
-initial-condition,"[200 50 50]"
+initial-condition,"[800 100 100]"
 candidate-selection,"imitative"
 decision-method,"proportional"
 complete-matching?,true
-n-of-trials,300
+n-of-trials,1000
 single-sample?,true
 n-in-test-set,2
 tie-breaker,"uniform"
@@ -14,13 +14,13 @@ random-walk-speed,1
 n-to-consider-imitating,1
 use-prob-revision?,false
 prob-revision,0.1
-n-of-revisions-per-tick,30
+n-of-revisions-per-tick,1
 prob-mutation,0.001
 trials-with-replacement?,false
 self-matching?,true
 imitatees-with-replacement?,true
-consider-imitating-self?,true
-plot-every-?-secs,0.1
+consider-imitating-self?,false
+plot-every-?-secs,0.01
 duration-of-recent,10
 show-recent-history?,true
 show-complete-history?,true
