@@ -596,12 +596,10 @@ end
 
 to positive-proportional
   run update-candidates-and-payoffs
-  ;show map [ [c] -> [payoff] of c] (sort candidates)
   let target-candidate rnd:weighted-one-of-list (sort candidates) [ [c] -> [payoff] of c]
     ;; candidates here may be a list of agents (if candidate-selection = imitative), or
     ;; an agentset of strategy-agents (if candidate-selection = direct).
   set next-strategy [strategy] of target-candidate
-  ;show next-strategy
 end
 
 
