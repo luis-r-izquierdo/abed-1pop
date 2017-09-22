@@ -229,7 +229,8 @@
                      <li>
                         <parameter>decision-method</parameter>, which can be
                         <value>best</value>,
-                        <value>logit</value>, or
+                        <value>logit</value>,
+                        <value>positive-proportional</value> or
                         <value>pairwise-diff-proportional</value>.
                      </li>
                   </ul>
@@ -321,11 +322,11 @@
                         <value>direct</value> protocols).</li>
                   </ul>
 
-                  <p>The selection is based on the payoff obtained by each of the candidates (agents or strategies) in the input set. In
+                  <p>The selection is based on the (average) payoff obtained by each of the candidates (agents or strategies) in the input set. In
                      <value>imitative</value> protocols the set of candidates is formed by the set of
                      <parameter>n-to-consider-imitating</parameter> potential imitatees previously compiled plus the revising agent himself. In
                      <value>direct</value> protocols the set of candidates is the set of
-                     <parameter>n-in-test-set</parameter> strategies previously compiled, which always includes the revising agent's strategy. <i>Abed-1pop</i> implements three different
+                     <parameter>n-in-test-set</parameter> strategies previously compiled, which always includes the revising agent's strategy. <i>Abed-1pop</i> implements four different
                      <parameter>decision-method</parameter>s:</p>
                   <ul>
                      <li>
@@ -334,6 +335,10 @@
                      </li>
                      <li>
                         <value>logit</value>: A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>.
+                     </li>
+                     <li>
+                        <value>positive-proportional</value>: A candidate is randomly selected with probabilities proportional to payoffs. Thus, payoffs should be non-negative if this
+                        <parameter>decision-method</parameter> is used.
                      </li>
                      <li>
                         <value>pairwise-diff-proportional</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
@@ -641,7 +646,8 @@
                <p>Specifically, the chosen
                   <parameter>decision-method</parameter> (i.e.
                   <value>best</value>,
-                  <value>logit</value> or
+                  <value>logit</value>,
+                  <value>positive-proportional</value> or
                   <value>pairwise-diff-proportional</value>) selects one particular instance from the set of candidates previously compiled, based on the payoff obtained by each of the candidates. The revising agent will then adopt the strategy of the selected candidate.</p>
 
                <div id="tab-panel">
@@ -654,6 +660,11 @@
                      <li>
                         <a href="#logit" data-toggle="tab">
                            <value>logit</value>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="#positive-proportional" data-toggle="tab">
+                           <value>positive-proportional</value>
                         </a>
                      </li>
                      <li>
@@ -692,7 +703,8 @@
                         </ul>
                      </div>
                      <div class="tab-pane" id="logit">
-                        <p>A random weighted choice is conducted among the tied candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>.</p>
+                        <p>A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>. Recall that the payoff for each candidate is the average payoff over the
+                           <parameter>n-of-trials</parameter> matches.</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">Parameter
@@ -701,6 +713,12 @@
                               <parameter>eta</parameter> is close to zero, choices resemble those made by
                               <value>best</value>, at least when the difference between the best and the second-best payoff is not too small (PGED, p. 128 &amp; pp. 191-6).</footer>
                         </blockquote>
+                     </div>
+                     <div class="tab-pane" id="positive-proportional">
+                        <p>A candidate is randomly selected, with probabilities proportional to payoffs. Because of this, when using
+                           <value>positive-proportional</value>, payoffs should not be negative. Recall that the payoff for each candidate is the average payoff over the
+                           <parameter>n-of-trials</parameter> matches.</p>
+
                      </div>
                      <div class="tab-pane" id="pairwise-diff-proportional">
                         <p>In
