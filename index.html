@@ -230,7 +230,7 @@
                         <parameter>decision-method</parameter>, which can be
                         <value>best</value>,
                         <value>logit</value>, or
-                        <value>proportional</value>.
+                        <value>pairwise-diff-proportional</value>.
                      </li>
                   </ul>
                   <p>We briefly explain the meaning of each of these terms below.</p>
@@ -336,7 +336,7 @@
                         <value>logit</value>: A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>.
                      </li>
                      <li>
-                        <value>proportional</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
+                        <value>pairwise-diff-proportional</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
                         <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy only if the other candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
                      </li>
                   </ul>
@@ -642,7 +642,7 @@
                   <parameter>decision-method</parameter> (i.e.
                   <value>best</value>,
                   <value>logit</value> or
-                  <value>proportional</value>) selects one particular instance from the set of candidates previously compiled, based on the payoff obtained by each of the candidates. The revising agent will then adopt the strategy of the selected candidate.</p>
+                  <value>pairwise-diff-proportional</value>) selects one particular instance from the set of candidates previously compiled, based on the payoff obtained by each of the candidates. The revising agent will then adopt the strategy of the selected candidate.</p>
 
                <div id="tab-panel">
                   <ul class="nav nav-tabs" role="tablist">
@@ -657,8 +657,8 @@
                         </a>
                      </li>
                      <li>
-                        <a href="#proportional" data-toggle="tab">
-                           <value>proportional</value>
+                        <a href="#pairwise-diff-proportional" data-toggle="tab">
+                           <value>pairwise-diff-proportional</value>
                         </a>
                      </li>
                   </ul>
@@ -702,9 +702,9 @@
                               <value>best</value>, at least when the difference between the best and the second-best payoff is not too small (PGED, p. 128 &amp; pp. 191-6).</footer>
                         </blockquote>
                      </div>
-                     <div class="tab-pane" id="proportional">
+                     <div class="tab-pane" id="pairwise-diff-proportional">
                         <p>In
-                           <value>proportional</value>, the agent always considers exactly two candidates (one corresponding to his own strategy or to himself, and another one), i.e.:
+                           <value>pairwise-diff-proportional</value>, the agent always considers exactly two candidates (one corresponding to his own strategy or to himself, and another one), i.e.:
                         </p>
                         <ul>
                            <li>If
@@ -726,7 +726,7 @@
                               <parameter>complete-matching?</parameter> is
                               <value>On</value>, the mean dynamics for large populations of the
                               <value>imitative</value>
-                              <value>proportional</value> protocol (sometimes called <i>pairwise proportional imitation</i>) is the replicator dynamics up to a speed factor (see PGED, pp. 126-7).</footer>
+                              <value>pairwise-diff-proportional</value> protocol (sometimes called <i>pairwise proportional imitation</i>) is the replicator dynamics up to a speed factor (see PGED, pp. 126-7).</footer>
                         </blockquote>
                      </div>
                   </div>
