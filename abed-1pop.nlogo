@@ -184,6 +184,8 @@ to setup-strategy-agents
 end
 
 to setup-dynamics
+  ;; CHECK PAYOFFS
+  if decision-method = "positive-proportional" [ check-payoffs-are-non-negative ]
 
   ;; SELECT YOUR NEXT STRATEGY DIRECTLY, OR VIA IMITATION
   ifelse (candidate-selection = "direct")
@@ -342,6 +344,8 @@ to setup-payoffs
         )
     ]
 
+    if decision-method = "positive-proportional" [ check-payoffs-are-non-negative ]
+
     set strategy-numbers (range 1 (n-of-strategies + 1))
     set max-column-difference-payoffs max-column-difference payoffs ;; for efficiency
     set max-min-payoffs max-min-of-matrix payoffs                   ;; for efficiency
@@ -361,6 +365,26 @@ to setup-payoffs
 
   ] [print error-message]
 
+end
+
+to check-payoffs-are-non-negative
+  if min reduce sentence payoffs < 0 [
+    user-message (word
+      "Since you are using decision-method = positive-proportional, all elements in the payoff matrix\n"
+      payoff-matrix
+      "\nshould be non-negative numbers.")
+    if user-yes-or-no? "Would you like to add the minimum value to all elements in the payoff matrix?" [
+      make-payoffs-positive
+    ]
+  ]
+end
+
+to make-payoffs-positive
+  let minimum min reduce sentence payoffs
+  if minimum < 0 [
+    set payoffs add-?-to-all-elements-of ( - minimum) payoffs
+    set payoff-matrix put-sublists-in-different-lines (word payoffs)
+  ]
 end
 
 
@@ -739,6 +763,10 @@ to-report transpose-of [m]
     set r (r + 1)
   ]
   report mt
+end
+
+to-report add-?-to-all-elements-of [v m]
+  report map [[row] -> map [[el] -> v + el] row] m
 end
 
 ;;;;;;;;;;;;;
@@ -1201,7 +1229,7 @@ n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
 n-of-agents
-1.0
+10.0
 1
 1
 NIL
