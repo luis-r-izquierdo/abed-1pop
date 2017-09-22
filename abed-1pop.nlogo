@@ -55,7 +55,7 @@ globals [
   reported-counterparts
   tie-winner-in
 
-  ;; for proportional
+  ;; for pairwise-diff-proportional
   rate-scaling
   max-column-difference-payoffs   ;; for efficiency
   max-min-payoffs                 ;; for efficiency
@@ -204,7 +204,7 @@ to setup-dynamics
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
 
   ;; UPDATE RATE-SCALING
-  if decision-method = "proportional" [update-rate-scaling]
+  if decision-method = "pairwise-diff-proportional" [update-rate-scaling]
 
   ;; TIE-BREAKER
   set tie-winner-in runresult (word "[ [x] -> " tie-breaker " x ]")
@@ -533,7 +533,7 @@ to best
   set next-strategy (runresult tie-winner-in map [ [c] -> [strategy] of c] best-candidates)
 end
 
-to proportional
+to pairwise-diff-proportional
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
 
   if rate-scaling != 0 [
@@ -559,15 +559,25 @@ end
 to logit
   run update-candidates-and-payoffs
   carefully [
-    let candidate-to-imitate rnd:weighted-one-of-list (sort candidates) [ [c] -> exp (([payoff] of c) / eta)]
+    let target-candidate rnd:weighted-one-of-list (sort candidates) [ [c] -> exp (([payoff] of c) / eta)]
     ;; candidates here may be a list of agents (if candidate-selection = imitative), or
     ;; an agentset of strategy-agents (if candidate-selection = direct).
-    set next-strategy [strategy] of candidate-to-imitate
+    set next-strategy [strategy] of target-candidate
   ]
   [
     user-message "Logit has computed a number that is too big for IEEE 754 floating-point computation\nPlease consider using a lower value for eta."
     print error-message
   ]
+end
+
+to positive-proportional
+  run update-candidates-and-payoffs
+  ;show map [ [c] -> [payoff] of c] (sort candidates)
+  let target-candidate rnd:weighted-one-of-list (sort candidates) [ [c] -> [payoff] of c]
+    ;; candidates here may be a list of agents (if candidate-selection = imitative), or
+    ;; an agentset of strategy-agents (if candidate-selection = direct).
+  set next-strategy [strategy] of target-candidate
+  ;show next-strategy
 end
 
 
@@ -998,9 +1008,9 @@ NIL
 HORIZONTAL
 
 SLIDER
-560
+544
 616
-711
+705
 649
 prob-mutation
 prob-mutation
@@ -1191,7 +1201,7 @@ n-of-revisions-per-tick
 n-of-revisions-per-tick
 1
 n-of-agents
-10.0
+1.0
 1
 1
 NIL
@@ -1250,20 +1260,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-722
-600
-777
-618
+745
+605
+857
+623
 for logit:
 11
 0.0
 1
 
 SLIDER
-722
-616
-873
-649
+745
+621
+896
+654
 eta
 eta
 0.001
@@ -1275,20 +1285,20 @@ NIL
 HORIZONTAL
 
 CHOOSER
-720
-553
-872
-598
+744
+554
+896
+599
 tie-breaker
 tie-breaker
 "stick-uniform" "stick-min" "uniform" "min" "random-walk"
 2
 
 TEXTBOX
-722
-536
-895
-554
+746
+537
+881
+555
 for best:
 11
 0.0
@@ -1365,14 +1375,14 @@ candidate-selection
 0
 
 CHOOSER
-560
-543
-711
-588
+531
+540
+724
+585
 decision-method
 decision-method
-"best" "logit" "proportional"
-2
+"best" "logit" "positive-proportional" "pairwise-diff-proportional"
+3
 
 SWITCH
 27
@@ -1569,10 +1579,10 @@ Candidate selection
 1
 
 TEXTBOX
-560
-600
-710
-618
+546
+598
+696
+616
 mutations:
 11
 0.0
@@ -1939,7 +1949,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0.1
+NetLogo 6.0.2
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
