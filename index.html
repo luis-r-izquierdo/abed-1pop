@@ -718,6 +718,33 @@
                         <p>A candidate is randomly selected, with probabilities proportional to payoffs. Because of this, when using
                            <value>positive-proportional</value>, payoffs should not be negative. Recall that the payoff for each candidate is the average payoff over the
                            <parameter>n-of-trials</parameter> matches.</p>
+                        <blockquote class="blockquote ">
+                           <footer class="blockquote-footer">This
+                              <parameter>decision-method</parameter> can be used to model <i>frequency-dependent Moran processes</i> by setting, in addition:
+                              <ul>
+                                 <li>
+                                    <parameter>candidate-selection</parameter> =
+                                    <value>imitative</value>,
+                                 </li>
+                                 <li>
+                                    <parameter>n-to-consider-imitating</parameter> =
+                                    <parameter>n-of-agents</parameter> - 1,
+                                 </li>
+                                 <li>
+                                    <parameter>imitatees-with-replacement?</parameter> =
+                                    <value>Off</value>,
+                                 </li>
+                                 <li>
+                                    <parameter>complete-matching?</parameter> =
+                                    <value>On</value>, and
+                                 </li>
+                                 <li>
+                                    <parameter>self-matching?</parameter> =
+                                    <value>Off</value>.
+                                 </li>
+                              </ul>
+                           </footer>
+                        </blockquote>
 
                      </div>
                      <div class="tab-pane" id="pairwise-diff-proportional">
