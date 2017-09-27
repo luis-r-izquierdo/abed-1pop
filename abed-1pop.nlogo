@@ -197,10 +197,9 @@ to setup-dynamics
   set max-n-in-test-set min list 10 n-of-strategies
 
   ;; NUMBER OF AGENTS YOU WILL CONSIDER FOR IMITATION (ONLY RELEVANT IN IMITATIVE PROTOCOLS)
-  let max-value ifelse-value (consider-imitating-self? and imitatees-with-replacement?)
+  set max-n-to-consider-imitating ifelse-value (consider-imitating-self? and imitatees-with-replacement?)
                               [n-of-agents] [n-of-agents - 1]
-  set n-to-consider-imitating min list n-to-consider-imitating max-value
-  set max-n-to-consider-imitating min list 10 max-value
+  set n-to-consider-imitating min list n-to-consider-imitating max-n-to-consider-imitating
 
   ;; RULE USED TO SELECT AMONG DIFFERENT CANDIDATES
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
