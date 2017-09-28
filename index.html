@@ -596,15 +596,26 @@
 
                   <div class="tab-content clearfix">
                      <div class="tab-pane active" id="imitative">
-                        <p>The set of candidate agents always contains the revising agent. The following diagram shows the different parameters that determine how the set of candidate agents is compiled. We use <b>Sample(<i>n</i>, <i>p</i>, R)</b> to denote a sample of
+                        <p>The multiset of candidate agents contains the revising agent (which is always included) plus a sample of <parameter>n-to-consider-imitating</parameter> elements from the population. Two parameters determine how this sample is taken:</p>
+                        <ul>
+                        <li><parameter>imitatees-with-replacement?</parameter> indicates whether the sample is taken with or without replacement.</li>
+                           <li><parameter>consider-imitating-self?</parameter> indicates whether the sample is taken from the whole population (i.e. including the reviser) or from the whole population excluding the reviser. Note that, in any case, the reviser is always part of the multiset of candidate agents at least once.</li>
+                        </ul>
+                        
+                        <blockquote class="blockquote">
+                     <footer class="blockquote-footer">
+                        
+                        To be sure, let <b>Sample(<i>n</i>, <i>p</i>, R)</b> denote a sample of
                            <i>n</i> =
-                           <parameter>n-to-consider-imitating</parameter> elements from population <i>p</i> with replacement. Similarly, <b>Sample(<i>n</i>, <i>p</i>, NR)</b> denotes the same sampling procedure, but without replacement. Finally, let P denote the whole population of agents.</p>
-                        <p>The white boxes in the figure below show the sets of candidates for each parameter setting</p>
-
-
-                        <img src="./assets/img/imitative.png" class="img-center img-responsive" alt="imitative">
-                        <br>
-
+                           <parameter>n-to-consider-imitating</parameter> elements from population <i>p</i> with replacement. Similarly, let <b>Sample(<i>n</i>, <i>p</i>, NR)</b> denote the same sampling procedure, but without replacement. Finally, let P denote the whole population of agents. Using this notation, the multiset of candidate agents will be formed by
+                        <ul>
+                           <li>reviser + Sample(<i>n</i>, P, R) ; if <parameter>imitatees-with-replacement?</parameter> = <value>On</value> and <parameter>consider-imitating-self?</parameter> = <value>On</value>.</li>
+                           <li>reviser + Sample(<i>n</i>, P, NR) ; if <parameter>imitatees-with-replacement?</parameter> = <value>Off</value> and <parameter>consider-imitating-self?</parameter> = <value>On</value>.</li>
+                           <li>reviser + Sample(<i>n</i>, P - reviser, R) ; if <parameter>imitatees-with-replacement?</parameter> = <value>On</value> and <parameter>consider-imitating-self?</parameter> = <value>Off</value>.</li>
+                           <li>reviser + Sample(<i>n</i>, P - reviser, NR) ; if <parameter>imitatees-with-replacement?</parameter> = <value>Off</value> and <parameter>consider-imitating-self?</parameter> = <value>Off</value>.</li>
+                        </ul>
+</footer>
+                  </blockquote>
                      </div>
                      <div class="tab-pane" id="direct">
                         <p>The set of candidate strategies contains the revising agent's own strategy plus (
@@ -733,6 +744,8 @@
                                  <li>
                                     <parameter>imitatees-with-replacement?</parameter> =
                                     <value>Off</value>,
+                                 </li>
+                                 <li><parameter>consider-imitating-self?</parameter> = <value>Off</value>,
                                  </li>
                                  <li>
                                     <parameter>complete-matching?</parameter> =
