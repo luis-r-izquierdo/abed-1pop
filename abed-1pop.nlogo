@@ -197,7 +197,7 @@ to setup-dynamics
   set max-n-in-test-set min list 10 n-of-strategies
 
   ;; NUMBER OF AGENTS YOU WILL CONSIDER FOR IMITATION (ONLY RELEVANT IN IMITATIVE PROTOCOLS)
-  set max-n-to-consider-imitating ifelse-value (consider-imitating-self? and imitatees-with-replacement?)
+  set max-n-to-consider-imitating ifelse-value consider-imitating-self?
                               [n-of-agents] [n-of-agents - 1]
   set n-to-consider-imitating min list n-to-consider-imitating max-n-to-consider-imitating
 
@@ -237,21 +237,16 @@ to setup-dynamics
 
   ;; DO YOU SELECT THE AGENTS YOU ARE GOING TO PLAY WITH REPLACEMENT OR WITHOUT REPLACEMENT?
   ifelse trials-with-replacement?
-    [set update-counterparts [ [] -> update-counterparts-with-replacement ] ]
-    [set update-counterparts [ [] -> update-counterparts-without-replacement ] ]
+    [ set update-counterparts [ [] -> update-counterparts-with-replacement ] ]
+    [ set update-counterparts [ [] -> update-counterparts-without-replacement ] ]
 
   ifelse imitatees-with-replacement?
-    [set update-candidate-agents [ [] -> update-candidate-agents-with-replacement ] ]
-    [
-      set update-candidate-agents [ [] -> update-candidate-agents-without-replacement ]
-      set consider-imitating-self? false
-        ;; if there is no replacement, you cannot form part of the candidate strategies again
-        ;; (note that you always consider yourself)
-    ]
+    [ set update-candidate-agents [ [] -> update-candidate-agents-with-replacement ] ]
+    [ set update-candidate-agents [ [] -> update-candidate-agents-without-replacement ] ]
 
-  ifelse consider-imitating-self? and imitatees-with-replacement?
-    [ask players [ set population-to-imitate-to agents-list] ]
-    [ask players [ set population-to-imitate-to other-agents-list] ]
+  ifelse consider-imitating-self?
+    [ ask players [ set population-to-imitate-to agents-list] ]
+    [ ask players [ set population-to-imitate-to other-agents-list] ]
 
 end
 
