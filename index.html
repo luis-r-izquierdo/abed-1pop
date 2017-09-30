@@ -596,26 +596,45 @@
 
                   <div class="tab-content clearfix">
                      <div class="tab-pane active" id="imitative">
-                        <p>The multiset of candidate agents contains the revising agent (which is always included) plus a sample of <parameter>n-to-consider-imitating</parameter> elements from the population. Two parameters determine how this sample is taken:</p>
+                        <p>The multiset of candidate agents contains the revising agent (which is always included) plus a sample of
+                           <parameter>n-to-consider-imitating</parameter> agents from the population. Two parameters determine how this sample is taken:</p>
                         <ul>
-                        <li><parameter>imitatees-with-replacement?</parameter> indicates whether the sample is taken with or without replacement.</li>
-                           <li><parameter>consider-imitating-self?</parameter> indicates whether the sample is taken from the whole population (i.e. including the reviser) or from the whole population excluding the reviser. Note that, in any case, the reviser is always part of the multiset of candidate agents at least once.</li>
+                           <li>
+                              <parameter>imitatees-with-replacement?</parameter> indicates whether the sample is taken with or without replacement.</li>
+                           <li>
+                              <parameter>consider-imitating-self?</parameter> indicates whether the sample is taken from the whole population (i.e. including the reviser) or from the whole population excluding the reviser. Note that, in any case, the reviser is always part of the multiset of candidate agents at least once.</li>
                         </ul>
-                        
+
                         <blockquote class="blockquote">
-                     <footer class="blockquote-footer">
-                        
-                        To be sure, let <b>Sample(<i>n</i>, <i>p</i>, R)</b> denote a sample of
-                           <i>n</i> =
-                           <parameter>n-to-consider-imitating</parameter> elements from population <i>p</i> with replacement. Similarly, let <b>Sample(<i>n</i>, <i>p</i>, NR)</b> denote the same sampling procedure, but without replacement. Finally, let P denote the whole population of agents. Using this notation, the multiset of candidate agents will be formed by
-                        <ul>
-                           <li>reviser + Sample(<i>n</i>, P, R) ; if <parameter>imitatees-with-replacement?</parameter> = <value>On</value> and <parameter>consider-imitating-self?</parameter> = <value>On</value>.</li>
-                           <li>reviser + Sample(<i>n</i>, P, NR) ; if <parameter>imitatees-with-replacement?</parameter> = <value>Off</value> and <parameter>consider-imitating-self?</parameter> = <value>On</value>.</li>
-                           <li>reviser + Sample(<i>n</i>, P - reviser, R) ; if <parameter>imitatees-with-replacement?</parameter> = <value>On</value> and <parameter>consider-imitating-self?</parameter> = <value>Off</value>.</li>
-                           <li>reviser + Sample(<i>n</i>, P - reviser, NR) ; if <parameter>imitatees-with-replacement?</parameter> = <value>Off</value> and <parameter>consider-imitating-self?</parameter> = <value>Off</value>.</li>
-                        </ul>
-</footer>
-                  </blockquote>
+                           <footer class="blockquote-footer">
+
+                              To be sure, let <b>Sample(<i>n</i>, <i>p</i>, R)</b> denote a sample of
+                              <i>n</i> =
+                              <parameter>n-to-consider-imitating</parameter> elements from population <i>p</i> with replacement. Similarly, let <b>Sample(<i>n</i>, <i>p</i>, NR)</b> denote the same sampling procedure, but without replacement. Finally, let P denote the whole population of agents. Using this notation, the multiset of candidate agents will be formed by
+                              <ul>
+                                 <li>reviser + Sample(<i>n</i>, P, R) ; if
+                                    <parameter>imitatees-with-replacement?</parameter> =
+                                    <value>On</value> and
+                                    <parameter>consider-imitating-self?</parameter> =
+                                    <value>On</value>.</li>
+                                 <li>reviser + Sample(<i>n</i>, P, NR) ; if
+                                    <parameter>imitatees-with-replacement?</parameter> =
+                                    <value>Off</value> and
+                                    <parameter>consider-imitating-self?</parameter> =
+                                    <value>On</value>.</li>
+                                 <li>reviser + Sample(<i>n</i>, P - reviser, R) ; if
+                                    <parameter>imitatees-with-replacement?</parameter> =
+                                    <value>On</value> and
+                                    <parameter>consider-imitating-self?</parameter> =
+                                    <value>Off</value>.</li>
+                                 <li>reviser + Sample(<i>n</i>, P - reviser, NR) ; if
+                                    <parameter>imitatees-with-replacement?</parameter> =
+                                    <value>Off</value> and
+                                    <parameter>consider-imitating-self?</parameter> =
+                                    <value>Off</value>.</li>
+                              </ul>
+                           </footer>
+                        </blockquote>
                      </div>
                      <div class="tab-pane" id="direct">
                         <p>The set of candidate strategies contains the revising agent's own strategy plus (
@@ -745,7 +764,9 @@
                                     <parameter>imitatees-with-replacement?</parameter> =
                                     <value>Off</value>,
                                  </li>
-                                 <li><parameter>consider-imitating-self?</parameter> = <value>Off</value>,
+                                 <li>
+                                    <parameter>consider-imitating-self?</parameter> =
+                                    <value>Off</value>,
                                  </li>
                                  <li>
                                     <parameter>complete-matching?</parameter> =
@@ -984,12 +1005,14 @@
    <!-- jQuery local fallback -->
    <script>
       window.jQuery || document.write('<script src="./assets/js/jquery.min.js"><\/script>')
+
    </script>
    <!-- Bootstrap JS local fallback -->
    <script>
-      if (typeof ($.fn.modal) === 'undefined') {
+      if (typeof($.fn.modal) === 'undefined') {
          document.write('<script src="./assets/js/bootstrap.min.js"><\/script>')
       }
+
    </script>
    <script src="./assets/js/docs.min.js"></script>
    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -997,7 +1020,7 @@
    <script src="./assets/js/abed.js"></script>
    <script>
       $(document).ready(
-         jQuery(function () {
+         jQuery(function() {
             $('body').scrollspy({
                target: "#sidebar"
             })
@@ -1007,12 +1030,13 @@
          target: "#sidebar"
       })
       $('body').scrollspy('refresh')
+
    </script>
 
    <script>
-      (function (i, s, o, g, r, a, m) {
+      (function(i, s, o, g, r, a, m) {
          i['GoogleAnalyticsObject'] = r;
-         i[r] = i[r] || function () {
+         i[r] = i[r] || function() {
             (i[r].q = i[r].q || []).push(arguments)
          }, i[r].l = 1 * new Date();
          a = s.createElement(o),
@@ -1024,6 +1048,7 @@
 
       ga('create', 'UA-103654169-2', 'auto');
       ga('send', 'pageview');
+
    </script>
 
 </body>
