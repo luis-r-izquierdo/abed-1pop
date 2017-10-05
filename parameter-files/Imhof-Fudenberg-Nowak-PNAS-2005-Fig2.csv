@@ -11,7 +11,7 @@ n-in-test-set,3
 tie-breaker,"uniform"
 eta,0.001
 random-walk-speed,0.05
-n-to-consider-imitating,1
+n-to-consider-imitating,29
 use-prob-revision?,false
 prob-revision,0.001
 n-of-revisions-per-tick,1
