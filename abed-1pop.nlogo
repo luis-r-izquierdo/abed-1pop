@@ -278,9 +278,12 @@ to go
   tick
   ask players [set strategy next-strategy]
 
-  ;; the following two lines can be commented out if parameter values are not
-  ;; going to change over the course of the simulation
+  ;; the following line can be commented out if the user does not
+  ;; need the plots (e.g. if the model is run from BehaviorSpace)
   if (ticks mod (ceiling plotting-period) = 0) [update-graphs]
+
+  ;; the following line can be commented out if the number of agents
+  ;; is not going to be changed at runtime
   update-num-agents
 
   if (decision-method = "best" and tie-breaker = "random-walk") [
