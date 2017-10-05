@@ -278,8 +278,9 @@ to go
   tick
   ask players [set strategy next-strategy]
 
+  ;; the following two lines can be commented out if parameter values are not
+  ;; going to change over the course of the simulation
   if (ticks mod (ceiling plotting-period) = 0) [update-graphs]
-
   update-num-agents
 
   if (decision-method = "best" and tie-breaker = "random-walk") [
