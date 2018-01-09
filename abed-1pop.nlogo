@@ -1504,7 +1504,7 @@ PENS
 PLOT
 602
 677
-927
+934
 904
 Strategies' expected payoffs (complete history)
 seconds
