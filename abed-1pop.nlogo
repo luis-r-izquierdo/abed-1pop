@@ -647,8 +647,8 @@ to setup-graphs
   setup-miliseconds-graph "Strategy distributions (recent history)" 1
   setup-graph "Strategy distributions (complete history)" 1
 
-  setup-miliseconds-graph "Strategies' expected payoff (recent history)" 0
-  setup-graph "Strategies' expected payoff (complete history)" 0
+  setup-miliseconds-graph "Strategies' expected payoffs (recent history)" 0
+  setup-graph "Strategies' expected payoffs (complete history)" 0
 
   update-graphs
 end
@@ -682,7 +682,7 @@ to update-graphs
       plot-frequencies-?-at-? strategy-frequencies (1000 * second-to-plot)
       fix-x-range
 
-    set-current-plot "Strategies' expected payoff (recent history)"
+    set-current-plot "Strategies' expected payoffs (recent history)"
       foreach strategy-numbers [ [s] ->
         set-current-plot-pen (word s)
         ;; set-plot-pen-interval plot-every-?-ticks
@@ -695,7 +695,7 @@ to update-graphs
     set-current-plot "Strategy distributions (complete history)"
       plot-frequencies-?-at-? strategy-frequencies second-to-plot
 
-    set-current-plot "Strategies' expected payoff (complete history)"
+    set-current-plot "Strategies' expected payoffs (complete history)"
       foreach strategy-numbers [ [s] ->
         set-current-plot-pen (word s)
         ;; set-plot-pen-interval plot-every-?-ticks
@@ -1489,7 +1489,7 @@ PLOT
 677
 597
 904
-Strategies' expected payoff (recent history)
+Strategies' expected payoffs (recent history)
 milliseconds
 NIL
 0.0
@@ -1506,7 +1506,7 @@ PLOT
 677
 927
 904
-Strategies' expected payoff (complete history)
+Strategies' expected payoffs (complete history)
 seconds
 NIL
 0.0
