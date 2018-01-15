@@ -3,7 +3,7 @@ n-of-agents,800
 random-initial-condition?,false
 initial-condition,"[100 100 100 100 100 100 100 100]"
 candidate-selection,"imitative"
-decision-method,"pairwise-diff-proportional"
+decision-method,"pairwise-difference"
 complete-matching?,true
 n-of-trials,799
 single-sample?,true

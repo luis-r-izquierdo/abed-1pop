@@ -55,7 +55,7 @@ globals [
   reported-counterparts
   tie-winner-in
 
-  ;; for pairwise-diff-proportional
+  ;; for pairwise-difference
   rate-scaling
   max-column-difference-payoffs   ;; for efficiency
   max-min-payoffs                 ;; for efficiency
@@ -205,7 +205,7 @@ to setup-dynamics
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
 
   ;; UPDATE RATE-SCALING
-  if decision-method = "pairwise-diff-proportional" [update-rate-scaling]
+  if decision-method = "pairwise-difference" [update-rate-scaling]
 
   ;; TIE-BREAKER
   set tie-winner-in runresult (word "[ [x] -> " tie-breaker " x ]")
@@ -555,7 +555,7 @@ to best
   set next-strategy (runresult tie-winner-in map [ [c] -> [strategy] of c] best-candidates)
 end
 
-to pairwise-diff-proportional
+to pairwise-difference
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
 
   if rate-scaling != 0 [
@@ -1401,12 +1401,12 @@ candidate-selection
 CHOOSER
 531
 540
-724
+706
 585
 decision-method
 decision-method
-"best" "logit" "positive-proportional" "pairwise-diff-proportional"
-3
+"best" "logit" "positive-proportional" "pairwise-difference"
+2
 
 SWITCH
 27

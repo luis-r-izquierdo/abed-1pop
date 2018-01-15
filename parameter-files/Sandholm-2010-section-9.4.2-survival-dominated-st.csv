@@ -3,7 +3,7 @@ n-of-agents,1000
 random-initial-condition?,false
 initial-condition,"[1000 0 0 0]"
 candidate-selection,"direct"
-decision-method,"pairwise-diff-proportional"
+decision-method,"pairwise-difference"
 complete-matching?,true
 n-of-trials,1000
 single-sample?,true

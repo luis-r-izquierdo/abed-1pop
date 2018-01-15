@@ -231,7 +231,7 @@
                         <value>best</value>,
                         <value>logit</value>,
                         <value>positive-proportional</value> or
-                        <value>pairwise-diff-proportional</value>.
+                        <value>pairwise-difference</value>.
                      </li>
                   </ul>
                   <p>We briefly explain the meaning of each of these terms below.</p>
@@ -341,7 +341,7 @@
                         <parameter>decision-method</parameter> is used.
                      </li>
                      <li>
-                        <value>pairwise-diff-proportional</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
+                        <value>pairwise-difference</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
                         <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy only if the other candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
                      </li>
                   </ul>
@@ -678,7 +678,7 @@
                   <value>best</value>,
                   <value>logit</value>,
                   <value>positive-proportional</value> or
-                  <value>pairwise-diff-proportional</value>) selects one particular instance from the set of candidates previously compiled, based on the payoff obtained by each of the candidates. The revising agent will then adopt the strategy of the selected candidate.</p>
+                  <value>pairwise-difference</value>) selects one particular instance from the set of candidates previously compiled, based on the payoff obtained by each of the candidates. The revising agent will then adopt the strategy of the selected candidate.</p>
 
                <div id="tab-panel">
                   <ul class="nav nav-tabs" role="tablist">
@@ -698,8 +698,8 @@
                         </a>
                      </li>
                      <li>
-                        <a href="#pairwise-diff-proportional" data-toggle="tab">
-                           <value>pairwise-diff-proportional</value>
+                        <a href="#pairwise-difference" data-toggle="tab">
+                           <value>pairwise-difference</value>
                         </a>
                      </li>
                   </ul>
@@ -781,9 +781,9 @@
                         </blockquote>
 
                      </div>
-                     <div class="tab-pane" id="pairwise-diff-proportional">
+                     <div class="tab-pane" id="pairwise-difference">
                         <p>In
-                           <value>pairwise-diff-proportional</value>, the agent always considers exactly two candidates (one corresponding to his own strategy or to himself, and another one), i.e.:
+                           <value>pairwise-difference</value>, the agent always considers exactly two candidates (one corresponding to his own strategy or to himself, and another one), i.e.:
                         </p>
                         <ul>
                            <li>If
@@ -805,7 +805,7 @@
                               <parameter>complete-matching?</parameter> is
                               <value>On</value>, the mean dynamics for large populations of the
                               <value>imitative</value>
-                              <value>pairwise-diff-proportional</value> protocol (sometimes called <i>pairwise proportional imitation</i>) is the replicator dynamics up to a speed factor (see PGED, pp. 126-7).</footer>
+                              <value>pairwise-difference</value> protocol (sometimes called <i>pairwise proportional imitation</i>) is the replicator dynamics up to a speed factor (see PGED, pp. 126-7).</footer>
                         </blockquote>
                      </div>
                   </div>
