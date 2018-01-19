@@ -1355,7 +1355,7 @@ TEXTBOX
 444
 704
 463
-for imitative & (best or logit):
+for imitative:
 11
 0.0
 1
@@ -1365,7 +1365,7 @@ TEXTBOX
 391
 674
 409
-for direct & (best or logit):
+for direct:
 11
 0.0
 1
@@ -1413,7 +1413,7 @@ CHOOSER
 decision-method
 decision-method
 "best" "logit" "positive-proportional" "pairwise-difference"
-2
+3
 
 SWITCH
 27
