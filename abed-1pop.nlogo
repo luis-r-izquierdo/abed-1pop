@@ -258,9 +258,16 @@ to setup-dynamics
 end
 
 to update-rate-scaling
-  set rate-scaling ifelse-value (complete-matching? or (single-sample? and candidate-selection = "direct"))
+  set rate-scaling ifelse-value ((complete-matching? and self-matching?) or (single-sample? and candidate-selection = "direct"))
     [max-column-difference-payoffs]
     [max-min-payoffs]
+  ;; The rationale is to set the value of rate-scaling to the maximum value that payoff-diff can take
+  ;; in procedure pairwise-difference, so magnitude (payoff-diff / rate-scaling) can be interpreted as
+  ;; a probability that can reach the value of 1.
+  ;; If the two payoffs used to compute payoff-diff are calculated against the same sample
+  ;; (which occurs if (complete-matching? and self-matching?) or (single-sample? and candidate-selection = "direct")),
+  ;; the maximum value that payoff-diff could take is the maximum possible difference in the payoff matrix, by columns.
+  ;; In any other case, in general, the maximum difference is the (max - min) over the whole payoff matrix.
 end
 
 
