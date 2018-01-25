@@ -3,15 +3,14 @@ n-of-agents,1000
 random-initial-condition?,false
 initial-condition,"[0 1000]"
 candidate-selection,"direct"
+n-of-candidates,2
 decision-method,"best"
 complete-matching?,false
 n-of-trials,1
 single-sample?,false
-n-in-test-set,2
 tie-breaker,"uniform"
 eta,0.001
 random-walk-speed,1
-n-to-consider-imitating,1
 use-prob-revision?,false
 prob-revision,0.001
 n-of-revisions-per-tick,10

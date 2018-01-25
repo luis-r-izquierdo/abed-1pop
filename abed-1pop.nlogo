@@ -60,8 +60,7 @@ globals [
   max-column-difference-payoffs   ;; for efficiency
   max-min-payoffs                 ;; for efficiency
 
-  max-n-in-test-set ;; for direct protocols
-  max-n-to-consider-imitating ;; for imitative protocols
+  max-n-of-candidates ;; both for direct protocols and for imitative protocols
 
   strategy-numbers ;; for efficiency
   agents-list ;; for efficiency
@@ -128,12 +127,10 @@ to startup
 
     setup-dynamics
 
-    if decision-method = "pairwise-difference" [
-      ifelse candidate-selection = "direct" [set n-in-test-set 2] [set n-to-consider-imitating 1]
-    ]
-    ;; the code above is included here, outside setup-dynamics, because, at runtime,
-    ;; this code is best conducted within reporter pairwise-difference
-    ;; to avoid any errors
+    if decision-method = "pairwise-difference" [set n-of-candidates 2]
+    ;; the line above is included here, rather than in setup-dynamics, because,
+    ;; at runtime, this code is best executed within reporter pairwise-difference,
+    ;; just before n-of-candidates is used, to avoid any runtime errors.
 
     update-ticks-per-second
     update-strategies-payoffs
@@ -199,14 +196,14 @@ to setup-dynamics
     [ set update-candidates-and-payoffs [ [] -> update-candidate-strategies-and-payoffs ] ]
     [ set update-candidates-and-payoffs [ [] -> update-candidate-agents-and-payoffs ] ]
 
-  ;; NUMBER OF STRATEGIES YOU WILL TEST (ONLY RELEVANT IN DIRECT PROTOCOLS)
-  set n-in-test-set min list n-in-test-set n-of-strategies
-  set max-n-in-test-set min list 10 n-of-strategies
-
-  ;; NUMBER OF AGENTS YOU WILL CONSIDER FOR IMITATION (ONLY RELEVANT IN IMITATIVE PROTOCOLS)
-  set max-n-to-consider-imitating ifelse-value consider-imitating-self?
-                              [n-of-agents] [n-of-agents - 1]
-  set n-to-consider-imitating min list n-to-consider-imitating max-n-to-consider-imitating
+  ;; NUMBER OF CANDIDATES REVISING AGENTS WILL CONSIDER
+  set max-n-of-candidates ifelse-value (candidate-selection = "direct")
+    ;; in direct protocols, candidates are strategies
+    [ n-of-strategies ]
+    ;; in imitative protocols, candidates are agents
+    [ ifelse-value consider-imitating-self? [1 + n-of-agents] [n-of-agents] ]
+      ;; remember that the revising agent is always part of the set of candidates
+  set n-of-candidates min list n-of-candidates max-n-of-candidates
 
   ;; RULE USED TO SELECT AMONG DIFFERENT CANDIDATES
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
@@ -461,18 +458,18 @@ to update-candidate-agents-and-payoffs
 end
 
 to update-candidate-agents-with-replacement
-  set candidates (fput self (n-values n-to-consider-imitating [one-of population-to-imitate-to]))
+  set candidates (fput self (n-values (n-of-candidates - 1) [one-of population-to-imitate-to]))
 end
 
 to update-candidate-agents-without-replacement
-  set candidates (fput self (n-of n-to-consider-imitating population-to-imitate-to))
+  set candidates (fput self (n-of (n-of-candidates - 1) population-to-imitate-to))
 end
 
 to update-candidate-strategies-and-payoffs
   let my-strategy-agent one-of (strategy-agents with [strategy = [strategy] of myself])
   set candidates (turtle-set
     my-strategy-agent
-    n-of (n-in-test-set - 1) (strategy-agents with [strategy != [strategy] of myself])
+    n-of (n-of-candidates - 1) (strategy-agents with [strategy != [strategy] of myself])
   )
   ;; here candidates is an agentset (which contains strategy-agents)
 
@@ -576,7 +573,7 @@ to pairwise-difference
     ;; rate-scaling is zero only if the whole payoff matrix is 0s.
     ;; In that case there is nothing to do here.
 
-    ifelse candidate-selection = "direct" [set n-in-test-set 2] [set n-to-consider-imitating 1]
+    set n-of-candidates 2
     run update-candidates-and-payoffs
 
     let sorted-candidates sort-on [payoff] (turtle-set candidates)
@@ -850,15 +847,14 @@ to setup-list-of-parameters
     "random-initial-condition?"
     "initial-condition"
     "candidate-selection"
+    "n-of-candidates"
     "decision-method"
     "complete-matching?"
     "n-of-trials"
     "single-sample?"
-    "n-in-test-set"
     "tie-breaker"
     "eta"
     "random-walk-speed"
-    "n-to-consider-imitating"
     "use-prob-revision?"
     "prob-revision"
     "n-of-revisions-per-tick"
@@ -1283,14 +1279,14 @@ NIL
 HORIZONTAL
 
 SLIDER
-522
-407
+520
+394
 702
-440
-n-in-test-set
-n-in-test-set
+427
+n-of-candidates
+n-of-candidates
 2
-max-n-in-test-set
+max-n-of-candidates
 2.0
 1
 1
@@ -1338,41 +1334,6 @@ TEXTBOX
 881
 555
 for best:
-11
-0.0
-1
-
-SLIDER
-522
-461
-702
-494
-n-to-consider-imitating
-n-to-consider-imitating
-1
-max-n-to-consider-imitating
-1.0
-1
-1
-NIL
-HORIZONTAL
-
-TEXTBOX
-523
-444
-704
-463
-for imitative:
-11
-0.0
-1
-
-TEXTBOX
-523
-391
-674
-409
-for direct:
 11
 0.0
 1
@@ -1672,6 +1633,16 @@ TEXTBOX
 266
 678
 ---------------------------------------\n
+11
+0.0
+1
+
+TEXTBOX
+522
+435
+708
+505
+In imitative protocols, \n      candidates are agents.\nIn direct protocols, \n      candidates are strategies.
 11
 0.0
 1

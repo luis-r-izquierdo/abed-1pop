@@ -3,15 +3,14 @@ n-of-agents,100
 random-initial-condition?,false
 initial-condition,"[100 0 0 0]"
 candidate-selection,"imitative"
+n-of-candidates,2
 decision-method,"best"
 complete-matching?,true
 n-of-trials,99
 single-sample?,true
-n-in-test-set,4
 tie-breaker,"random-walk"
 eta,0.001
 random-walk-speed,0.05
-n-to-consider-imitating,1
 use-prob-revision?,false
 prob-revision,0.001
 n-of-revisions-per-tick,1

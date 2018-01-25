@@ -3,15 +3,14 @@ n-of-agents,1006
 random-initial-condition?,true
 initial-condition,"[100 100 100]"
 candidate-selection,"direct"
+n-of-candidates,3
 decision-method,"logit"
 complete-matching?,false
 n-of-trials,2
 single-sample?,true
-n-in-test-set,3
 tie-breaker,"uniform"
 eta,1.2
 random-walk-speed,1
-n-to-consider-imitating,2
 use-prob-revision?,false
 prob-revision,0.1
 n-of-revisions-per-tick,30
