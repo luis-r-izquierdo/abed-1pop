@@ -17,8 +17,8 @@ n-of-revisions-per-tick,30
 prob-mutation,0.001
 trials-with-replacement?,false
 self-matching?,true
-imitatees-with-replacement?,true
-consider-imitating-self?,true
+imitatees-with-replacement?,false
+consider-imitating-self?,false
 plot-every-?-secs,0.1
 duration-of-recent,10
 show-recent-history?,true
