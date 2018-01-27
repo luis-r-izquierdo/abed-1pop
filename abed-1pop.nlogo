@@ -58,6 +58,12 @@ globals [
   ;; for pairwise-difference
   max-min-payoffs                 ;; for efficiency
 
+  ;; for linear-dissatisfaction
+  max-payoff ;; for efficiency
+
+  ;; for linear attraction
+  min-payoff ;; for efficiency
+
   max-n-of-candidates ;; both for direct protocols and for imitative protocols
 
   strategy-numbers ;; for efficiency
@@ -126,9 +132,12 @@ to startup
 
     setup-dynamics
 
-    if decision-method = "pairwise-difference" [set n-of-candidates 2]
+    if decision-method = "pairwise-difference"
+       or decision-method = "linear-dissatisfaction"
+       or decision-method = "linear-attraction"
+       [set n-of-candidates 2]
     ;; the line above is included here, rather than in setup-dynamics, because,
-    ;; at runtime, this code is best executed within reporter pairwise-difference,
+    ;; at runtime, this code is best executed within each decision-method,
     ;; just before n-of-candidates is used, to avoid any runtime errors.
 
     update-ticks-per-second
@@ -338,7 +347,9 @@ to setup-payoffs
     if decision-method = "positive-proportional" [ check-payoffs-are-non-negative ]
 
     set strategy-numbers (range 1 (n-of-strategies + 1))
-    set max-min-payoffs max-min-of-matrix payoffs  ;; for efficiency
+    set max-payoff max-of-matrix payoffs           ;; for efficiency
+    set min-payoff min-of-matrix payoffs           ;; for efficiency
+    set max-min-payoffs max-payoff - min-payoff    ;; for efficiency
 
     let initial-distribution read-from-string initial-condition
     if length initial-distribution != n-of-strategies [
@@ -591,6 +602,51 @@ to positive-proportional
   set next-strategy [strategy] of target-candidate
 end
 
+to linear-dissatisfaction
+  if max-min-payoffs != 0 [
+    ;; max-min-payoffs is zero only if all elements in the payoff matrix are the same.
+    ;; In that case there is nothing to do here.
+
+    set n-of-candidates 2
+    run update-candidates-and-payoffs
+      ;; here the revising agent's payoff is updated,
+      ;; so we can use payoff safely.
+
+    let my-strategy strategy
+    let the-other one-of ((turtle-set candidates) with [strategy != my-strategy])
+
+    if the-other != nobody [
+      ;; if the other one has your strategy too, it's fine, since
+      ;; you are not going to change your strategy anyway.
+      if random-float 1 < ((max-payoff - payoff) / max-min-payoffs) [
+        set next-strategy [strategy] of the-other
+      ]
+    ]
+  ]
+end
+
+to linear-attraction
+  if max-min-payoffs != 0 [
+    ;; max-min-payoffs is zero only if all elements in the payoff matrix are the same.
+    ;; In that case there is nothing to do here.
+
+    set n-of-candidates 2
+    run update-candidates-and-payoffs
+      ;; here the revising agent's payoff is updated,
+      ;; so we can use payoff safely.
+
+    let my-strategy strategy
+    let the-other one-of ((turtle-set candidates) with [strategy != my-strategy])
+
+    if the-other != nobody [
+      ;; if the other one has your strategy too, it's fine, since
+      ;; you are not going to change your strategy anyway.
+      if random-float 1 < (([payoff] of the-other - min-payoff) / max-min-payoffs) [
+        set next-strategy [strategy] of the-other
+      ]
+    ]
+  ]
+end
 
 ;; TIE-BREAKERS
 
@@ -722,9 +778,12 @@ end
 ;;; Matrices ;;;
 ;;;;;;;;;;;;;;;;
 
-to-report max-min-of-matrix [m]
-  let all-elements reduce sentence m
-  report (max all-elements - min all-elements)
+to-report max-of-matrix [m]
+  report max reduce sentence m
+end
+
+to-report min-of-matrix [m]
+  report min reduce sentence m
 end
 
 to-report transpose-of [m]
@@ -764,14 +823,14 @@ end
 
 to-report items-with-max-payoff-in [l]
   let items []
-  let max-payoff [payoff] of first l
+  let max-p [payoff] of first l
   foreach l [ [el] ->
     let payoff-of-item [payoff] of el
-    if payoff-of-item >= max-payoff [
-      ifelse payoff-of-item = max-payoff
+    if payoff-of-item >= max-p [
+      ifelse payoff-of-item = max-p
         [ set items lput el items ]
         [
-          set max-payoff payoff-of-item
+          set max-p payoff-of-item
           set items (list el)
         ]
     ]
@@ -1013,10 +1072,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-544
-616
-705
-649
+545
+612
+706
+645
 prob-mutation
 prob-mutation
 0
@@ -1265,20 +1324,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-745
-605
-857
-623
+746
+601
+858
+619
 for logit:
 11
 0.0
 1
 
 SLIDER
-745
-621
-896
-654
+746
+617
+897
+650
 eta
 eta
 0.001
@@ -1290,20 +1349,20 @@ NIL
 HORIZONTAL
 
 CHOOSER
-744
-554
-896
-599
+745
+550
+897
+595
 tie-breaker
 tie-breaker
 "stick-uniform" "stick-min" "uniform" "min" "random-walk"
 2
 
 TEXTBOX
-746
-537
-881
-555
+747
+533
+882
+551
 for best:
 11
 0.0
@@ -1320,13 +1379,13 @@ candidate-selection
 0
 
 CHOOSER
-531
-540
-706
-585
+532
+536
+707
+581
 decision-method
 decision-method
-"best" "logit" "positive-proportional" "pairwise-difference"
+"best" "logit" "positive-proportional" "pairwise-difference" "linear-dissatisfaction" "linear-attraction"
 3
 
 SWITCH
@@ -1524,20 +1583,20 @@ Candidate selection
 1
 
 TEXTBOX
-546
-598
-696
-616
+547
+594
+697
+612
 mutations:
 11
 0.0
 1
 
 TEXTBOX
-654
-515
-784
-533
+655
+511
+785
+529
 Decision method
 13
 13.0
