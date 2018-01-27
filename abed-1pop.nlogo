@@ -1374,9 +1374,9 @@ trials-with-replacement?
 
 SWITCH
 26
-819
-242
-852
+859
+243
+892
 imitatees-with-replacement?
 imitatees-with-replacement?
 1
@@ -1396,9 +1396,9 @@ self-matching?
 
 SWITCH
 26
-857
+822
 243
-890
+855
 consider-imitating-self?
 consider-imitating-self?
 1
@@ -1406,10 +1406,10 @@ consider-imitating-self?
 -1000
 
 PLOT
-279
-677
-597
-904
+273
+665
+591
+892
 Strategies' expected payoffs (recent history)
 milliseconds
 NIL
@@ -1423,10 +1423,10 @@ true
 PENS
 
 PLOT
-602
-677
-934
-904
+596
+665
+928
+892
 Strategies' expected payoffs (complete history)
 seconds
 NIL
