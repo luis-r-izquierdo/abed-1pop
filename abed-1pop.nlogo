@@ -299,7 +299,7 @@ to go
   update-num-agents
 
   if (decision-method = "best" and tie-breaker = "random-walk") [
-    if (ticks mod floor (1 / random-walk-speed) = 0) [advance-random-walk]
+    if floor (ticks * random-walk-speed) > floor ((ticks - 1) * random-walk-speed) [advance-random-walk]
   ]
 
 end
