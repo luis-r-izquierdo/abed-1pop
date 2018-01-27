@@ -550,7 +550,7 @@ to pairwise-difference
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
 
   if max-min-payoffs != 0 [
-    ;; max-min-payoffs is zero only all elements in the payoff matrix are the same.
+    ;; max-min-payoffs is zero only if all elements in the payoff matrix are the same.
     ;; In that case there is nothing to do here.
 
     set n-of-candidates 2
@@ -721,10 +721,6 @@ end
 ;;;;;;;;;;;;;;;;
 ;;; Matrices ;;;
 ;;;;;;;;;;;;;;;;
-
-to-report max-row-difference [m]
-  report max n-values (length m) [ [n] -> max (item n m) - min (item n m)]
-end
 
 to-report max-min-of-matrix [m]
   let all-elements reduce sentence m
