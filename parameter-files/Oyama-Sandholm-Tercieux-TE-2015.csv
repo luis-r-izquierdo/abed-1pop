@@ -10,7 +10,6 @@ n-of-trials,2
 single-sample?,true
 tie-breaker,"uniform"
 eta,0.001
-random-walk-speed,1
 use-prob-revision?,false
 prob-revision,0.1
 n-of-revisions-per-tick,30

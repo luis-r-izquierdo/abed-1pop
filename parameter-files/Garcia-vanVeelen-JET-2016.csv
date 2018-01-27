@@ -10,7 +10,6 @@ n-of-trials,24
 single-sample?,true
 tie-breaker,"random-walk"
 eta,0.001
-random-walk-speed,1
 use-prob-revision?,false
 prob-revision,0.001
 n-of-revisions-per-tick,10

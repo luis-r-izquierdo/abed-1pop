@@ -68,6 +68,7 @@ globals [
   list-of-parameters ;; to save and load parameters
 
   ;; for random-walk tie-breaker
+  random-walk-speed
   rw-st-freq-non-committed-agents
 ]
 
@@ -298,7 +299,7 @@ to go
   update-num-agents
 
   if (decision-method = "best" and tie-breaker = "random-walk") [
-    repeat (floor (n-of-agents * random-walk-speed)) [advance-random-walk]
+    if (ticks mod floor (1 / random-walk-speed) = 0) [advance-random-walk]
   ]
 
 end
@@ -628,11 +629,12 @@ end
 
 to-report random-walk [st-list]
     ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 11.4.3, pp. 421-423)
-  report rnd:weighted-one-of-list (remove-duplicates st-list) [ [s] -> 1 + item (s - 1) rw-st-freq-non-committed-agents]
+  report rnd:weighted-one-of-list st-list [ [s] -> 1 + item (s - 1) rw-st-freq-non-committed-agents]
     ;; We add one to the weights to account for the non-committed agents
 end
 
 to setup-random-walk
+  set random-walk-speed 1
   set rw-st-freq-non-committed-agents tally-strategies n-values n-of-agents [1 + random n-of-strategies]
     ;; this list is n-of-strategies long and, initially, it is a random distribution
 end
@@ -854,7 +856,6 @@ to setup-list-of-parameters
     "single-sample?"
     "tie-breaker"
     "eta"
-    "random-walk-speed"
     "use-prob-revision?"
     "prob-revision"
     "n-of-revisions-per-tick"
@@ -1338,31 +1339,6 @@ for best:
 0.0
 1
 
-SLIDER
-27
-871
-235
-904
-random-walk-speed
-random-walk-speed
-0
-1
-1.0
-0.01
-1
-NIL
-HORIZONTAL
-
-TEXTBOX
-28
-856
-288
-875
-for best & random-walk tie-breaker:
-11
-0.0
-1
-
 CHOOSER
 520
 340
@@ -1417,31 +1393,31 @@ single-sample?
 
 SWITCH
 26
-729
+756
 232
-762
+789
 trials-with-replacement?
 trials-with-replacement?
 1
-1
--1000
-
-SWITCH
-27
-781
-243
-814
-imitatees-with-replacement?
-imitatees-with-replacement?
-0
 1
 -1000
 
 SWITCH
 26
-677
+819
+242
+852
+imitatees-with-replacement?
+imitatees-with-replacement?
+1
+1
+-1000
+
+SWITCH
+26
+694
 209
-710
+727
 self-matching?
 self-matching?
 1
@@ -1449,13 +1425,13 @@ self-matching?
 -1000
 
 SWITCH
-27
-819
-244
-852
+26
+857
+243
+890
 consider-imitating-self?
 consider-imitating-self?
-0
+1
 1
 -1000
 
@@ -1528,10 +1504,10 @@ NIL
 1
 
 TEXTBOX
-27
-766
-218
-784
+26
+804
+217
+822
 for imitative:\n
 11
 0.0
@@ -1619,9 +1595,9 @@ Plotting of output
 
 TEXTBOX
 28
-714
+741
 209
-732
+759
 for complete-matching=off:
 11
 0.0
