@@ -56,8 +56,6 @@ globals [
   tie-winner-in
 
   ;; for pairwise-difference
-  rate-scaling
-  max-column-difference-payoffs   ;; for efficiency
   max-min-payoffs                 ;; for efficiency
 
   max-n-of-candidates ;; both for direct protocols and for imitative protocols
@@ -209,9 +207,6 @@ to setup-dynamics
   ;; RULE USED TO SELECT AMONG DIFFERENT CANDIDATES
   set follow-rule runresult (word "[ [] -> " decision-method " ]")
 
-  ;; UPDATE RATE-SCALING
-  if decision-method = "pairwise-difference" [update-rate-scaling]
-
   ;; TIE-BREAKER
   set tie-winner-in runresult (word "[ [x] -> " tie-breaker " x ]")
 
@@ -254,20 +249,6 @@ to setup-dynamics
     [ ask players [ set population-to-imitate-to other-agents-list] ]
 
 end
-
-to update-rate-scaling
-  set rate-scaling ifelse-value ((complete-matching? and self-matching?) or (single-sample? and candidate-selection = "direct"))
-    [max-column-difference-payoffs]
-    [max-min-payoffs]
-  ;; The rationale is to set the value of rate-scaling to the maximum value that payoff-diff can take
-  ;; in procedure pairwise-difference, so magnitude (payoff-diff / rate-scaling) can be interpreted as
-  ;; a probability that can reach the value of 1.
-  ;; If the two payoffs used to compute payoff-diff are calculated against the same sample
-  ;; (which occurs if (complete-matching? and self-matching?) or (single-sample? and candidate-selection = "direct")),
-  ;; the maximum value that payoff-diff could take is the maximum possible difference in the payoff matrix, by columns.
-  ;; In any other case, in general, the maximum difference is the (max - min) over the whole payoff matrix.
-end
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Run-time procedures ;;;
@@ -357,9 +338,7 @@ to setup-payoffs
     if decision-method = "positive-proportional" [ check-payoffs-are-non-negative ]
 
     set strategy-numbers (range 1 (n-of-strategies + 1))
-    set max-column-difference-payoffs max-column-difference payoffs ;; for efficiency
-    set max-min-payoffs max-min-of-matrix payoffs                   ;; for efficiency
-    update-rate-scaling
+    set max-min-payoffs max-min-of-matrix payoffs  ;; for efficiency
 
     let initial-distribution read-from-string initial-condition
     if length initial-distribution != n-of-strategies [
@@ -570,8 +549,8 @@ end
 to pairwise-difference
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
 
-  if rate-scaling != 0 [
-    ;; rate-scaling is zero only if the whole payoff matrix is 0s.
+  if max-min-payoffs != 0 [
+    ;; max-min-payoffs is zero only all elements in the payoff matrix are the same.
     ;; In that case there is nothing to do here.
 
     set n-of-candidates 2
@@ -582,11 +561,11 @@ to pairwise-difference
     let better last sorted-candidates
     let payoff-diff ([payoff] of better - [payoff] of worse)
 
-    if random-float 1 < (payoff-diff / rate-scaling) [
+    if random-float 1 < (payoff-diff / max-min-payoffs) [
       set next-strategy [strategy] of better
     ]
     ;; If your strategy is the better, you are going to stick with it
-    ;; If it's not, you switch with probability (payoff-diff / rate-scaling)
+    ;; If it's not, you switch with probability (payoff-diff / max-min-payoffs)
   ]
 end
 
@@ -742,11 +721,6 @@ end
 ;;;;;;;;;;;;;;;;
 ;;; Matrices ;;;
 ;;;;;;;;;;;;;;;;
-
-to-report max-column-difference [m]
-  let mt transpose-of m
-  report max-row-difference mt
-end
 
 to-report max-row-difference [m]
   report max n-values (length m) [ [n] -> max (item n m) - min (item n m)]
