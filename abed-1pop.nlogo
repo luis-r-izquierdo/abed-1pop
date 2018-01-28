@@ -1421,10 +1421,10 @@ single-sample?
 -1000
 
 SWITCH
-28
-852
-234
-885
+27
+857
+233
+890
 trials-with-replacement?
 trials-with-replacement?
 1
@@ -1433,9 +1433,9 @@ trials-with-replacement?
 
 SWITCH
 28
-736
+756
 245
-769
+789
 imitatees-with-replacement?
 imitatees-with-replacement?
 1
@@ -1443,10 +1443,10 @@ imitatees-with-replacement?
 -1000
 
 SWITCH
-28
-798
-211
-831
+27
+807
+210
+840
 self-matching?
 self-matching?
 1
@@ -1455,9 +1455,9 @@ self-matching?
 
 SWITCH
 28
-699
+719
 245
-732
+752
 consider-imitating-self?
 consider-imitating-self?
 1
@@ -1534,9 +1534,9 @@ NIL
 
 TEXTBOX
 28
-681
+701
 249
-709
+729
 for candidate-selection = imitative:\n
 11
 0.0
@@ -1623,20 +1623,20 @@ Plotting of output
 1
 
 TEXTBOX
-30
-837
-211
-855
+29
+842
+210
+860
 for complete-matching=off:
 11
 0.0
 1
 
 TEXTBOX
-27
-660
-266
-678
+26
+653
+250
+671
 ---------------------------------------\n
 11
 0.0
@@ -1650,6 +1650,16 @@ TEXTBOX
 Under imitative protocols, \n      candidates are agents.\nUnder direct protocols, \n      candidates are strategies.
 11
 0.0
+1
+
+TEXTBOX
+62
+674
+236
+692
+Auxiliary parameters
+13
+13.0
 1
 
 @#$#@#$#@
