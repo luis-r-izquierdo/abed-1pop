@@ -1043,13 +1043,13 @@ String (reporter)
 
 SLIDER
 26
-502
-230
-535
+600
+231
+633
 n-of-agents
 n-of-agents
 2
-5000
+2000
 1000.0
 1
 1
@@ -1220,10 +1220,10 @@ show-complete-history?
 -1000
 
 INPUTBOX
-27
-581
-232
-641
+26
+537
+231
+597
 initial-condition
 [200 200 200 200 200]
 1
@@ -1390,9 +1390,9 @@ decision-method
 
 SWITCH
 27
-541
-230
-574
+500
+231
+533
 random-initial-condition?
 random-initial-condition?
 1
