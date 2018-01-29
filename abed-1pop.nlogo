@@ -55,13 +55,13 @@ globals [
   reported-counterparts
   tie-winner-in
 
-  ;; for pairwise-difference
-  max-min-payoffs                 ;; for efficiency
+  ;; for pairwise-difference, linear-dissatisfaction and linear-attraction
+  max-payoff-difference  ;; for efficiency
 
   ;; for linear-dissatisfaction
   max-payoff ;; for efficiency
 
-  ;; for linear attraction
+  ;; for linear-attraction
   min-payoff ;; for efficiency
 
   max-n-of-candidates ;; both for direct protocols and for imitative protocols
@@ -349,7 +349,7 @@ to setup-payoffs
     set strategy-numbers (range 1 (n-of-strategies + 1))
     set max-payoff max-of-matrix payoffs           ;; for efficiency
     set min-payoff min-of-matrix payoffs           ;; for efficiency
-    set max-min-payoffs max-payoff - min-payoff    ;; for efficiency
+    set max-payoff-difference max-payoff - min-payoff    ;; for efficiency
 
     let initial-distribution read-from-string initial-condition
     if length initial-distribution != n-of-strategies [
@@ -560,8 +560,8 @@ end
 to pairwise-difference
   ;; useful relevant notes in Sandholm (2010, "Population Games and Evolutionary Dynamics", section 4.3.1, pp. 126-127)
 
-  if max-min-payoffs != 0 [
-    ;; max-min-payoffs is zero only if all elements in the payoff matrix are the same.
+  if max-payoff-difference != 0 [
+    ;; max-payoff-difference is zero only if all elements in the payoff matrix are the same.
     ;; In that case there is nothing to do here.
 
     set n-of-candidates 2
@@ -572,11 +572,11 @@ to pairwise-difference
     let better last sorted-candidates
     let payoff-diff ([payoff] of better - [payoff] of worse)
 
-    if random-float 1 < (payoff-diff / max-min-payoffs) [
+    if random-float 1 < (payoff-diff / max-payoff-difference) [
       set next-strategy [strategy] of better
     ]
     ;; If your strategy is the better, you are going to stick with it
-    ;; If it's not, you switch with probability (payoff-diff / max-min-payoffs)
+    ;; If it's not, you switch with probability (payoff-diff / max-payoff-difference)
   ]
 end
 
@@ -603,8 +603,8 @@ to positive-proportional
 end
 
 to linear-dissatisfaction
-  if max-min-payoffs != 0 [
-    ;; max-min-payoffs is zero only if all elements in the payoff matrix are the same.
+  if max-payoff-difference != 0 [
+    ;; max-payoff-difference is zero only if all elements in the payoff matrix are the same.
     ;; In that case there is nothing to do here.
 
     set n-of-candidates 2
@@ -618,7 +618,7 @@ to linear-dissatisfaction
     if the-other != nobody [
       ;; if the other one has your strategy too, it's fine, since
       ;; you are not going to change your strategy anyway.
-      if random-float 1 < ((max-payoff - payoff) / max-min-payoffs) [
+      if random-float 1 < ((max-payoff - payoff) / max-payoff-difference) [
         set next-strategy [strategy] of the-other
       ]
     ]
@@ -626,8 +626,8 @@ to linear-dissatisfaction
 end
 
 to linear-attraction
-  if max-min-payoffs != 0 [
-    ;; max-min-payoffs is zero only if all elements in the payoff matrix are the same.
+  if max-payoff-difference != 0 [
+    ;; max-payoff-difference is zero only if all elements in the payoff matrix are the same.
     ;; In that case there is nothing to do here.
 
     set n-of-candidates 2
@@ -641,7 +641,7 @@ to linear-attraction
     if the-other != nobody [
       ;; if the other one has your strategy too, it's fine, since
       ;; you are not going to change your strategy anyway.
-      if random-float 1 < (([payoff] of the-other - min-payoff) / max-min-payoffs) [
+      if random-float 1 < (([payoff] of the-other - min-payoff) / max-payoff-difference) [
         set next-strategy [strategy] of the-other
       ]
     ]
@@ -1183,9 +1183,9 @@ true
 PENS
 
 SLIDER
-280
+272
 528
-475
+467
 561
 duration-of-recent
 duration-of-recent
@@ -1198,9 +1198,9 @@ sec.
 HORIZONTAL
 
 SWITCH
-281
+273
 567
-475
+467
 600
 show-recent-history?
 show-recent-history?
@@ -1209,9 +1209,9 @@ show-recent-history?
 -1000
 
 SWITCH
-282
+274
 607
-475
+467
 640
 show-complete-history?
 show-complete-history?
@@ -1242,9 +1242,9 @@ use-prob-revision?
 -1000
 
 SLIDER
-280
+272
 488
-475
+467
 521
 plot-every-?-secs
 plot-every-?-secs
@@ -1613,9 +1613,9 @@ Game and population
 1
 
 TEXTBOX
-320
+312
 468
-438
+430
 486
 Plotting of output
 12
