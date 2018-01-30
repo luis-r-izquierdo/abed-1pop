@@ -1,12 +1,12 @@
 payoff-matrix,"[[  0 -12 0  22] [ 20   0 0 -10] [-21  -4 0  35] [ 10  -2 2   0]]"
-n-of-agents,1000
+n-of-agents,100
 random-initial-condition?,true
-initial-condition,"[250 250 250 250]"
+initial-condition,"[25 25 25 25]"
 candidate-selection,"imitative"
 n-of-candidates,2
 decision-method,"pairwise-difference"
 complete-matching?,true
-n-of-trials,1000
+n-of-trials,100
 single-sample?,true
 tie-breaker,"random-walk"
 eta,0.001
