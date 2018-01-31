@@ -1,5 +1,5 @@
 payoff-matrix,"[[ 1 0 0 ] [ 0 2 0 ] [ 0 0 3 ]]"
-n-of-agents,1006
+n-of-agents,1000
 random-initial-condition?,true
 initial-condition,"[100 100 100]"
 candidate-selection,"direct"
@@ -9,7 +9,7 @@ complete-matching?,false
 n-of-trials,2
 single-sample?,true
 tie-breaker,"uniform"
-eta,1.2
+log-noise-level,0.079
 use-prob-revision?,false
 prob-revision,0.1
 n-of-revisions-per-tick,30

@@ -9,7 +9,7 @@ complete-matching?,true
 n-of-trials,29
 single-sample?,true
 tie-breaker,"uniform"
-eta,0.001
+log-noise-level,0
 use-prob-revision?,false
 prob-revision,0.001
 n-of-revisions-per-tick,1

@@ -583,13 +583,13 @@ end
 to logit
   run update-candidates-and-payoffs
   carefully [
-    let target-candidate rnd:weighted-one-of-list (sort candidates) [ [c] -> exp (([payoff] of c) / eta)]
+    let target-candidate rnd:weighted-one-of-list (sort candidates) [ [c] -> exp (([payoff] of c) / (10 ^ log-noise-level))]
     ;; candidates here may be a list of agents (if candidate-selection = imitative), or
     ;; an agentset of strategy-agents (if candidate-selection = direct).
     set next-strategy [strategy] of target-candidate
   ]
   [
-    user-message "Logit has computed a number that is too big for IEEE 754 floating-point computation\nPlease consider using a lower value for eta."
+    user-message "Logit has computed a number that is too big for IEEE 754 floating-point computation\nPlease consider using a higher value for log-noise-level."
     print error-message
   ]
 end
@@ -884,7 +884,7 @@ to setup-list-of-parameters
     "n-of-trials"
     "single-sample?"
     "tie-breaker"
-    "eta"
+    "log-noise-level"
     "use-prob-revision?"
     "prob-revision"
     "n-of-revisions-per-tick"
@@ -1338,11 +1338,11 @@ SLIDER
 617
 897
 650
-eta
-eta
-0.001
-5
-0.001
+log-noise-level
+log-noise-level
+-3
+3
+0.0
 0.001
 1
 NIL
