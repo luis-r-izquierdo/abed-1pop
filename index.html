@@ -340,7 +340,7 @@
                         <parameter>tie-breaker</parameter>.
                      </li>
                      <li>
-                        <value>logit</value>: A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>.
+                        <value>logit</value>: A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / (10 ^ <parameter>log-noise-level</parameter>))</sup>.
                      </li>
                      <li>
                         <value>positive-proportional</value>: A candidate is randomly selected with probabilities proportional to payoffs. Thus, payoffs should be non-negative if this
@@ -758,14 +758,13 @@
                         </ul>
                      </div>
                      <div class="tab-pane" id="logit">
-                        <p>A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / <parameter>eta</parameter>)</sup>. Recall that the payoff for each candidate is the average payoff over the
+                        <p>A random weighted choice is conducted among the candidates. The weight for each candidate is <i>e</i><sup>(<i>payoff</i> / (10 ^ <parameter>log-noise-level</parameter>)</sup>. Recall that the payoff for each candidate is the average payoff over the
                            <parameter>n-of-trials</parameter> matches.</p>
 
                         <blockquote class="blockquote ">
-                           <footer class="blockquote-footer">Parameter
-                              <parameter>eta</parameter> is called the <i>noise level</i>. If
-                              <parameter>eta</parameter> is large, choices under logit are nearly uniform. If
-                              <parameter>eta</parameter> is close to zero, choices resemble those made by
+                           <footer class="blockquote-footer">If
+                              <parameter>log-noise-level</parameter> is large, choices under logit are nearly uniform. If
+                              <parameter>log-noise-level</parameter> is small (i.e. negative and large in magnitude), choices resemble those made by
                               <value>best</value>, at least when the difference between the best and the second-best payoff is not too small (PGED, p. 128 &amp; pp. 191-6).</footer>
                         </blockquote>
                      </div>
