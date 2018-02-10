@@ -811,7 +811,7 @@
                            <parameter>n-of-candidates</parameter> is automatically set to 2.</p>
 
 
-                        <p>Let <i>z</i> denote the other agent or strategy. Then, the revising agent will consider adopting <i>z</i>'s strategy only if <i>z</i>'s payoff is higher than his own, and he will actually adopt it with probability proportional to the payoff difference. In order to turn the difference in payoffs into a meaningful probability, we divide the payoff difference by the maximum possible payoff minus the minimum possible payoff.</p>
+                        <p>Then, the revising agent will consider adopting the other candidate's strategy only if the other candidate's payoff is higher than his own, and he will actually adopt it with probability proportional to the payoff difference. In order to turn the difference in payoffs into a meaningful probability, we divide the payoff difference by the maximum possible payoff minus the minimum possible payoff.</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">If
@@ -828,7 +828,7 @@
                            <parameter>n-of-candidates</parameter> is automatically set to 2.</p>
 
 
-                        <p>Let <i>z</i> denote the other agent or strategy. Then, the revising agent will adopt <i>z</i>'s strategy with probability equal to the difference between the maximum possible payoff and his own payoff, divided by the maximum possible payoff minus the minimum possible payoff.</p>
+                        <p>Then, the revising agent will adopt the other candidate's strategy with probability equal to the difference between the maximum possible payoff and his own payoff, divided by the maximum possible payoff minus the minimum possible payoff. (The other candidate's payoff is ignored.)</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">If
@@ -844,14 +844,14 @@
                            <value>linear-attraction</value>, the agent always considers exactly two candidates (one corresponding to his own strategy or to himself, and another one), i.e., the value of
                            <parameter>n-of-candidates</parameter> is automatically set to 2.</p>
 
-                        <p>Let <i>z</i> denote the other agent or strategy. Then, the revising agent will adopt <i>z</i>'s strategy with probability equal to the difference between <i>z</i>'s payoff and the minimum possible payoff, divided by the maximum possible payoff minus the minimum possible payoff.</p>
+                        <p>Then, the revising agent will adopt the other candidate's strategy with probability equal to the difference between the other candidate's payoff and the minimum possible payoff, divided by the maximum possible payoff minus the minimum possible payoff. (The revising agent's payoff is ignored.)</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">If
                               <parameter>complete-matching?</parameter> is
                               <value>On</value>, the mean dynamics for large populations of the
                               <value>imitative</value>
-                              <value>linear-dissatisfaction</value> protocol (sometimes called <i>imitation of success</i>) is the replicator dynamics up to a speed factor (see Weibull (1995, section 4.4.3, pp. 158-60) or PGED, example 5.4.4).</footer>
+                              <value>linear-attraction</value> protocol (sometimes called <i>imitation of success</i>) is the replicator dynamics up to a speed factor (see Weibull (1995, section 4.4.3, pp. 158-60) or PGED, example 5.4.4).</footer>
                         </blockquote>
                      </div>
 
