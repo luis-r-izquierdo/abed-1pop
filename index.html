@@ -348,15 +348,15 @@
                      </li>
                      <li>
                         <value>pairwise-difference</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
-                        <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy only if the other candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
+                        <value>imitative</value> protocols) and another one. The revising agent adopts the other candidate strategy only if the other candidate's payoff is higher than his own, and he does so with probability proportional to the payoff difference.
                      </li>
                      <li>
                         <value>linear-dissatisfaction</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
-                        <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy with probability proportional to the difference between the maximum possible payoff and his own payoff. (The other candidate's payoff is ignored.)
+                        <value>imitative</value> protocols) and another one. The revising agent adopts the other candidate strategy with probability proportional to the difference between the maximum possible payoff and his own payoff. (The other candidate's payoff is ignored.)
                      </li>
                      <li>
                         <value>linear-attraction</value>: In this method the set of candidates contains two elements only: the one corresponding to the revising agent's own strategy (or to himself in
-                        <value>imitative</value> protocols) and another one. Then, the revising agent adopts the other candidate's strategy with probability proportional to the difference between the other candidate's payoff and the minimum possible payoff. (The revising agent's payoff is ignored.)
+                        <value>imitative</value> protocols) and another one. The revising agent adopts the other candidate strategy with probability proportional to the difference between the other candidate's payoff and the minimum possible payoff. (The revising agent's payoff is ignored.)
                      </li>
                   </ul>
 
@@ -811,7 +811,7 @@
                            <parameter>n-of-candidates</parameter> is automatically set to 2.</p>
 
 
-                        <p>Then, the revising agent will consider adopting the other candidate's strategy only if the other candidate's payoff is higher than his own, and he will actually adopt it with probability proportional to the payoff difference. In order to turn the difference in payoffs into a meaningful probability, we divide the payoff difference by the maximum possible payoff minus the minimum possible payoff.</p>
+                        <p>The revising agent will consider adopting the other candidate strategy only if the other candidate's payoff is higher than his own, and he will actually adopt it with probability proportional to the payoff difference. In order to turn the difference in payoffs into a meaningful probability, we divide the payoff difference by the maximum possible payoff minus the minimum possible payoff.</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">If
@@ -828,7 +828,7 @@
                            <parameter>n-of-candidates</parameter> is automatically set to 2.</p>
 
 
-                        <p>Then, the revising agent will adopt the other candidate's strategy with probability equal to the difference between the maximum possible payoff and his own payoff, divided by the maximum possible payoff minus the minimum possible payoff. (The other candidate's payoff is ignored.)</p>
+                        <p>The revising agent will adopt the other candidate strategy with probability equal to the difference between the maximum possible payoff and his own payoff, divided by the maximum possible payoff minus the minimum possible payoff. (The other candidate's payoff is ignored.)</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">If
@@ -844,7 +844,7 @@
                            <value>linear-attraction</value>, the agent always considers exactly two candidates (one corresponding to his own strategy or to himself, and another one), i.e., the value of
                            <parameter>n-of-candidates</parameter> is automatically set to 2.</p>
 
-                        <p>Then, the revising agent will adopt the other candidate's strategy with probability equal to the difference between the other candidate's payoff and the minimum possible payoff, divided by the maximum possible payoff minus the minimum possible payoff. (The revising agent's payoff is ignored.)</p>
+                        <p>The revising agent will adopt the other candidate strategy with probability equal to the difference between the other candidate's payoff and the minimum possible payoff, divided by the maximum possible payoff minus the minimum possible payoff. (The revising agent's payoff is ignored.)</p>
 
                         <blockquote class="blockquote ">
                            <footer class="blockquote-footer">If
