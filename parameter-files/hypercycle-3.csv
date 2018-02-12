@@ -5,8 +5,8 @@ initial-condition,"[333 333 334]"
 candidate-selection,"imitative"
 n-of-candidates,2
 decision-method,"pairwise-difference"
-complete-matching?,true
-n-of-trials,999
+complete-matching?,false
+n-of-trials,1
 single-sample?,true
 tie-breaker,"uniform"
 log-noise-level,0
