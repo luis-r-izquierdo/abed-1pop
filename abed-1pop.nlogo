@@ -1326,9 +1326,9 @@ HORIZONTAL
 TEXTBOX
 746
 601
-858
-619
-for logit:
+921
+629
+for decision-method = logit:
 11
 0.0
 1
@@ -1361,9 +1361,9 @@ tie-breaker
 TEXTBOX
 747
 533
-882
-551
-for best:
+919
+561
+for decision-method = best:
 11
 0.0
 1
@@ -1402,9 +1402,9 @@ random-initial-condition?
 TEXTBOX
 743
 431
-953
+930
 461
-for complete-matching=off \n     & direct:
+for complete-matching = off \n  & candidate-selection = direct:
 11
 0.0
 1
@@ -1545,9 +1545,9 @@ for candidate-selection = imitative:\n
 TEXTBOX
 743
 378
-910
+918
 396
-for complete-matching=off:
+for complete-matching = off:
 11
 0.0
 1
@@ -1625,9 +1625,9 @@ Plotting of output
 TEXTBOX
 29
 842
-210
+229
 860
-for complete-matching=off:
+for complete-matching = off:
 11
 0.0
 1
