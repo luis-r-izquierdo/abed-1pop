@@ -1,12 +1,12 @@
-payoff-matrix,"[[ 0   -1    1.1] [ 1.1  0   -1  ] [-1    1.1  0  ]]"
+payoff-matrix,"[[ 0  -1   2] [ 2   0  -1] [-1   2   0]]"
 n-of-agents,50
 random-initial-condition?,true
 initial-condition,"[100 100 100]"
 candidate-selection,"imitative"
 n-of-candidates,2
-decision-method,"pairwise-difference"
+decision-method,"linear-dissatisfaction"
 complete-matching?,true
-n-of-trials,50
+n-of-trials,49
 single-sample?,true
 tie-breaker,"uniform"
 log-noise-level,0
@@ -15,7 +15,7 @@ prob-revision,0.1
 n-of-revisions-per-tick,1
 prob-mutation,0
 trials-with-replacement?,false
-self-matching?,true
+self-matching?,false
 imitatees-with-replacement?,false
 consider-imitating-self?,false
 plot-every-?-secs,0.02
