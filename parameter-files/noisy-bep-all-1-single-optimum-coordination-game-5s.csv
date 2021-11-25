@@ -1,0 +1,24 @@
+payoff-matrix,"[[1 0 0 0 0] [0 2 0 0 0] [0 0 3 0 0] [0 0 0 4 0] [0 0 0 0 5]]"
+n-of-agents,100
+random-initial-condition?,false
+initial-condition,"[90 10 0 0 0]"
+candidate-selection,"direct"
+n-of-candidates,5
+decision-method,"best"
+complete-matching?,false
+n-of-trials,1
+single-sample?,false
+tie-breaker,"uniform"
+log-noise-level,0
+use-prob-revision?,false
+prob-revision,0.001
+n-of-revisions-per-tick,1
+prob-mutation,0.001
+trials-with-replacement?,true
+self-matching?,false
+imitatees-with-replacement?,false
+consider-imitating-self?,false
+plot-every-?-secs,0.1
+duration-of-recent,10
+show-recent-history?,true
+show-complete-history?,true
